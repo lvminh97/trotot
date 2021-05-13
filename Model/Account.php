@@ -64,14 +64,6 @@ class Account extends DB{
 			return "Role_None";
 		}
 		return $user['role'];
-		// if(!isset($_SESSION['TT_user']) || !isset($_SESSION['TT_pass'])) return "Role_None";
-		// $check = $this->getList("username='{$_SESSION['TT_user']}' AND password='{$_SESSION['TT_pass']}'");
-		// if(count($check) != 1){
-		// 	return "Role_None";
-		// }
-		// else{
-		// 	return $check[0]['role'];
-		// }
 	}
 
 	public function signup($username, $password, $fullname, $mobile, $email, $role){
