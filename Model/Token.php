@@ -21,7 +21,8 @@ class Token extends DB{
     public function check($user_id){
         $check = $this->select("token", "*", "user_id='$user_id'", "valid_time DESC LIMIT 1");
         if(count($check) == 0) return null;
-        if(timeCompare($check[0]['valid_time'], date("Y-m-d H:i:s") == -1)){
+        $token = $check[0];
+        if(timeCompare($token['valid_time'], date("Y-m-d H:i:s")) == -1){
             removeCookie("tt_tkn");
             return null;
         }
