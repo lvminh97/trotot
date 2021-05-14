@@ -8,7 +8,7 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<form id="addMachineForm" enctype="multipart/form-data">
+				<form id="addRoomForm" enctype="multipart/form-data">
 					<div class="form-group">
 						<label for="machine_name">Tên phòng</label>
 						<input type="text" class="form-control" id="room_name" style="width: 100%;">
@@ -25,20 +25,6 @@
 							</div>
 						</div>
 					</div>
-					<!-- <div class="form-group">
-						<label for="machine_description">Mô tả</label>
-						<script>
-							tinymce.init({
-								selector: "#machine_description",
-								height: 350,
-								theme: 'silver',
-								plugins: 'image code lists table advtable',
-                                toolbar: 'undo redo | link image | code | alignleft aligncenter alignright alignjustify | bold italic underline | numlist bullist',
-                                table_appearance_options: true,
-							});
-						</script>
-						<textarea id="machine_description"></textarea>
-					</div> -->
 					<div class="form-group">
 						<label for="machine_doc">Diện tích (m<sup>2</sup>)</label>
 						<input type="text" class="form-control" id="room_area" style="width: 100%;">

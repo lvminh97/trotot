@@ -53,8 +53,8 @@ class Account extends DB{
 		}
 	}
 
-	public function checkLoggedIn(){
-		$token = getCookie("tt_tkn");
+	public function checkLoggedIn($token = null){
+		if($token === null) $token = getCookie("tt_tkn");
 		if($token === null) return "Role_None";
 		$check = $this->select("account JOIN token", "*", "token.user_id=account.user_id", "token.valid_time DESC LIMIT 1");
 		if(count($check) == 0) return "Role_None";
