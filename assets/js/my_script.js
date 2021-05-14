@@ -181,12 +181,12 @@ function addRoom() {
 	fd.append("name", getById("room_name").value);
 	fd.append("area", getById("room_area").value);
 	fd.append("price", getById("room_price").value);
-	fd.append("num", getById("room_location_num").valule);
-	fd.append("alley", getById("room_location_alley").valule);
-	fd.append("street", getById("room_location_street").valule);
-	fd.append("subdistrict", getById("room_location_subdistrict").valule);
-	fd.append("district", getById("room_location_district").valule);
-	fd.append("province", getById("room_location_province").valule);
+	fd.append("number", getById("room_location_num").value);
+	fd.append("alley", getById("room_location_alley").value);
+	fd.append("street", getById("room_location_street").value);
+	fd.append("subdistrict", getById("room_location_subdistrict").value);
+	fd.append("district", getById("room_location_district").value);
+	fd.append("province", getById("room_location_province").value);
 	var imgList = getByName("room_image");
 	for (var i = 0; i < imgList.length; i++) {
 		fd.append('image[]', imgList[i].files[0]);
