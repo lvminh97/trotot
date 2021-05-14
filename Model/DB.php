@@ -35,7 +35,7 @@ class DB{
         if($orderby != "") $cmd .= " ORDER BY $orderby";
         $data = array();
         $queryData = mysqli_query($this->getConnect(), $cmd);
-        while($record = mysqli_fetch_array($queryData)){
+        while($record = mysqli_fetch_array($queryData, MYSQLI_ASSOC)){
             $data[] = $record;
         }
         return $data;
@@ -105,7 +105,7 @@ class DB{
     public function execute($cmd){
         $queryData = mysqli_query($this->getConnect(), $cmd);
         $data = array();
-        while($record = mysqli_fetch_array($queryData)){
+        while($record = mysqli_fetch_array($queryData, MYSQLI_ASSOC)){
             $data[] = $record;
         }
         return $data;

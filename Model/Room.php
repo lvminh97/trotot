@@ -12,6 +12,8 @@ class Room extends DB{
 		return $this->select("room", "*", $cond, $order_by);
 	}
 
+	// public function getItem($)
+
 	public function addItem($data, $files){
 		$image = "";
 		if(isset($files["image"])){

@@ -205,8 +205,16 @@ function addRoom() {
 	});
 }
 
-function loadRoom() {
-
+function loadRoom(obj) {
+	var fd = new FormData();
+	fd.append("id", obj.parentElement.parentElement.id);
+	postRequest("?api=get_room", fd, function(resp){
+		var data = JSON.parse(resp);
+		getById("e_room_id").value = data["room_id"];
+		getById("e_room_name").value = data["name"];
+		getById("e_room_area").value = data["area"];
+		getById("e_room_price").value = data["price"];
+	});
 }
 
 function updateRoom() {
