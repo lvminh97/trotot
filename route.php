@@ -15,5 +15,9 @@
 
     $route->get("link", "manage-room", "HostViewController@getManageRoomPage");
 
+
+    //// API
+    $route->post("api", "add_room", "ApiController@addRoomAction");
+
     $route->process();
 ?>
