@@ -8,6 +8,10 @@ class Room extends DB{
 		parent::__construct();
 	}
 
+	public function getList($cond = "1", $order_by = ""){
+		return $this->select("room", "*", $cond, $order_by);
+	}
+
 	public function addItem($data, $files){
 		$image = "";
 		if(isset($files["image"])){
