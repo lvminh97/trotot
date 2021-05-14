@@ -35,10 +35,20 @@
                                     </tr>
                                 </thead>
                                 <tbody id="room_list">
-
+                                <?php
+                                foreach($viewParams['roomList'] as $room) { ?>
+                                    <tr>
+                                        <td><?php echo $room['room_id'] ?></td>
+                                        <td><img src="<?php echo convertToListImage($room['images'])[0] ?>" style="width: 80%; height: auto;"></td>
+                                        <td><?php echo $room['name'] ?></td>
+                                        <td><?php echo getFullAddress($room) ?></td>
+                                        <td></td>
+                                    </tr>
+                                <?php 
+                                } ?>
                                 </tbody>
                                 <script>
-                                    loadRoomList('room_list')
+                                    // loadRoomList('room_list')
                                 </script>
                             </table>
                         </div>
