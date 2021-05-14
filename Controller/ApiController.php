@@ -8,10 +8,15 @@ class ApiController extends Controller{
 
     public function addRoomAction($data, $files){
         if(isset($data['token'])) $token = $data['token'];
-        else $token = null;
+        else $token = getCookie("tt_tkn");
         if($this->accountObj->checkLoggedIn($token) != "Role_Host") return null;
         else $user = $this->accountObj->getItemByToken($token);
-        print_r($user);
+        //
+        $resp = array();
+        $data['user_id'] = $user['user_id'];
+        $this->roomObj->addItem($data, $files);
+        $resp['code'] = "OK";
+        echo json_encode($resp);
     }
 
 }
