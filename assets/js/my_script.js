@@ -201,7 +201,8 @@ function addRoom() {
 			"<input type='file' name='machine_image' style='display: none;'><img src='./assets/img/plus.png' class='imgChooserBg' onclick='chooseImg(this, \"machine_image\")'>\n" +
 			"</div>\n" +
 			"</div>";
-		console.log(resp);
+		var data = JSON.parse(resp);
+		if(data["code"] == "OK") window.location.reload(true);
 	});
 }
 
@@ -250,11 +251,18 @@ function updateRoom() {
 
 }
 
-function deleteRoom() {
+function deleteRoom(obj) {
 	var cf = confirm("Bạn muốn xóa phòng này?");
 	if(!cf) return;
 	var fd = new FormData();
-	fd.append("id", getById("e_room_id").value);
+	fd.append("id", obj.parentElement.parentElement.id);
+	postRequest("?api=delete_room", fd, function(resp){
+		console.log(resp);
+		var data = JSON.parse(resp);
+		if(data["code"] == "OK"){
+			window.location.reload(true);
+		}
+	})
 }
 
 function loadProduct(id) {
