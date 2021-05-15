@@ -72,6 +72,19 @@ function echo_max_len($str, $len){
     }
 }
 
+function convertToListImage($str){
+    $list = explode(";", $str);
+    if(count($list) == 0) return array("");
+    for($i = 0; $i < count($list); $i++){
+        $list[$i] = "./Resource/Images/".$list[$i];
+    }
+    return $list;
+}
+
+function getFullAddress($room){
+    return "Số ".$room["loc_number"].", ngõ ".$room["loc_alley"].", ".$room["loc_street"].", ".$room["loc_subdistrict"].", ".$room["loc_district"].", ".$room["loc_province"];
+}
+
 function timeCompare($time1, $time2){
     if($time1 > $time2) return 1;
     elseif($time1 < $time2) return -1;

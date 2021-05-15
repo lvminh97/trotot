@@ -35,10 +35,23 @@
                                     </tr>
                                 </thead>
                                 <tbody id="room_list">
-
+                                <?php
+                                foreach($viewParams['roomList'] as $room) { ?>
+                                    <tr id="<?php echo $room["room_id"] ?>">
+                                        <td><?php echo $room['room_id'] ?></td>
+                                        <td><img src="<?php echo convertToListImage($room['images'])[0] ?>" style="width: 80%; height: auto;"></td>
+                                        <td><?php echo $room['name'] ?></td>
+                                        <td><?php echo getFullAddress($room) ?></td>
+                                        <td>
+                                            <button class="btn btn-block btn-warning" data-toggle="modal" data-target="#updateRoomModal" onclick="loadRoom(this)">Chỉnh sửa</button>
+                                            <button class="btn btn-block btn-danger" onclick="deleteRoom()">Xóa</button>
+                                        </td>
+                                    </tr>
+                                <?php 
+                                } ?>
                                 </tbody>
                                 <script>
-                                    loadRoomList('room_list')
+                                    // loadRoomList('room_list')
                                 </script>
                             </table>
                         </div>
