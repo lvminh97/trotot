@@ -251,7 +251,10 @@ function updateRoom() {
 }
 
 function deleteRoom() {
-
+	var cf = confirm("Bạn muốn xóa phòng này?");
+	if(!cf) return;
+	var fd = new FormData();
+	fd.append("id", getById("e_room_id").value);
 }
 
 function loadProduct(id) {
