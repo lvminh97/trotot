@@ -44,7 +44,7 @@
                                         <td><?php echo getFullAddress($room) ?></td>
                                         <td>
                                             <button class="btn btn-block btn-warning" data-toggle="modal" data-target="#updateRoomModal" onclick="loadRoom(this)">Chỉnh sửa</button>
-                                            <button class="btn btn-block btn-danger" onclick="deleteRoom()">Xóa</button>
+                                            <button class="btn btn-block btn-danger" onclick="deleteRoom(this)">Xóa</button>
                                         </td>
                                     </tr>
                                 <?php 

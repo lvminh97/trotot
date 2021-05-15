@@ -19,6 +19,9 @@
     //// API
     $route->post("api", "add_room", "ApiController@addRoomAction");
     $route->post("api", "get_room", "ApiController@getRoomAction");
+    $route->post("api", "get_room_list", "ApiController@getRoomListAction");
+    $route->post("api", "update_room", "ApiController@updateRoomAction");
+    $route->post("api", "delete_room", "ApiController@deleteRoomAction");
 
     $route->process();
 ?>

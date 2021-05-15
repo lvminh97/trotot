@@ -22,7 +22,7 @@ class HostViewController extends Controller{
             $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
             getView("room.manage", array('title' => "Trọ Tốt - Manage",
                                             'user' => $user,
-                                            'roomList' => $this->roomObj->getList("1", "room_id ASC")));
+                                            'roomList' => $this->roomObj->getListByUser($user['user_id'])));
         }
     }
 

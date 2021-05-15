@@ -197,11 +197,12 @@ function addRoom() {
 		getById("imgChooserPanel").innerHTML =
 			"<div class='col-md-3'>\n" +
 			"<div style='width: 100%; height: 100%;'>\n" +
-			"<button class='close' type='button' style='position: relative; top: 3px; left: -28px; display: none; z-index: 100;' onclick='delImgChooser(this)'>Ă—</button>\n" +
-			"<input type='file' name='machine_image' style='display: none;'><img src='./assets/img/plus.png' class='imgChooserBg' onclick='chooseImg(this, \"machine_image\")'>\n" +
+			"<button class='close' type='button' style='position: relative; top: 3px; left: -28px; display: none; z-index: 100;' onclick='delImgChooser(this)'>×</button>\n" +
+			"<input type='file' name='room_image' style='display: none;'><img src='./assets/img/plus.png' class='imgChooserBg' onclick='chooseImg(this, \"room_image\")'>\n" +
 			"</div>\n" +
 			"</div>";
-		console.log(resp);
+		var data = JSON.parse(resp);
+		if (data["code"] == "OK") window.location.reload(true);
 	});
 }
 
@@ -231,67 +232,69 @@ function loadRoom(obj) {
 				div.innerHTML = "<div style=\"width: 100%; height: 100%;\">"
 					+ "<button class=\"close\" type=\"button\" style=\"position: relative; top: 3px; left: -28px; display: block; z-index: 100;\" onclick=\"delImgChooser(this)\">×</button>"
 					+ "<input type=\"hidden\" name=\"e_room_image\" value=\"" + imgList[i] + "\">"
-					+ "<img src=\"./Resource/Images/" + imgList[i] + "\" class=\"imgChooserBg\" onclick=\"chooseImg(this, 'e_room_image')\">"
+					+ "<img src=\"./Resource/Images/" + imgList[i] + "\" class=\"imgChooserBg\" onclick=\"\"/>"
 					+ "</div>";
 				getById("imgChooserPanelUpdate").appendChild(div);
 			}
 			var div = document.createElement("div");
 			div.className = "col-md-3";
-			div.innerHTML = "<div style=\"width: 100%; height: 100%;\">"
-				+ "<input type=\"file\" name=\"e_room_image\" style=\"display: none;\">"
-				+ "<img src=\"assets/img/plus.png\" class=\"imgChooserBg\" onclick=\"chooseImg(this, 'e_room_image')\">"
-				+ "</div>";
+			div.innerHTML =
+				"<div style='width: 100%; height: 100%;'>\n" +
+				"<button class='close' type='button' style='position: relative; top: 3px; left: -28px; display: none; z-index: 100;' onclick='delImgChooser(this)'>×</button>\n" +
+				"<input type='file' name='e_room_image' style='display: none;'><img src='./assets/img/plus.png' class='imgChooserBg' onclick='chooseImg(this, \"e_room_image\")'>\n" +
+				"</div>\n";
 			getById("imgChooserPanelUpdate").appendChild(div);
 		}
 	});
 }
 
 function updateRoom() {
-
-}
-
-function deleteRoom() {
-
-}
-
-function loadProduct(id) {
 	var fd = new FormData();
-	fd.append("id", id);
-	postRequest("?action=get_product_act", fd, function (resp) {
+	fd.append("id", getById("e_room_id").value);
+	fd.append("name", getById("e_room_name").value);
+	fd.append("area", getById("e_room_area").value);
+	fd.append("price", getById("e_room_price").value);
+	fd.append("number", getById("e_room_location_num").value);
+	fd.append("alley", getById("e_room_location_alley").value);
+	fd.append("street", getById("e_room_location_street").value);
+	fd.append("subdistrict", getById("e_room_location_subdistrict").value);
+	fd.append("district", getById("e_room_location_district").value);
+	fd.append("province", getById("e_room_location_province").value);
+	var imgList = getByName("e_room_image");
+	for (var i = 0; i < imgList.length; i++) {
+		if (imgList[i].type == "hidden") fd.append("image_name[]", imgList[i].value);
+		else if (imgList[i].type == "file") fd.append("image[]", imgList[i].files[0]);
+	}
+	postRequest("?api=update_room", fd, function (resp) {
+		// console.log(resp);
+		var form = getById("updateRoomForm");
+		for (var i = 0; i < form.length; i++) form[i].value = "";
+		getById("imgChooserPanelUpdate").innerHTML =
+			"<div class='col-md-3'>\n" +
+			"<div style='width: 100%; height: 100%;'>\n" +
+			"<button class='close' type='button' style='position: relative; top: 3px; left: -28px; display: none; z-index: 100;' onclick='delImgChooser(this)'>×</button>\n" +
+			"<input type='file' name='e_room_image' style='display: none;'><img src='./assets/img/plus.png' class='imgChooserBg' onclick='chooseImg(this, \"e_room_image\")'>\n" +
+			"</div>\n" +
+			"</div>";
 		var data = JSON.parse(resp);
-		getById("product_id_update").value = data["product_id"];
-		getById("product_name_update").value = data["name"];
-		getById("product_reg_update").value = data["register_number"];
-		tinymce.EditorManager.get('product_summary_update').setContent(data["summary"]);
-		tinymce.EditorManager.get('product_content_update').setContent(data["content"]);
-		getById("product_feature_update").checked = data["is_feature"] == "1" ? true : false;
-		getById("product_price_update").value = data["price"];
-		getById("product_sale_update").value = data["sale"];
-		getById("product_origin_update").value = data["origin"];
-		getById("product_brand_update").value = data["brand"];
-		getById("product_packing_update").value = data["packing"];
-		getById("product_ingredient_update").value = data["ingredient"];
-		var imgList = data["image"].split(";");
-		getById("imgChooserPanelUpdate").innerHTML = "";
-		for (var i = 0; i < imgList.length; i++) {
-			var div = document.createElement("div");
-			div.className = "col-md-3";
-			div.innerHTML = "<div style=\"width: 100%; height: 100%;\">"
-				+ "<button class=\"close\" type=\"button\" style=\"position: relative; top: 3px; left: -28px; display: block; z-index: 100;\" onclick=\"delImgChooser(this)\">×</button>"
-				+ "<input type=\"hidden\" name=\"product_image_update\" value=\"" + imgList[i] + "\">"
-				+ "<img src=\"../Resource/Images/" + imgList[i] + "\" class=\"imgChooserBg\" onclick=\"chooseImg(this, 'product_image_update')\">"
-				+ "</div>";
-			getById("imgChooserPanelUpdate").appendChild(div);
-		}
-		var div = document.createElement("div");
-		div.className = "col-md-3";
-		div.innerHTML = "<div style=\"width: 100%; height: 100%;\">"
-			+ "<input type=\"file\" name=\"product_image_update\" style=\"display: none;\">"
-			+ "<img src=\"assets/img/plus.png\" class=\"imgChooserBg\" onclick=\"chooseImg(this, 'product_image_update')\">"
-			+ "</div>";
-		getById("imgChooserPanelUpdate").appendChild(div);
+		if (data["code"] == "OK") window.location.reload(true);
 	});
 }
+
+function deleteRoom(obj) {
+	var cf = confirm("Bạn muốn xóa phòng này?");
+	if (!cf) return;
+	var fd = new FormData();
+	fd.append("id", obj.parentElement.parentElement.id);
+	postRequest("?api=delete_room", fd, function (resp) {
+		// console.log(resp);
+		var data = JSON.parse(resp);
+		if (data["code"] == "OK") {
+			window.location.reload(true);
+		}
+	})
+}
+
 function updateProduct() {
 	var fd = new FormData();
 	fd.append("product_id", getById("product_id_update").value);
@@ -335,15 +338,4 @@ function updateProduct() {
 			loadProductList('productlist_body', getById("subcategory_select").value);
 		}
 	})
-}
-function removeProduct(id) {
-	var cf = confirm("Bạn có chắc muốn xóa sản phẩm này?");
-	if (!cf) return;
-	var fd = new FormData();
-	fd.append("id", id);
-	postRequest("?action=remove_product_act", fd, function (resp) {
-		if (resp == "RemoveProductOK") {
-			loadProductList('productlist_body', getById("subcategory_select").value);
-		}
-	});
 }

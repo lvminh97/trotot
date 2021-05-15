@@ -60,7 +60,7 @@ class DB{
         $keys .= ")";
         $values .= ")";
         $cmd .= $keys." VALUES ".$values;
-        mysqli_query($this->getConnect(), $cmd);
+        return mysqli_query($this->getConnect(), $cmd);
     }
 
 	public function update($table, $data, $cond = "1"){
@@ -73,12 +73,12 @@ class DB{
             $params .= $key."='".$data[$key]."'";
         }
         $cmd .= $params." WHERE $cond";
-        mysqli_query($this->getConnect(), $cmd);
+        return mysqli_query($this->getConnect(), $cmd);
     }
 
 	public function delete($table, $cond = "1"){
         $cmd = "DELETE FROM $table WHERE $cond";
-        mysqli_query($this->getConnect(), $cmd);
+        return mysqli_query($this->getConnect(), $cmd);
 	}
 	
 	public function createTable($table, $fields){
@@ -90,7 +90,7 @@ class DB{
             $fieldKeys .= $field[0]." ".$field[1]." ".$field[2];
         }
         $cmd .= $fieldKeys.")";
-        mysqli_query($this->getConnect(), $cmd);
+        return mysqli_query($this->getConnect(), $cmd);
     }
 
     public function alterTable($table, $fields){
@@ -98,7 +98,7 @@ class DB{
     }
 
     public function dropTable($table){
-        mysqli_query($this->getConnect(), "DROP TABLE $table");
+        return mysqli_query($this->getConnect(), "DROP TABLE $table");
     }
 
     // execute a common SQL command
