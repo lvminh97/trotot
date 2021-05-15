@@ -208,12 +208,41 @@ function addRoom() {
 function loadRoom(obj) {
 	var fd = new FormData();
 	fd.append("id", obj.parentElement.parentElement.id);
-	postRequest("?api=get_room", fd, function(resp){
+	postRequest("?api=get_room", fd, function (resp) {
+		// console.log(resp);
 		var data = JSON.parse(resp);
-		getById("e_room_id").value = data["room_id"];
-		getById("e_room_name").value = data["name"];
-		getById("e_room_area").value = data["area"];
-		getById("e_room_price").value = data["price"];
+		if (data['code'] == "OK") {
+			var room = data['room'];
+			getById("e_room_id").value = room["room_id"];
+			getById("e_room_name").value = room["name"];
+			getById("e_room_area").value = room["area"];
+			getById("e_room_price").value = room["price"];
+			getById("e_room_location_num").value = room["loc_number"];
+			getById("e_room_location_alley").value = room["loc_alley"];
+			getById("e_room_location_street").value = room["loc_street"];
+			getById("e_room_location_subdistrict").value = room["loc_subdistrict"];
+			getById("e_room_location_district").value = room["loc_district"];
+			getById("e_room_location_province").value = room["loc_province"];
+			var imgList = room["images"].split(";");
+			getById("imgChooserPanelUpdate").innerHTML = "";
+			for (var i = 0; i < imgList.length; i++) {
+				var div = document.createElement("div");
+				div.className = "col-md-3";
+				div.innerHTML = "<div style=\"width: 100%; height: 100%;\">"
+					+ "<button class=\"close\" type=\"button\" style=\"position: relative; top: 3px; left: -28px; display: block; z-index: 100;\" onclick=\"delImgChooser(this)\">×</button>"
+					+ "<input type=\"hidden\" name=\"e_room_image\" value=\"" + imgList[i] + "\">"
+					+ "<img src=\"./Resource/Images/" + imgList[i] + "\" class=\"imgChooserBg\" onclick=\"chooseImg(this, 'e_room_image')\">"
+					+ "</div>";
+				getById("imgChooserPanelUpdate").appendChild(div);
+			}
+			var div = document.createElement("div");
+			div.className = "col-md-3";
+			div.innerHTML = "<div style=\"width: 100%; height: 100%;\">"
+				+ "<input type=\"file\" name=\"e_room_image\" style=\"display: none;\">"
+				+ "<img src=\"assets/img/plus.png\" class=\"imgChooserBg\" onclick=\"chooseImg(this, 'e_room_image')\">"
+				+ "</div>";
+			getById("imgChooserPanelUpdate").appendChild(div);
+		}
 	});
 }
 

@@ -25,8 +25,7 @@ class ApiController extends Controller{
         else $user = $this->accountObj->getItemByToken($token);
         //
         $resp = array();
-        $data['user_id'] = $user["user_id"];
-        $room = $this->roomObj->getItem($data);
+        $room = $this->roomObj->getItem($data['id'], $user['user_id']);
         $resp["code"] = "OK";
         $resp["room"] = $room;
         echo json_encode($resp);

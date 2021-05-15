@@ -12,7 +12,11 @@ class Room extends DB{
 		return $this->select("room", "*", $cond, $order_by);
 	}
 
-	// public function getItem($)
+	public function getItem($room_id, $user_id){
+		$tmp = $this->select("room", "*", "host='$user_id' AND room_id='$room_id'");
+		if(count($tmp) == 0) return null;
+		return $tmp[0];
+	}
 
 	public function addItem($data, $files){
 		$image = "";

@@ -16,7 +16,7 @@
 					</div>
 					<div class="form-group">
 						<label>Hình ảnh phòng</label>
-						<div class="row" id="imgChooserPanel">
+						<div class="row" id="imgChooserPanelUpdate">
 							<div class="col-md-3">
 								<div style="width: 100%; height: 100%;">
 									<button class="close" type="button" style="position: relative; top: 3px; left: -28px; display: none; z-index: 100;" onclick="delImgChooser(this)">×</button>
