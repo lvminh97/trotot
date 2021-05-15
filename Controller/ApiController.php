@@ -39,6 +39,26 @@ class ApiController extends Controller{
         }
         echo json_encode($resp);
     }
+    public function getRoomListAction($data){
+
+    }
+    public function updateRoomAction($data, $files){
+        $resp = array("code" => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        if($this->accountObj->checkLoggedIn($token) != "Role_Host") $resp['code'] = "NotAuthorize";
+        else {
+            $user = $this->accountObj->getItemByToken($token);
+            if($this->roomObj->checkHost($data['id'], $user['user_id']) === true){
+                if($this->roomObj->updateItem($data, $files) === true){
+                    $resp["code"] = "OK";
+                }
+                else $resp["code"] = "Fail";
+            }
+            else $resp["code"] = "NotAllow";
+        }
+        echo json_encode($resp);
+    }
     public function deleteRoomAction($data){
         $resp = array("code" => "");
         if(isset($data['token'])) $token = $data['token'];
@@ -50,8 +70,9 @@ class ApiController extends Controller{
                 if($this->roomObj->deleteItem($data['id']) === true){
                     $resp["code"] = "OK";
                 }
-                else $resp["code"] = "NotAllow";
+                else $resp["code"] = "Fail";
             }
+            else $resp["code"] = "NotAllow";
         }
         echo json_encode($resp); 
     }

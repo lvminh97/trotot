@@ -62,7 +62,7 @@
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-secondary" data-dismiss="modal">Bỏ qua</button>
-				<button class="btn btn-primary" data-dismiss="modal" onclick="updateRoom()">Thêm</button>
+				<button class="btn btn-primary" data-dismiss="modal" onclick="updateRoom()">Cập nhật</button>
 			</div>
 		</div>
 	</div>
