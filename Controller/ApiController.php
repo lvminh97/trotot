@@ -76,6 +76,32 @@ class ApiController extends Controller{
         }
         echo json_encode($resp); 
     }
+    // POST
+    public function addPostAction($data){
+        $resp = array("code" => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        if($this->accountObj->checkLoggedIn($token) != "Role_Host") $resp['code'] = "NotAuthorize";
+        else 
+        {
+            $user = $this->accountObj->getItemByToken($token);
+            $data['user_id'] = $user['user_id'];
+            if($this->postObj->addItem($data) === true) $resp['code'] = "OK";
+            else $resp['code'] = "Fail";
+        }
+        echo json_encode($resp);
+    }
+    public function getPostAction($data){
 
+    }
+    public function getPostListAction($data){
+
+    }
+    public function updatePostAction($data){
+
+    }
+    public function deletePostAction($data){
+
+    }
 }
 ?>
