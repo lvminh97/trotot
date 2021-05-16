@@ -16,12 +16,18 @@
     $route->get("link", "manage-room", "HostViewController@getManageRoomPage");
 
 
-    //// API
+    //// ROOM API
     $route->post("api", "add_room", "ApiController@addRoomAction");
     $route->post("api", "get_room", "ApiController@getRoomAction");
     $route->post("api", "get_room_list", "ApiController@getRoomListAction");
     $route->post("api", "update_room", "ApiController@updateRoomAction");
     $route->post("api", "delete_room", "ApiController@deleteRoomAction");
-
+    //// POST API
+    $route->post("api", "add_post", "ApiController@addPostAction");
+    $route->post("api", "get_post", "ApiController@getPostAction");
+    $route->post("api", "get_post_list", "ApiController@getPostListAction");
+    $route->post("api", "update_post", "ApiController@updatePostAction");
+    $route->post("api", "delete_post", "ApiController@deletePostAction");
+    ////
     $route->process();
 ?>
