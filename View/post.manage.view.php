@@ -21,14 +21,14 @@
                             <button class="btn btn-primary"><i class="fa fa-search"></i></button>
                         </div>
                         <div class="col-md-6">
-                            <button class="btn btn-success" style="width: 200px;" data-toggle="modal" data-target="#addRoomModal"><i class="fa fa-plus"></i> Thêm phòng</button>
+                            <button class="btn btn-success" style="width: 200px;" data-toggle="modal" data-target="#addRoomModal"><i class="fa fa-plus"></i> Thêm bài đăng mới</button>
                         </div>
                         <div class="col-md-12" style="margin-top: 40px;">
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th width="5%">ID</th>
-                                        <th width="20%">Hình ảnh</th>
+                                        <th width="20%">Tiêu đề</th>
                                         <th width="30%">Tên phòng</th>
                                         <th width="30%">Địa chỉ</th>
                                         <th width="15%"></th>
