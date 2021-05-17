@@ -75,7 +75,7 @@ class Room extends DB{
 		if($room !== null){
 			$imgList = explode(";", $room["images"]);
 			foreach($imgList as $img){
-				unlink("./Resource/Images/".$img);
+				if($img != "") unlink("./Resource/Images/".$img);
 			}
 		}
 		return $this->delete("room", "room_id='$room_id'");

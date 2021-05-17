@@ -76,6 +76,83 @@ class ApiController extends Controller{
         }
         echo json_encode($resp); 
     }
-
+    // POST
+    public function addPostAction($data){
+        $resp = array("code" => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        if($this->accountObj->checkLoggedIn($token) != "Role_Host") $resp['code'] = "NotAuthorize";
+        else 
+        {
+            $user = $this->accountObj->getItemByToken($token);
+            $data['user_id'] = $user['user_id'];
+            if($this->postObj->addItem($data) === true) $resp['code'] = "OK";
+            else $resp['code'] = "Fail";
+        }
+        echo json_encode($resp);
+    }
+    public function getPostAction($data){
+        $resp = array("code" => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        if($this->accountObj->checkLoggedIn($token) != "Role_Host") $resp['code'] = "NotAuthorize";
+        else {
+            $user = $this->accountObj->getItemByToken($token);
+            if($this->postObj->checkAuthor($data['id'], $user['user_id']) === true){
+                $post = $this->postObj->getItem($data['id']);
+                if($post !== null){
+                    $resp['code'] = "OK";
+                    $resp['post'] = $post;
+                }
+                else $resp['code'] = "NotFound";
+            }
+            else $resp['code'] = "NotAllow";
+        }
+        echo json_encode($resp);
+    }
+    public function getPostListAction($data){
+        $resp = array("code" => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        if($this->accountObj->checkLoggedIn($token) != "Role_Host") $resp['code'] = "NotAuthorize";
+        else {
+            //
+        }
+        echo json_encode($resp);
+    }
+    public function updatePostAction($data){
+        $resp = array('code' => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        if($this->accountObj->checkLoggedIn($token) != "Role_Host") $resp['code'] = "NotAuthorize";
+        else{
+            $user = $this->accountObj->getItemByToken($token);
+            if($this->postObj->checkAuthor($data['id'], $user['user_id']) === true){
+                if($this->postObj->updateItem($data) === true){
+                    $resp["code"] = "OK";
+                }
+                else $resp["code"] = "Fail";
+            }
+            else $resp['code'] = "NotAllow";
+        }
+        echo json_encode($resp);
+    }
+    public function deletePostAction($data){
+        $resp = array('code' => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        if($this->accountObj->checkLoggedIn($token) != "Role_Host") $resp['code'] = "NotAuthorize";
+        else{
+            $user = $this->accountObj->getItemByToken($token);
+            if($this->postObj->checkAuthor($data['id'], $user['user_id']) === true){
+                if($this->postObj->deleteItem($data) === true){
+                    $resp["code"] = "OK";
+                }
+                else $resp["code"] = "Fail";
+            }
+            else $resp['code'] = "NotAllow";
+        }
+        echo json_encode($resp);
+    }
 }
 ?>
