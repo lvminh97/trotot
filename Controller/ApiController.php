@@ -92,7 +92,23 @@ class ApiController extends Controller{
         echo json_encode($resp);
     }
     public function getPostAction($data){
-
+        $resp = array("code" => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        if($this->accountObj->checkLoggedIn($token) != "Role_Host") $resp['code'] = "NotAuthorize";
+        else {
+            $user = $this->accountObj->getItemByToken($token);
+            // if($this->roomObj->checkHost($data['id'], $user['user_id']) === true){
+            //     $room = $this->roomObj->getItem($data['id']);
+            //     if($room !== null){
+            //         $resp["code"] = "OK";
+            //         $resp["room"] = $room;
+            //     }
+            //     else $resp["code"] = "NotFound";
+            // }
+            // else $resp['code'] = "NotAllow";
+        }
+        echo json_encode($resp);
     }
     public function getPostListAction($data){
 
