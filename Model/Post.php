@@ -24,7 +24,8 @@ class Post extends DB{
 											"title" => $data["title"],
 											"time" => date("Y-m-d H:i:s"),
 											"room_id" => $data["room_id"],
-											"content" => $data["content"]));
+											"content" => $data["content"],
+											"approval" => "no"));
 	}
 
 	public function updateItem($data){
@@ -46,6 +47,10 @@ class Post extends DB{
 
 	public function getListByUser($user_id){
 		return $this->getList("author='$user_id'", "post_id DESC");
+	}
+
+	public function setApproval($post_id, $approval){
+		return $this->update("post", array("approval" => $approval), "post_id='$post_id'");
 	}
 }
 ?>

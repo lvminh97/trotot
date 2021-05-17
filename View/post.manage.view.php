@@ -21,7 +21,7 @@
                             <button class="btn btn-primary"><i class="fa fa-search"></i></button>
                         </div>
                         <div class="col-md-6">
-                            <button class="btn btn-success" style="width: 200px;" data-toggle="modal" data-target="#addRoomModal"><i class="fa fa-plus"></i> Thêm bài đăng mới</button>
+                            <button class="btn btn-success" style="width: 200px;" data-toggle="modal" data-target="#addPostModal"><i class="fa fa-plus"></i> Thêm bài đăng mới</button>
                         </div>
                         <div class="col-md-12" style="margin-top: 40px;">
                             <table class="table table-striped">
@@ -59,6 +59,6 @@
                 </div>
             </div>
             <!-- End of Main Content -->
-            <?php getModal("room.add", $viewParams) ?>
-            <?php getModal("room.update", $viewParams) ?>
+            <?php getModal("post.add", $viewParams) ?>
+            <?php getModal("post.update", $viewParams) ?>
 <?php getTemplate("footer", $viewParams) ?>
