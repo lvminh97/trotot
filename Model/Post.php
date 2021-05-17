@@ -19,66 +19,33 @@ class Post extends DB{
 	}
 
 	public function addItem($data){
-		return $this->insert("room", array("room_id" => "null",
-											"host" => $data['user_id'],
-											"name" => $data["name"],
-											"price" => $data["price"],
-											"area" => $data["area"],
-											"loc_number" => $data["number"],
-											"loc_alley" => $data["alley"],
-											"loc_street" => $data["street"],
-											"loc_subdistrict" => $data["subdistrict"],
-											"loc_district" => $data["district"],
-											"loc_province" => $data["province"]));
+		return $this->insert("post", array("post_id" => "null",
+											"author" => $data['user_id'],
+											"title" => $data["title"],
+											"time" => date("Y-m-d H:i:s"),
+											"room_id" => $data["room_id"],
+											"content" => $data["content"]));
 	}
 
-	// public function updateItem($data, $files){
-	// 	$image = "";
-	// 	if(isset($data["image_name"])){
-	// 		foreach($data["image_name"] as $img){
-	// 			if($image != "") $image .= ";";
-	// 			$image .= $img;
-	// 		}
-	// 	}
-	// 	if(isset($files["image"])){
-	// 		for($i = 0; $i < count($files["image"]["name"]); $i++){
-	// 			if($image != "") $image .= ";";
-	// 			$image .= basename($files["image"]["name"][$i]);
-	// 			move_uploaded_file($files["image"]["tmp_name"][$i], "./Resource/Images/".basename($files["image"]["name"][$i]));
-	// 		}
-	// 	}
-	// 	return $this->update("room", 
-	// 						array("name" => $data["name"],
-	// 								"images" => $image,
-	// 								"area" => $data["area"],
-	// 								"price" => $data["price"],
-	// 								"loc_number" => $data["number"],
-	// 								"loc_alley" => $data["alley"],
-	// 								"loc_street" => $data["street"],
-	// 								"loc_subdistrict" => $data["subdistrict"],
-	// 								"loc_district" => $data["district"],
-	// 								"loc_province" => $data["province"]), 
-	// 						"room_id='{$data['id']}'");
-	// }
+	public function updateItem($data){
+		return $this->update("post", 
+							array("title" => $data["title"],
+									"room_id" => $data["room_id"],
+									"content" => $data["content"]), 
+							"post_id='{$data['id']}'");
+	}
 
-	// public function deleteItem($room_id){
-	// 	$room = $this->getItem($room_id);
-	// 	if($room !== null){
-	// 		$imgList = explode(";", $room["images"]);
-	// 		foreach($imgList as $img){
-	// 			unlink("./Resource/Images/".$img);
-	// 		}
-	// 	}
-	// 	return $this->delete("room", "room_id='$room_id'");
-	// }
+	public function deleteItem($post_id){
+		return $this->delete("post", "post_id='$post_id'");
+	}
 
-	// public function checkHost($room_id, $user_id){
-	// 	$tmp = $this->select("room", "*", "host='$user_id' AND room_id='$room_id'");
-	// 	return count($tmp) == 1;
-	// }
+	public function checkAuthor($post_id, $user_id){
+		$tmp = $this->select("post", "*", "author='$user_id' AND post_id='$post_id'");
+		return count($tmp) == 1;
+	}
 
-	// public function getListByUser($user_id){
-	// 	return $this->getList("host='$user_id'", "room_id ASC");
-	// }
+	public function getListByUser($user_id){
+		return $this->getList("author='$user_id'", "post_id DESC");
+	}
 }
 ?>
