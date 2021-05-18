@@ -27,5 +27,39 @@ class ViewController extends Controller{
         else nextpage("./.");
     }
 
+    //// HOST
+    public function getHostHomePage(){
+        if($this->accountObj->checkLoggedIn() != "Role_Host") return;
+        $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
+        getView("home.manage", array('title' => "Trọ Tốt - Manage",
+                                        'user' => $user));
+    }
+
+    public function getManageRoomPage(){
+        if($this->accountObj->checkLoggedIn() != "Role_Host"){
+            getView("login", array('title' => "Trọ Tốt - Đăng nhập",
+                                    'user' => null));
+        }
+        else{
+            $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
+            getView("room.manage", array('title' => "Trọ Tốt - Manage",
+                                            'user' => $user,
+                                            'roomList' => $this->roomObj->getListByUser($user['user_id'])));
+        }
+    }
+
+    public function getManagePostPage(){
+        if($this->accountObj->checkLoggedIn() != "Role_Host"){
+            getView("login", array('title' => "Trọ Tốt - Đăng nhập",
+                                    'user' => null));
+        }
+        else{
+            $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
+            getView("post.manage", array('title' => "Trọ Tốt - Manage",
+                                            'user' => $user,
+                                            'roomList' => $this->roomObj->getListByUser($user['user_id']),
+                                            'postList' => $this->postObj->getListByUser($user['user_id'])));
+        }
+    }
 }
 ?>

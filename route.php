@@ -10,12 +10,10 @@
     $route->get("action", "dangnhap", "ViewController@getIndex");
     $route->get("action", "logout", "ActionController@logoutAction");
     
-    /// 
-    $route->get("link", "manage-home", "HostViewController@getHomePage");
-
-    $route->get("link", "manage-room", "HostViewController@getManageRoomPage");
-    $route->get("link", "manage-post", "HostViewController@getManagePostPage");
-
+    /// VIEW FOR HOST
+    $route->get("link", "manage-home", "ViewController@getHostHomePage");
+    $route->get("link", "manage-room", "ViewController@getManageRoomPage");
+    $route->get("link", "manage-post", "ViewController@getManagePostPage");
 
     //// ROOM API
     $route->post("api", "add_room", "ApiController@addRoomAction");

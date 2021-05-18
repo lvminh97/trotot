@@ -33,7 +33,8 @@ class Post extends DB{
 							array("title" => $data["title"],
 									"room_id" => $data["room_id"],
 									"content" => $data["content"],
-									"time" => date("Y-m-d H:i:s")), 
+									"time" => date("Y-m-d H:i:s"),
+									"approval" => "no"), 
 							"post_id='{$data['id']}'");
 	}
 
