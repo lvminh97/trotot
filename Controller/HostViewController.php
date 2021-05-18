@@ -35,6 +35,7 @@ class HostViewController extends Controller{
             $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
             getView("post.manage", array('title' => "Trọ Tốt - Manage",
                                             'user' => $user,
+                                            'roomList' => $this->roomObj->getListByUser($user['user_id']),
                                             'postList' => $this->postObj->getListByUser($user['user_id'])));
         }
     }

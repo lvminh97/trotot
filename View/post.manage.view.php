@@ -28,23 +28,29 @@
                                 <thead>
                                     <tr>
                                         <th width="5%">ID</th>
-                                        <th width="20%">Tiêu đề</th>
-                                        <th width="30%">Tên phòng</th>
-                                        <th width="30%">Địa chỉ</th>
-                                        <th width="15%"></th>
+                                        <th width="15%">Tiêu đề</th>
+                                        <th width="15%">Thời gian</th>
+                                        <th width="15%">Phòng</th>
+                                        <th width="25%">Nội dung</th>
+                                        <th width="10%"></th>
+                                        <th width="10%">Trạng thái</th>
                                     </tr>
                                 </thead>
                                 <tbody id="room_list">
                                 <?php
-                                foreach($viewParams['roomList'] as $room) { ?>
-                                    <tr id="<?php echo $room["room_id"] ?>">
-                                        <td><?php echo $room['room_id'] ?></td>
-                                        <td><img src="<?php echo convertToListImage($room['images'])[0] ?>" style="width: 80%; height: auto;"></td>
-                                        <td><?php echo $room['name'] ?></td>
-                                        <td><?php echo getFullAddress($room) ?></td>
+                                foreach($viewParams['postList'] as $post) { ?>
+                                    <tr id="<?php echo $post["post_id"] ?>">
+                                        <td><?php echo $post['post_id'] ?></td>
+                                        <td><?php echo $post['title'] ?></td>
+                                        <td><?php echo getStdFormatTime($post['time']) ?></td>
+                                        <td><?php echo "" ?></td>
+                                        <td><?php echo $post['content'] ?></td>
                                         <td>
-                                            <button class="btn btn-block btn-warning" data-toggle="modal" data-target="#updateRoomModal" onclick="loadRoom(this)">Chỉnh sửa</button>
-                                            <button class="btn btn-block btn-danger" onclick="deleteRoom(this)">Xóa</button>
+                                            <button class="btn btn-block btn-warning" data-toggle="modal" data-target="#updatePostModal" onclick="loadPost(this)">Chỉnh sửa</button>
+                                            <button class="btn btn-block btn-danger" onclick="deletePost(this)">Xóa</button>
+                                        </td>
+                                        <td>
+                                            <?php echo ($post['approval'] == "yes") ? "Phê duyệt" : "Chưa phê duyệt" ?>
                                         </td>
                                     </tr>
                                 <?php 

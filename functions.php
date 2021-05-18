@@ -91,6 +91,10 @@ function timeCompare($time1, $time2){
     else return 0;
 }
 
+function getStdFormatTime($time){
+    return date_format(date_create($time), "H:i:s d/m/Y");
+}
+
 function getSession($key){
     sessionInit();
     if(!isset($_SESSION[$key])) return null;

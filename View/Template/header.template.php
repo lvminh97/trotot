@@ -13,5 +13,6 @@
 	<!-- Custom styles for this template-->
 	<link href="assets/css/mystyle.css" rel="stylesheet">
 	<script src="assets/js/my_script.js"></script>
+	<script src="assets/vendor/tinymce/tinymce.min.js"></script>
 	<!-- <script src="assets/vendor/tinymce/tinymce.min.js"></script> -->
 </head>

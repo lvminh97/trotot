@@ -294,3 +294,21 @@ function deleteRoom(obj) {
 		}
 	})
 }
+
+function loadPostList(){
+	// 
+}
+
+function addPost() {
+	var fd = new FormData();
+	fd.append("title", getById("post_title").value);
+	fd.append("room_id", getById("post_room").value);
+	fd.append("content", tinymce.EditorManager.get('post_content').getContent({format: 'raw'}));
+	postRequest("?api=add_post", fd, function (resp) {
+		var form = getById("addPostForm");
+		for (var i = 0; i < form.length; i++) form[i].value = "";
+		tinymce.EditorManager.get('post_content').setContent("");
+		var data = JSON.parse(resp);
+		if (data["code"] == "OK") window.location.reload(true);
+	});
+}
