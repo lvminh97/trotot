@@ -32,7 +32,8 @@ class Post extends DB{
 		return $this->update("post", 
 							array("title" => $data["title"],
 									"room_id" => $data["room_id"],
-									"content" => $data["content"]), 
+									"content" => $data["content"],
+									"time" => date("Y-m-d H:i:s")), 
 							"post_id='{$data['id']}'");
 	}
 

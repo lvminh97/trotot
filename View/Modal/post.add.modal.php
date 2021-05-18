@@ -30,7 +30,7 @@
                                 selector: "#post_content",
                                 height: 350,
                                 theme: 'silver',
-                                plugins: 'lists table advtable',
+                                plugins: 'lists table',
                                 toolbar: 'undo redo | link image | code | alignleft aligncenter alignright alignjustify | bold italic underline | numlist bullist',
                                 table_appearance_options: true,
                             });

@@ -312,3 +312,49 @@ function addPost() {
 		if (data["code"] == "OK") window.location.reload(true);
 	});
 }
+
+function loadPost(obj) {
+	var fd = new FormData();
+	fd.append("id", obj.parentElement.parentElement.id);
+	postRequest("?api=get_post", fd, function (resp) {
+		// console.log(resp);
+		var data = JSON.parse(resp);
+		if (data['code'] == "OK") {
+			var post = data['post'];
+			getById("e_post_id").value = post["post_id"];
+			getById("e_post_title").value = post["title"];
+			getById("e_post_room").value = post["room_id"];
+			tinymce.EditorManager.get('e_post_content').setContent(post['content']);
+		}
+	});
+}
+
+function updatePost(){
+	var fd = new FormData();
+	fd.append("id", getById("e_post_id").value);
+	fd.append("title", getById("e_post_title").value);
+	fd.append("room_id", getById("e_post_room").value);
+	fd.append("content", tinymce.EditorManager.get('e_post_content').getContent({format: 'raw'}));
+	postRequest("?api=update_post", fd, function (resp) {
+		// console.log(resp);
+		var form = getById("updatePostForm");
+		for (var i = 0; i < form.length; i++) form[i].value = "";
+		tinymce.EditorManager.get('e_post_content').setContent("");
+		var data = JSON.parse(resp);
+		if (data["code"] == "OK") window.location.reload(true);
+	});
+}
+
+function deletePost(obj) {
+	var cf = confirm("Bạn muốn xóa bài đăng này?");
+	if (!cf) return;
+	var fd = new FormData();
+	fd.append("id", obj.parentElement.parentElement.id);
+	postRequest("?api=delete_post", fd, function (resp) {
+		// console.log(resp);
+		var data = JSON.parse(resp);
+		if (data["code"] == "OK") {
+			window.location.reload(true);
+		}
+	})
+}

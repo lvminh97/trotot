@@ -145,7 +145,7 @@ class ApiController extends Controller{
         else{
             $user = $this->accountObj->getItemByToken($token);
             if($this->postObj->checkAuthor($data['id'], $user['user_id']) === true){
-                if($this->postObj->deleteItem($data) === true){
+                if($this->postObj->deleteItem($data['id']) === true){
                     $resp["code"] = "OK";
                 }
                 else $resp["code"] = "Fail";
