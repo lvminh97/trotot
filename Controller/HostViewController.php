@@ -21,7 +21,21 @@ class HostViewController extends Controller{
         else{
             $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
             getView("room.manage", array('title' => "Trọ Tốt - Manage",
-                                            'user' => $user));
+                                            'user' => $user,
+                                            'roomList' => $this->roomObj->getListByUser($user['user_id'])));
+        }
+    }
+
+    public function getManagePostPage(){
+        if($this->accountObj->checkLoggedIn() != "Role_Host"){
+            getView("login", array('title' => "Trọ Tốt - Đăng nhập",
+                                    'user' => null));
+        }
+        else{
+            $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
+            getView("post.manage", array('title' => "Trọ Tốt - Manage",
+                                            'user' => $user,
+                                            'postList' => $this->postObj->getListByUser($user['user_id'])));
         }
     }
 
