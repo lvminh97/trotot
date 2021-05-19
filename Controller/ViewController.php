@@ -12,19 +12,26 @@ class ViewController extends Controller{
         getView("homepage", array('title' => 'Trọ Tốt',
                                     'user' => $user));
     }
-
     public function getSignupPage(){
         if($this->accountObj->checkLoggedIn() == "Role_None")
             getView("signup", array('title' => 'Trọ Tốt - Đăng ký',
                                     'user' => null));
         else nextpage("./.");
     }
-
     public function getLoginPage(){
         if($this->accountObj->checkLoggedIn() == "Role_None")
             getView("login", array('title' => 'Trọ Tốt - Đăng nhập',
                                     'user' => null));
         else nextpage("./.");
+    }
+
+    //// CUSTOMER
+    public function getRoomListForCustomerPage(){
+        if($this->accountObj->checkLoggedIn() == "Role_None") $user = null;
+        else $user = $this->accountObj->getItemByToken(getCookie("tt_tkn"));
+        getView("roomlist", array('title' => "Trọ tốt - Danh sách phòng",
+                                    'user' => $user,
+                                    'postList' => $this->postObj->getList()));
     }
 
     //// HOST
@@ -34,7 +41,6 @@ class ViewController extends Controller{
         getView("home.manage", array('title' => "Trọ Tốt - Manage",
                                         'user' => $user));
     }
-
     public function getManageRoomPage(){
         if($this->accountObj->checkLoggedIn() != "Role_Host"){
             getView("login", array('title' => "Trọ Tốt - Đăng nhập",
@@ -47,7 +53,6 @@ class ViewController extends Controller{
                                             'roomList' => $this->roomObj->getListByUser($user['user_id'])));
         }
     }
-
     public function getManagePostPage(){
         if($this->accountObj->checkLoggedIn() != "Role_Host"){
             getView("login", array('title' => "Trọ Tốt - Đăng nhập",

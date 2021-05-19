@@ -10,6 +10,9 @@
     $route->get("action", "dangnhap", "ViewController@getIndex");
     $route->get("action", "logout", "ActionController@logoutAction");
     
+    /// VIEW FOR CUSTOMER
+    $route->get("site", "room_list", "ViewController@getRoomListForCustomerPage");
+
     /// VIEW FOR HOST
     $route->get("link", "manage-home", "ViewController@getHostHomePage");
     $route->get("link", "manage-room", "ViewController@getManageRoomPage");
