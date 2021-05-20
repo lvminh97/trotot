@@ -9,7 +9,7 @@ class Post extends DB{
 	}
 
 	public function getList($cond = "1", $order_by = ""){
-		return $this->select("post", "*", $cond, $order_by);
+		return $this->select("post JOIN room", "*", "post.room_id=room.room_id AND ".$cond, $order_by);
 	}
 
 	public function getItem($post_id){
@@ -48,7 +48,7 @@ class Post extends DB{
 	}
 
 	public function getListByUser($user_id){
-		return $this->getList("author='$user_id'", "post_id DESC");
+		return $this->getList("post.author='$user_id'", "post.post_id DESC");
 	}
 
 	public function setApproval($post_id, $approval){

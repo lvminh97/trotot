@@ -43,7 +43,7 @@
                                         <td><?php echo $post['post_id'] ?></td>
                                         <td><?php echo $post['title'] ?></td>
                                         <td><?php echo getStdFormatTime($post['time']) ?></td>
-                                        <td><?php echo "" ?></td>
+                                        <td><?php echo $post['name']." - ".getFullAddress($post) ?></td>
                                         <td><?php echo $post['content'] ?></td>
                                         <td>
                                             <button class="btn btn-block btn-warning" data-toggle="modal" data-target="#updatePostModal" onclick="loadPost(this)">Chỉnh sửa</button>
