@@ -56,7 +56,7 @@ class Account extends DB{
 	public function checkLoggedIn($token = null){
 		if($token === null) $token = getCookie("tt_tkn");
 		if($token === null) return "Role_None";
-		$check = $this->select("account JOIN token", "*", "token.user_id=account.user_id", "token.valid_time DESC LIMIT 1");
+		$check = $this->select("account JOIN token", "*", "token.user_id=account.user_id AND token.token='$token'", "token.valid_time DESC LIMIT 1");
 		if(count($check) == 0) return "Role_None";
 		$user = $check[0];
 		if(timeCompare($user['valid_time'], date("Y-m-d H:i:s")) == -1){

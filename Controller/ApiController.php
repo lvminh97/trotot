@@ -102,9 +102,6 @@ class ApiController extends Controller{
                 $post = $this->postObj->getItem($data['id']);
                 if($post !== null){
                     $resp['code'] = "OK";
-                    // for($i = 0; $i < count($post); $i++){
-                    //     $post[$i]['room'] = $this->roomObj->getItem($post[$i]['room_id']);
-                    // }
                     $resp['post'] = $post;
                 }
                 else $resp['code'] = "NotFound";
