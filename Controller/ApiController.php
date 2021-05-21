@@ -154,5 +154,19 @@ class ApiController extends Controller{
         }
         echo json_encode($resp);
     }
+    // TENANT - RENT
+    public function rentAction($data){
+        $resp = array('code' => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        if($this->accountObj->checkLoggedIn($token) != "Role_Tenant") $resp['code'] = "NotAuthorize";
+        else{
+            $user = $this->accountObj->getItemByToken($token);
+            if($this->tenantObj->rent($data) === true){
+                $resp['code'] = "OK";
+            }
+            else $resp['code'] = "Fail";
+        }
+    }
 }
 ?>

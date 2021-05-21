@@ -17,6 +17,7 @@ class ActionController extends Controller{
             }
             setcookie("tt_tkn", $token, time() + 864000);
             $resp['code'] = "OK";
+            $resp['token'] = $token;
         }
         else{
             $resp['code'] = "Fail";

@@ -2,13 +2,13 @@
     require_once "Controller/Route.php";
     $route = new Route("ViewController@getIndex");
     // Dang ky tai khoan
-    $route->get("site", "dangky", "ViewController@getSignupPage");
-    $route->post("action", "dangky", "ActionController@signupAction");
+    $route->get("site", "signup", "ViewController@getSignupPage");
+    $route->post("action", "signup", "ActionController@signupAction");
     // Dang nhap
-    $route->get("site", "dangnhap", "ViewController@getLoginPage");
-    $route->post("action", "dangnhap", "ActionController@loginAction");
-    $route->get("action", "dangnhap", "ViewController@getIndex");
-    $route->get("action", "logout", "ActionController@logoutAction");
+    $route->get("site", "login", "ViewController@getLoginPage");
+    $route->post("action", "login", "ActionController@loginAction");
+    $route->get("action", "login", "ViewController@getIndex");
+    $route->get("action", "login", "ActionController@logoutAction");
     
     /// VIEW FOR CUSTOMER
     $route->get("site", "room_list", "ViewController@getRoomListForCustomerPage");

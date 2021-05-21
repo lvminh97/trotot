@@ -58,7 +58,7 @@ function signup() {
 	if (getById("signup-type-tenant").checked) fd.append("role", "011");
 	else fd.append("role", "210");
 
-	postRequest("?action=dangky", fd, function (resp) {
+	postRequest("?action=signup", fd, function (resp) {
 		var res = JSON.parse(resp)['code'];
 		switch (res) {
 			case "OK":
@@ -73,7 +73,7 @@ function login() {
 	var fd = new FormData();
 	fd.append("username", getById("login-username").value);
 	fd.append("password", getById("login-password").value);
-	postRequest("?action=dangnhap", fd, function (resp) {
+	postRequest("?action=login", fd, function (resp) {
 		// console.log(resp);
 		var res = JSON.parse(resp)['code'];
 		switch (res) {
