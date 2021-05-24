@@ -62,23 +62,18 @@ class Tenant extends DB{
 	}
 
 	public function deleteItem($room_id){
-		$room = $this->getItem($room_id);
-		if($room !== null){
-			$imgList = explode(";", $room["images"]);
-			foreach($imgList as $img){
-				if($img != "") unlink("./Resource/Images/".$img);
-			}
-		}
-		return $this->delete("room", "room_id='$room_id'");
-	}
-
-	public function checkHost($room_id, $user_id){
-		$tmp = $this->select("room", "*", "host='$user_id' AND room_id='$room_id'");
-		return count($tmp) == 1;
+		// $room = $this->getItem($room_id);
+		// if($room !== null){
+		// 	$imgList = explode(";", $room["images"]);
+		// 	foreach($imgList as $img){
+		// 		if($img != "") unlink("./Resource/Images/".$img);
+		// 	}
+		// }
+		// return $this->delete("room", "room_id='$room_id'");
 	}
 
 	public function getListByUser($user_id){
-		return $this->getList("host='$user_id'", "room_id ASC");
+		// return $this->getList("host='$user_id'", "room_id ASC");
 	}
 }
 ?>

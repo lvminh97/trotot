@@ -5,6 +5,39 @@ class ApiController extends Controller{
     public function __construct(){
         parent::__construct();
     }
+    // ACCOUNT
+    public function getUserInfor($data){
+        $resp = array('code' => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        if($this->accountObj->checkLoggedIn($token) == "Role_None") $resp['code'] = "NotAuthorize";
+        else{
+            if(isset($data['user_id'])){
+                $user = $this->accountObj->getItem($data['user_id']);
+                $resp['type'] = "user";
+            }
+            else{
+                $user = $this->accountObj->getItemByToken($token);
+                $resp['type'] = "own";
+            }
+            if($user !== null){
+                $resp['code'] = "OK";
+                if($resp['type'] == "own"){
+                    unset($user['user_id']);
+                    unset($user['password']);
+                }
+                elseif($resp['type'] == "user"){
+                    unset($user['user_id']);
+                    unset($user['username']);
+                    unset($user['password']);
+                }
+                $resp['user'] = $user;
+            }
+            else $resp['code'] = "NotFound";
+        }
+        echo json_encode($resp);
+    }
+
     // ROOM
     public function addRoomAction($data, $files){
         $resp = array("code" => "");
