@@ -42,7 +42,7 @@ class Route{
             if(isset($_GET[$routeItem['key']]) && $_GET[$routeItem['key']] == $routeItem['value']){
                 if($routeItem['method'] == 'GET'){
                     $implemented = true;
-                    $this->implementFunction($routeItem['function']);
+                    $this->implementFunction($routeItem['function'], $_GET);
                     break;
                 }
                 if($routeItem['method'] == 'POST'){
