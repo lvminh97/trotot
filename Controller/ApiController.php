@@ -37,7 +37,36 @@ class ApiController extends Controller{
         }
         echo json_encode($resp);
     }
-
+    public function updateUserInfor($data){
+        $resp = array('code' => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        if($this->accountObj->checkLoggedIn($token) == "Role_None") $resp['code'] = "NotAuthorize";
+        else{
+            $user = $this->accountObj->getItemByToken($token);
+            $data['user_id'] = $user['user_id'];
+            if($this->accountObj->updateItem($data) === true){
+                $resp['code'] = "OK";
+            }
+        }
+        echo json_encode($resp);
+    }
+    public function changePassword($data){
+        $resp = array('code' => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        if($this->accountObj->checkLoggedIn($token) == "Role_None") $resp['code'] = "NotAuthorize";
+        else{
+            $user = $this->accountObj->getItemByToken($token);
+            $data['user_id'] = $user['user_id'];
+            if(_hash($data['oldpass']) != $user['password']) $resp['code'] = "WrongPassword";
+            else if(strlen($data['newpass']) < 8) $resp['code'] = "ShortPassword";
+            else if($data['newpass'] != $data['newpass2']) $resp['code'] = "MismatchPassword";
+            else if($this->accountObj->changePassword($data) === true) $resp['code'] = "OK";
+            else $resp['code'] = "Fail";
+        }
+        echo json_encode($resp);
+    }
     // ROOM
     public function addRoomAction($data, $files){
         $resp = array("code" => "");

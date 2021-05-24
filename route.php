@@ -8,8 +8,7 @@
     $route->get("site", "login", "ViewController@getLoginPage");
     $route->post("action", "login", "ActionController@loginAction");
     $route->get("action", "login", "ViewController@getIndex");
-    $route->get("action", "login", "ActionController@logoutAction");
-    
+    $route->get("action", "logout", "ActionController@logoutAction");
     /// VIEW FOR CUSTOMER
     $route->get("site", "room_list", "ViewController@getRoomListForCustomerPage");
     $route->get("site", "post", "ViewController@getPostPage");
@@ -19,6 +18,10 @@
     $route->get("link", "manage-room", "ViewController@getManageRoomPage");
     $route->get("link", "manage-post", "ViewController@getManagePostPage");
 
+    //// ACCOUNT API
+    $route->post("api", "get_user_infor", "ApiController@getUserInfor");
+    $route->post("api", "update_user_infor", "ApiController@updateUserInfor");
+    $route->post("api", "change_password", "ApiController@changePassword");
     //// ROOM API
     $route->post("api", "add_room", "ApiController@addRoomAction");
     $route->post("api", "get_room", "ApiController@getRoomAction");

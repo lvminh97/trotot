@@ -38,10 +38,10 @@ class Account extends DB{
 		return $user;
 	}
 
-	public function checkExist($username){
-		$list = $this->select("account", "*", "username='$username'");
-		return count($list) == 1;
-	}
+	// public function checkExist($username){
+	// 	$list = $this->select("account", "*", "username='$username'");
+	// 	return count($list) == 1;
+	// }
 
 	public function login($username, $password){
 		$check = $this->getList("username='$username' AND password='$password'");
@@ -75,11 +75,14 @@ class Account extends DB{
 						'email' => $email,
 						'mobile' => $mobile,
 						'role' => ($role == "011" ? "Role_Tenant" : "Role_Host"));
-		$this->insert("account", $data);
+		return $this->insert("account", $data);
 	}
 
-	public function updateInfo($user_id, $fullname, $email, $mobile){
-		// $this->db->execute("UPDATE account SET fullname='$fullname', email='$email', mobile='$mobile' WHERE user_id='$user_id'");
+	public function updateItem($data){
+		return $this->update("account", array('fullname' => $data['fullname'],
+												'mobile' => $data['mobile'],
+												'email' => $data['email']),
+										"user_id='{$data['user_id']}'");
 	}
 
 	public function checkUsername($username){
@@ -95,8 +98,8 @@ class Account extends DB{
 			return 0; // OK
 	}
 
-	public function changePassword($user_id, $new_password){
-		$this->update("account", array('password' => $new_password), "user_id='$user_id'");
+	public function changePassword($data){
+		return $this->update("account", array('password' => _hash($data['newpass'])), "user_id='{$data['user_id']}'");
 	}
 
 	public function removeItem($user_id){
