@@ -32,7 +32,8 @@ class Route{
         $function = $_func[1];
         require_once $controller.".php";
         $ctrlObj = new $controller;
-        $ctrlObj->$function($data1, $data2);
+        $resp = $ctrlObj->$function($data1, $data2);
+        if($resp !== null) echo json_encode($resp);
     }
 
     public function process(){

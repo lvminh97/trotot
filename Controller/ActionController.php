@@ -22,7 +22,7 @@ class ActionController extends Controller{
         else{
             $resp['code'] = "Fail";
         }
-        echo json_encode($resp);
+        return $resp;
     }
 
     public function logoutAction(){
@@ -33,7 +33,7 @@ class ActionController extends Controller{
     public function signupAction($data){
         $resp = array();
         // cac lenh kiem tra data
-        if($this->accountObj->checkExist($data['username'])) $resp['code'] = "UsernameExist"; 
+        if($this->accountObj->checkUsernameExist($data['username'])) $resp['code'] = "UsernameExist"; 
         // cac lenh thuc hien insert vao db
         else{
             $this->accountObj->signup($data['username'], 
@@ -44,7 +44,7 @@ class ActionController extends Controller{
                                     $data['role']);
             $resp['code'] = "OK";
         }
-        echo json_encode($resp);
+        return $resp;
     }
 }
 ?>

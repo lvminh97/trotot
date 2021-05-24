@@ -38,10 +38,15 @@ class Account extends DB{
 		return $user;
 	}
 
-	// public function checkExist($username){
-	// 	$list = $this->select("account", "*", "username='$username'");
-	// 	return count($list) == 1;
-	// }
+	public function checkUsernameExist($username){
+		$list = $this->select("account", "*", "username='$username'");
+		return count($list) == 1;
+	}
+
+	public function checkEmailExist($email){
+		$list = $this->select("account", "*", "email='$email'");
+		return count($list) == 1;
+	}
 
 	public function login($username, $password){
 		$check = $this->getList("username='$username' AND password='$password'");

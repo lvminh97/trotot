@@ -35,7 +35,7 @@ class ApiController extends Controller{
             }
             else $resp['code'] = "NotFound";
         }
-        echo json_encode($resp);
+        return $resp;
     }
     public function updateUserInfor($data){
         $resp = array('code' => "");
@@ -49,7 +49,7 @@ class ApiController extends Controller{
                 $resp['code'] = "OK";
             }
         }
-        echo json_encode($resp);
+        return $resp;
     }
     public function changePassword($data){
         $resp = array('code' => "");
@@ -65,7 +65,7 @@ class ApiController extends Controller{
             else if($this->accountObj->changePassword($data) === true) $resp['code'] = "OK";
             else $resp['code'] = "Fail";
         }
-        echo json_encode($resp);
+        return $resp;
     }
     // ROOM
     public function addRoomAction($data, $files){
@@ -80,26 +80,17 @@ class ApiController extends Controller{
             if($this->roomObj->addItem($data, $files) === true) $resp['code'] = "OK";
             else $resp['code'] = "Fail";
         }
-        echo json_encode($resp);
+        return $resp;
     }
     public function getRoomAction($data){
         $resp = array("code" => "");
-        if(isset($data['token'])) $token = $data['token'];
-        else $token = getCookie("tt_tkn");
-        if($this->accountObj->checkLoggedIn($token) != "Role_Host") $resp['code'] = "NotAuthorize";
-        else {
-            $user = $this->accountObj->getItemByToken($token);
-            if($this->roomObj->checkHost($data['id'], $user['user_id']) === true){
-                $room = $this->roomObj->getItem($data['id']);
-                if($room !== null){
-                    $resp["code"] = "OK";
-                    $resp["room"] = $room;
-                }
-                else $resp["code"] = "NotFound";
-            }
-            else $resp['code'] = "NotAllow";
+        $room = $this->roomObj->getItem($data['room_id']);
+        if($room !== null){
+            $resp["code"] = "OK";
+            $resp["room"] = $room;
         }
-        echo json_encode($resp);
+        else $resp["code"] = "NotFound";
+        return $resp;
     }
     public function getRoomListAction($data){
 
@@ -119,7 +110,7 @@ class ApiController extends Controller{
             }
             else $resp["code"] = "NotAllow";
         }
-        echo json_encode($resp);
+        return $resp;
     }
     public function deleteRoomAction($data){
         $resp = array("code" => "");
@@ -136,7 +127,7 @@ class ApiController extends Controller{
             }
             else $resp["code"] = "NotAllow";
         }
-        echo json_encode($resp); 
+        return $resp;
     }
     // POST
     public function addPostAction($data){
@@ -151,26 +142,17 @@ class ApiController extends Controller{
             if($this->postObj->addItem($data) === true) $resp['code'] = "OK";
             else $resp['code'] = "Fail";
         }
-        echo json_encode($resp);
+        return $resp;
     }
     public function getPostAction($data){
-        $resp = array("code" => "");
-        if(isset($data['token'])) $token = $data['token'];
-        else $token = getCookie("tt_tkn");
-        if($this->accountObj->checkLoggedIn($token) != "Role_Host") $resp['code'] = "NotAuthorize";
-        else {
-            $user = $this->accountObj->getItemByToken($token);
-            if($this->postObj->checkAuthor($data['id'], $user['user_id']) === true){
-                $post = $this->postObj->getItem($data['id']);
-                if($post !== null){
-                    $resp['code'] = "OK";
-                    $resp['post'] = $post;
-                }
-                else $resp['code'] = "NotFound";
-            }
-            else $resp['code'] = "NotAllow";
+        $resp = array('code' => "");
+        $post = $this->postObj->getItem($data['post_id']);
+        if($post !== null){
+            $resp['code'] = "OK";
+            $resp['post'] = $post;
         }
-        echo json_encode($resp);
+        else $resp['code'] = "NotFound";
+        return $resp;
     }
     public function getPostListAction($data){
         $resp = array("code" => "");
@@ -180,7 +162,7 @@ class ApiController extends Controller{
         else {
             //
         }
-        echo json_encode($resp);
+        return $resp;
     }
     public function updatePostAction($data){
         $resp = array('code' => "");
@@ -197,7 +179,7 @@ class ApiController extends Controller{
             }
             else $resp['code'] = "NotAllow";
         }
-        echo json_encode($resp);
+        return $resp;
     }
     public function deletePostAction($data){
         $resp = array('code' => "");
@@ -214,7 +196,7 @@ class ApiController extends Controller{
             }
             else $resp['code'] = "NotAllow";
         }
-        echo json_encode($resp);
+        return $resp;
     }
     // TENANT - RENT
     public function rentAction($data){
@@ -229,6 +211,7 @@ class ApiController extends Controller{
             }
             else $resp['code'] = "Fail";
         }
+        return $resp;
     }
 }
 ?>

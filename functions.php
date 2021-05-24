@@ -24,6 +24,16 @@ function getModal($modal, $data = null){
     require_once "View/Modal/$modal.modal.php";
 }
 
+function getController($ctrl, $data1 = null, $data2 = null){
+    $function = explode("@", $ctrl);
+    $controller = $function[0];
+    $function = $function[1];
+    require_once "Controller/".$controller.".php";
+    $ctrlObj = new $controller;
+    $resp = $ctrlObj->$function($data1, $data2);
+    return $resp;
+}
+
 function notice_and_nextpage($mess, $link){
     echo "<html><head>"
         ."<meta charset=\"UTF-8\">"
