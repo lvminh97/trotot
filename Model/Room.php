@@ -87,8 +87,8 @@ class Room extends DB{
 	}
 
 	public function checkAvailable($room_id){
-		$currentTime = date("Y-m-d H:i:s");
-		$tmp = $this->select("tenant", "*", "room_id='$room_id' AND status='approve' AND endtime<'$currentTime'");
+		// $currentTime = date("Y-m-d H:i:s");
+		$tmp = $this->select("tenant", "*", "room_id='$room_id' AND status='renting'");
 		if(count($tmp) > 0) return false;
 		return true;	
 	}

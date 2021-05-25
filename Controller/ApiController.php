@@ -209,7 +209,8 @@ class ApiController extends Controller{
         else $token = getCookie("tt_tkn");
         if($this->accountObj->checkLoggedIn($token) != "Role_Tenant") $resp['code'] = "NotAuthorize";
         else{
-            if($this->roomObj->checkAvailable($data['room_id']) === true){
+            if($this->roomObj->getItem($data['room_id']) === null) $resp['code'] = "NotExistRoom";
+            elseif($this->roomObj->checkAvailable($data['room_id']) === true){
                 $user = $this->accountObj->getItemByToken($token);
                 $data['user_id'] = $user['user_id'];
                 if($this->tenantObj->rent($data) === true){
@@ -218,6 +219,27 @@ class ApiController extends Controller{
                 else $resp['code'] = "Fail";
             }
             else $resp['code'] = "RoomNotAvailable";
+        }
+        return $resp;
+    }
+    public function cancelRentAction($data){
+        $resp = array('code' => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        if($this->accountObj->checkLoggedIn($token) != "Role_Tenant") $resp['code'] = "NotAuthorize";
+        else{
+            $user = $this->accountObj->getItemByToken($token);
+            if($this->roomObj->getItem($data['room_id']) === null) $resp['code'] = "NotExistRoom";
+            else{
+                $checkTenant = $this->tenantObj->getRecentItem($user['user_id'], $data['room_id']);
+                if($checkTenant !== null && $checkTenant['status'] == "renting"){
+                    if($this->tenantObj->cancelRent($user['user_id'], $data['room_id'], $checkTenant['begin_time']) === true)
+                        $resp['code'] = "OK";
+                    else 
+                        $resp['code'] = "Fail";
+                }
+                else $resp['code'] = "NoRent";
+            }
         }
         return $resp;
     }

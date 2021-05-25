@@ -18,58 +18,33 @@ class Tenant extends DB{
 	// 	return $tmp[0];
 	// }
 
-	// status: pending, approve, reject
+	// status: pending, renting, cancel, reject, prevent
 
 	public function rent($data){
 		return $this->insert("tenant", array('user_id' => $data['user_id'],
 												'room_id' => $data['room_id'],
-												'begin_time' => "0000-00-00 00:00:00",
-												'end_time' => "0000-00-00 00:00:00",
+												'begin_time' => "0000-00-00",
+												'end_time' => "9999-12-31",
 												'status' => "pending"));
 	}
 
-	public function updateItem($data, $files){
-		$image = "";
-		if(isset($data["image_name"])){
-			foreach($data["image_name"] as $img){
-				if($image != "") $image .= ";";
-				$image .= $img;
-			}
-		}
-		if(isset($files["image"])){
-			for($i = 0; $i < count($files["image"]["name"]); $i++){
-				if($image != "") $image .= ";";
-				$image .= basename($files["image"]["name"][$i]);
-				move_uploaded_file($files["image"]["tmp_name"][$i], "./Resource/Images/".basename($files["image"]["name"][$i]));
-			}
-		}
-		return $this->update("room", 
-							array("name" => $data["name"],
-									"images" => $image,
-									"area" => $data["area"],
-									"price" => $data["price"],
-									"loc_number" => $data["number"],
-									"loc_alley" => $data["alley"],
-									"loc_street" => $data["street"],
-									"loc_subdistrict" => $data["subdistrict"],
-									"loc_district" => $data["district"],
-									"loc_province" => $data["province"]), 
-							"room_id='{$data['id']}'");
+	public function cancelRent($user_id, $room_id, $begin_time){
+		return $this->update("tenant", array('status' => "cancel"), "user_id='$user_id' AND room_id='$room_id' AND begin_time='$begin_time'");
 	}
 
-	public function deleteItem($room_id){
-		// $room = $this->getItem($room_id);
-		// if($room !== null){
-		// 	$imgList = explode(";", $room["images"]);
-		// 	foreach($imgList as $img){
-		// 		if($img != "") unlink("./Resource/Images/".$img);
-		// 	}
-		// }
-		// return $this->delete("room", "room_id='$room_id'");
+	public function getRecentItem($user_id, $room_id){
+		$tmp = $this->select("tenant", "*", "user_id='$user_id' AND room_id='$room_id'", "begin_time DESC LIMIT 1");
+		if(count($tmp) == 1) return $tmp[0];
+		else return null;
 	}
 
-	public function getListByUser($user_id){
-		// return $this->getList("host='$user_id'", "room_id ASC");
-	}
+	// public function updateItem($data, $files){
+
+	// }
+
+	// public function deleteItem($room_id){
+
+	// }
+
 }
 ?>
