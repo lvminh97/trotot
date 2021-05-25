@@ -92,6 +92,10 @@ class ApiController extends Controller{
         else $resp["code"] = "NotFound";
         return $resp;
     }
+    public function searchRoomAction($data){
+        $resp['code'] = "";
+
+    }
     public function getRoomListAction($data){
 
     }
@@ -205,11 +209,15 @@ class ApiController extends Controller{
         else $token = getCookie("tt_tkn");
         if($this->accountObj->checkLoggedIn($token) != "Role_Tenant") $resp['code'] = "NotAuthorize";
         else{
-            $user = $this->accountObj->getItemByToken($token);
-            if($this->tenantObj->rent($data) === true){
-                $resp['code'] = "OK";
+            if($this->roomObj->checkAvailable($data['room_id']) === true){
+                $user = $this->accountObj->getItemByToken($token);
+                $data['user_id'] = $user['user_id'];
+                if($this->tenantObj->rent($data) === true){
+                    $resp['code'] = "OK";
+                }
+                else $resp['code'] = "Fail";
             }
-            else $resp['code'] = "Fail";
+            else $resp['code'] = "RoomNotAvailable";
         }
         return $resp;
     }

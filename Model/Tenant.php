@@ -18,18 +18,14 @@ class Tenant extends DB{
 	// 	return $tmp[0];
 	// }
 
+	// status: pending, approve, reject
+
 	public function rent($data){
-		return $this->insert("room", array("room_id" => "null",
-											"host" => $data['user_id'],
-											"name" => $data["name"],
-											"price" => $data["price"],
-											"area" => $data["area"],
-											"loc_number" => $data["number"],
-											"loc_alley" => $data["alley"],
-											"loc_street" => $data["street"],
-											"loc_subdistrict" => $data["subdistrict"],
-											"loc_district" => $data["district"],
-											"loc_province" => $data["province"]));
+		return $this->insert("tenant", array('user_id' => $data['user_id'],
+												'room_id' => $data['room_id'],
+												'begin_time' => "0000-00-00 00:00:00",
+												'end_time' => "0000-00-00 00:00:00",
+												'status' => "pending"));
 	}
 
 	public function updateItem($data, $files){

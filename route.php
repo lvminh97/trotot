@@ -34,6 +34,7 @@
     $route->post("api", "get_post_list", "ApiController@getPostListAction");
     $route->post("api", "update_post", "ApiController@updatePostAction");
     $route->post("api", "delete_post", "ApiController@deletePostAction");
-    ////
+    //// TENANT API
+    $route->post("api", "rent", "ApiController@rentAction");
     $route->process();
 ?>
