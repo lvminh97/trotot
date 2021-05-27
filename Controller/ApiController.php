@@ -243,5 +243,36 @@ class ApiController extends Controller{
         }
         return $resp;
     }
+    public function approveRentAction($data){
+        $resp = array('code' => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        if($this->accountObj->checkLoggedIn($token) != "Role_Host") $resp['code'] = "NotAuthorize";
+        else{
+            $user = $this->accountObj->getItemByToken($token);
+            // if()
+        }
+    }
+    public function rejectRentAction($data){
+        $resp = array('code' => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        if($this->accountObj->checkLoggedIn($token) != "Role_Host") $resp['code'] = "NotAuthorize";
+        else{
+            $user = $this->accountObj->getItemByToken($token);
+            // if()
+        }
+    }
+
+    public function preventRentAction($data){
+        $resp = array('code' => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        if($this->accountObj->checkLoggedIn($token) != "Role_Host") $resp['code'] = "NotAuthorize";
+        else{
+            $user = $this->accountObj->getItemByToken($token);
+            // if()
+        }
+    }
 }
 ?>

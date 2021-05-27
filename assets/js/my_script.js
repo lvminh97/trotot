@@ -63,7 +63,7 @@ function signup() {
 		switch (res) {
 			case "OK":
 				alert("Đăng ký thành công. Mời đăng nhập!");
-				location.href = "?site=dangnhap";
+				location.href = "?site=login";
 				break;
 		}
 	});
