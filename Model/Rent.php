@@ -2,7 +2,7 @@
 require_once "functions.php";
 require_once "DB.php";
 
-class Tenant extends DB{
+class Rent extends DB{
 
 	public function __construct(){
 		parent::__construct();
@@ -20,7 +20,7 @@ class Tenant extends DB{
 
 	// status: pending, renting, cancel, reject, prevent
 
-	public function rent($data){
+	public function addItem($data){
 		return $this->insert("tenant", array('user_id' => $data['user_id'],
 												'room_id' => $data['room_id'],
 												'begin_time' => "0000-00-00",
@@ -28,7 +28,7 @@ class Tenant extends DB{
 												'status' => "pending"));
 	}
 
-	public function cancelRent($user_id, $room_id, $begin_time){
+	public function cancel($user_id, $room_id, $begin_time){
 		return $this->update("tenant", array('status' => "cancel"), "user_id='$user_id' AND room_id='$room_id' AND begin_time='$begin_time'");
 	}
 

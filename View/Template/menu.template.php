@@ -5,4 +5,7 @@
     <div class="my-menu-item">
         <a href="./?site=room_list">DANH SÁCH PHÒNG TRỌ</a>
     </div>
+    <div class="my-menu-item">
+        <a href="./?site=room_list">DANH SÁCH PHÒNG TRỌ</a>
+    </div>
 </div>

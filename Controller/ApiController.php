@@ -213,7 +213,7 @@ class ApiController extends Controller{
             elseif($this->roomObj->checkAvailable($data['room_id']) === true){
                 $user = $this->accountObj->getItemByToken($token);
                 $data['user_id'] = $user['user_id'];
-                if($this->tenantObj->rent($data) === true){
+                if($this->rentObj->addItem($data) === true){
                     $resp['code'] = "OK";
                 }
                 else $resp['code'] = "Fail";
@@ -231,9 +231,9 @@ class ApiController extends Controller{
             $user = $this->accountObj->getItemByToken($token);
             if($this->roomObj->getItem($data['room_id']) === null) $resp['code'] = "NotExistRoom";
             else{
-                $checkTenant = $this->tenantObj->getRecentItem($user['user_id'], $data['room_id']);
+                $checkTenant = $this->rentObj->getRecentItem($user['user_id'], $data['room_id']);
                 if($checkTenant !== null && $checkTenant['status'] == "renting"){
-                    if($this->tenantObj->cancelRent($user['user_id'], $data['room_id'], $checkTenant['begin_time']) === true)
+                    if($this->rentObj->cancel($user['user_id'], $data['room_id'], $checkTenant['begin_time']) === true)
                         $resp['code'] = "OK";
                     else 
                         $resp['code'] = "Fail";
@@ -260,7 +260,7 @@ class ApiController extends Controller{
         if($this->accountObj->checkLoggedIn($token) != "Role_Host") $resp['code'] = "NotAuthorize";
         else{
             $user = $this->accountObj->getItemByToken($token);
-            // if()
+            
         }
     }
 
