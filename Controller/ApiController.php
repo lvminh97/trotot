@@ -233,7 +233,7 @@ class ApiController extends Controller{
             else{
                 $checkTenant = $this->rentObj->getRecentItem($user['user_id'], $data['room_id']);
                 if($checkTenant !== null && $checkTenant['status'] == "renting"){
-                    if($this->rentObj->cancel($user['user_id'], $data['room_id'], $checkTenant['begin_time']) === true)
+                    if($this->rentObj->updateStatus($data['rent_id'], "cancel") === true)
                         $resp['code'] = "OK";
                     else 
                         $resp['code'] = "Fail";
