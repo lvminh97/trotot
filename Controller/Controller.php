@@ -5,6 +5,7 @@ require_once "Model/Token.php";
 require_once "Model/Room.php";
 require_once "Model/Post.php";
 require_once "Model/Rent.php";
+require_once "Model/Bill.php";
 
 class Controller{
     protected $accountObj;
@@ -12,6 +13,7 @@ class Controller{
     protected $roomObj;
     protected $postObj;
     protected $rentObj;
+    protected $billObj;
 
     public function __construct(){
         $this->accountObj = new Account;
@@ -19,6 +21,7 @@ class Controller{
         $this->roomObj = new Room;
         $this->postObj = new Post;
         $this->rentObj = new Rent;
+        $this->billObj = new Bill;
         //
         sessionInit();
         setTimeZone();

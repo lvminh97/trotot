@@ -37,9 +37,7 @@
     //// RENT API
     $route->post("api", "rent", "ApiController@rentAction");
     $route->post("api", "cancel_rent", "ApiController@cancelRentAction");
-    $route->post("api", "approve_rent", "ApiController@approveRentAction");
-    $route->post("api", "reject_rent", "ApiController@rejectRentAction");
-    $route->post("api", "prevent_rent", "ApiController@preventRentAction");
+    $route->post("api", "set_rent_status", "ApiController@setRentStatusAction");
 
     $route->process();
 ?>
