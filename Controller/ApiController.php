@@ -295,5 +295,27 @@ class ApiController extends Controller{
         else $resp['code'] = "Fail";
         return $resp;
     }
+    public function createBillAction($data){
+        $resp = array('code' => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        if($this->accountObj->checkLoggedIn($token) != "Role_Host") {
+            $resp['code'] = "NotAuthorize";
+            return $resp;
+        }
+        $user = $this->accountObj->getItemByToken($token);
+
+    }
+    public function getBillAction($data){
+        $resp = array('code' => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        if($this->accountObj->checkLoggedIn($token) != "Role_Host") {
+            $resp['code'] = "NotAuthorize";
+            return $resp;
+        }
+        $user = $this->accountObj->getItemByToken($token);
+        
+    }
 }
 ?>
