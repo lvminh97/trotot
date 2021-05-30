@@ -41,6 +41,12 @@ class Rent extends DB{
 		else return null;
 	}
 
+	public function getTenantId($room_id, $time){
+		$tmp = $this->select("rent", "*", "room_id='$room_id' AND (status='renting' OR status IN ('cancel', 'reject', 'prevent') AND end_time>'$time'");
+		if(count($tmp) == 0) return null;
+		return $tmp[0]['user_id'];
+	}
+
 	public function updateStatus($rent_id, $status){
 		return $this->update("rent", array('status' => "$status"), "rent_id='$rent_id'");
 	}
