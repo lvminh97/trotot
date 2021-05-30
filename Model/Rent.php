@@ -8,16 +8,6 @@ class Rent extends DB{
 		parent::__construct();
 	}
 
-	// public function getList($cond = "1", $order_by = ""){
-	// 	return $this->select("rent", "*", $cond, $order_by);
-	// }
-
-	// public function getItem($room_id){
-	// 	$tmp = $this->select("rent", "*", "room_id='$room_id'");
-	// 	if(count($tmp) == 0) return null;
-	// 	return $tmp[0];
-	// }
-
 	// status: pending, renting, cancel, reject, prevent
 
 	public function addItem($data){
@@ -50,14 +40,6 @@ class Rent extends DB{
 	public function updateStatus($rent_id, $status){
 		return $this->update("rent", array('status' => "$status"), "rent_id='$rent_id'");
 	}
-
-	// public function updateItem($data, $files){
-
-	// }
-
-	// public function deleteItem($room_id){
-
-	// }
 
 }
 ?>

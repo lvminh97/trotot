@@ -222,7 +222,9 @@ class ApiController extends Controller{
             $resp['code'] = "NotExistRoom";
             return $resp;
         }
-        if($this->roomObj->checkAvailable($data['room_id']) === true){
+        $checkAvailable = $this->roomObj->checkAvailable($data['room_id']);
+        // $checkRent
+        if($checkAvailable === true){
             $user = $this->accountObj->getItemByToken($token);
             $data['user_id'] = $user['user_id'];
             if($this->rentObj->addItem($data) === true){
@@ -254,7 +256,7 @@ class ApiController extends Controller{
             return $resp;
         }
         $checkTenant = $this->rentObj->getRecentItem($user['user_id'], $data['room_id']);
-        if($checkTenant !== null && $checkTenant['status'] == "renting"){
+        if($checkTenant !== null && ($checkTenant['status'] == "renting" || $checkTenant['status'] == "pending")){
             if($this->rentObj->updateStatus($data['rent_id'], "cancel") === true)
                 $resp['code'] = "OK";
             else 
@@ -263,7 +265,7 @@ class ApiController extends Controller{
         else $resp['code'] = "NoRent";
         return $resp;
     }
-    /*
+    /* 
     Function: set the status of rent item
     Role: Host
     -----
