@@ -22,14 +22,14 @@ class RentController extends Controller{
             $resp['code'] = "NotAuthorize";
             return $resp;
         }
+        $user = $this->accountObj->getItemByToken($token);
         if($this->roomObj->getItem($data['room_id']) === null) {
             $resp['code'] = "NotExistRoom";
             return $resp;
         }
         $checkAvailable = $this->roomObj->checkAvailable($data['room_id']);
-        // $checkRent
-        if($checkAvailable === true){
-            $user = $this->accountObj->getItemByToken($token);
+        $checkRentRequest = $this->rentObj->checkRentRequest($user['user_id'], $data['room_id']);
+        if($checkAvailable && $checkRentRequest === true){
             $data['user_id'] = $user['user_id'];
             if($this->rentObj->addItem($data) === true){
                 $resp['code'] = "OK";

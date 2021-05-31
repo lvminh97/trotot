@@ -32,10 +32,11 @@ class ViewController extends Controller{
     public function getRoomListForCustomerPage(){
         if($this->accountObj->checkLoggedIn() == "Role_None") $user = null;
         else $user = $this->accountObj->getItemByToken(getCookie("tt_tkn"));
-        // $roomlist = $this->roomObj->getList()
+        $roomList = $this->roomObj->getAvailableList();
+        // $roomLimst = $this->roomObj->getList();
         getView("roomlist", array('title' => "Trọ tốt - Danh sách phòng",
                                     'user' => $user,
-                                    'roomList' => $this->roomObj->getList()));
+                                    'roomList' => $roomList));
         return null;                                
     }
 
