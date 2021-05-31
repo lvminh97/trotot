@@ -5,7 +5,7 @@ class ViewController extends Controller{
     public function __construct(){
         parent::__construct();
     }
-
+    //// COMMON
     public function getIndex(){
         if($this->accountObj->checkLoggedIn() == "Role_None") $user = null;
         else $user = $this->accountObj->getItemByToken(getCookie("tt_tkn"));
@@ -32,9 +32,10 @@ class ViewController extends Controller{
     public function getRoomListForCustomerPage(){
         if($this->accountObj->checkLoggedIn() == "Role_None") $user = null;
         else $user = $this->accountObj->getItemByToken(getCookie("tt_tkn"));
+        // $roomlist = $this->roomObj->getList()
         getView("roomlist", array('title' => "Trọ tốt - Danh sách phòng",
                                     'user' => $user,
-                                    'postList' => $this->postObj->getList()));
+                                    'roomList' => $this->roomObj->getList()));
         return null;                                
     }
 

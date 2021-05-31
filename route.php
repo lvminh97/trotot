@@ -19,28 +19,28 @@
     $route->get("link", "manage-post", "ViewController@getManagePostPage");
 
     //// ACCOUNT API
-    $route->post("api", "get_user_infor", "ApiController@getUserInfor");
-    $route->post("api", "update_user_infor", "ApiController@updateUserInfor");
-    $route->post("api", "change_password", "ApiController@changePassword");
+    $route->post("api", "get_user_infor", "AccountController@getUserInfor");
+    $route->post("api", "update_user_infor", "AccountController@updateUserInfor");
+    $route->post("api", "change_password", "AccountController@changePassword");
     //// ROOM API
-    $route->post("api", "add_room", "ApiController@addRoomAction");
-    $route->get("api", "get_room", "ApiController@getRoomAction");
-    $route->post("api", "get_room_list", "ApiController@getRoomListAction");
-    $route->post("api", "update_room", "ApiController@updateRoomAction");
-    $route->post("api", "delete_room", "ApiController@deleteRoomAction");
+    $route->post("api", "add_room", "RoomController@addRoomAction");
+    $route->get("api", "get_room", "RoomController@getRoomAction");
+    $route->post("api", "get_room_list", "RoomController@getRoomListAction");
+    $route->post("api", "update_room", "RoomController@updateRoomAction");
+    $route->post("api", "delete_room", "RoomController@deleteRoomAction");
     //// POST API
-    $route->post("api", "add_post", "ApiController@addPostAction");
-    $route->get("api", "get_post", "ApiController@getPostAction");
-    $route->post("api", "get_post_list", "ApiController@getPostListAction");
-    $route->post("api", "update_post", "ApiController@updatePostAction");
-    $route->post("api", "delete_post", "ApiController@deletePostAction");
+    $route->post("api", "add_post", "PostController@addPostAction");
+    $route->get("api", "get_post", "PostController@getPostAction");
+    $route->post("api", "get_post_list", "PostController@getPostListAction");
+    $route->post("api", "update_post", "PostController@updatePostAction");
+    $route->post("api", "delete_post", "PostController@deletePostAction");
     //// RENT API
-    $route->post("api", "rent", "ApiController@rentAction");
-    $route->post("api", "cancel_rent", "ApiController@cancelRentAction");
-    $route->post("api", "set_rent_status", "ApiController@setRentStatusAction");
+    $route->post("api", "rent", "RentController@rentAction");
+    $route->post("api", "cancel_rent", "RentController@cancelRentAction");
+    $route->post("api", "set_rent_status", "RentController@setRentStatusAction");
     //// BILL API
-    $route->post("api", "create_bill", "ApiController@createBillAction");
-    $route->post("api", "get_bill", "ApiController@getBillAction");
+    $route->post("api", "create_bill", "BillController@createBillAction");
+    $route->post("api", "get_bill", "BillController@getBillAction");
 
     $route->process();
 ?>
