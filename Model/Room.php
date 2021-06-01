@@ -13,7 +13,6 @@ class Room extends DB{
 	}
 
 	public function getAvailableList(){
-		// return $this->select("room JOIN rent", "*", "rent.status!='renting'", "room.room_id DESC", "room.room_id");
 		return $this->select("room", "*", "room_id NOT IN (SELECT room_id FROM rent WHERE status='renting')");
 	}
 

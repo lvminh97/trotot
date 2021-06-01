@@ -11,6 +11,7 @@
     $route->get("action", "logout", "ActionController@logoutAction");
     /// VIEW FOR CUSTOMER
     $route->get("site", "room_list", "ViewController@getRoomListForCustomerPage");
+    $route->get("site", "room", "ViewController@getRoomPage");
     $route->get("site", "post", "ViewController@getPostPage");
     $route->get("site", "my_room", "ViewController@getMyRoomManagePage");
 

@@ -40,6 +40,12 @@ class ViewController extends Controller{
         return null;                                
     }
 
+    public function getRoomPage($data){
+        if($this->accountObj->checkLoggedIn() == "Role_None") $user = null;
+        else $user = $this->accountObj->getItemByToken(getCookie("tt_tkn"));
+        
+    }
+
     //// HOST
     public function getHostHomePage(){
         if($this->accountObj->checkLoggedIn() != "Role_Host") return;

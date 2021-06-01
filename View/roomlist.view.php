@@ -6,12 +6,23 @@
         <?php getTemplate("topbar", $viewParams) ?>
         <?php getTemplate("menu", $viewParams) ?>
         <div class="row" style="min-height: 1000px; margin-top: 100px; margin-bottom: 60px;">
-        <?php 
-        foreach($viewParams['roomList'] as $post){ ?>
-            <div class="col-xl-6 col-lg-6 col-md-6 row">
-
+            <div class="col-xl-9 col-lg-9 col-md-9">
+            <?php 
+            foreach($viewParams['roomList'] as $room){ ?>
+                <div class="room-item-row" style="margin-top: 20px; margin-bottom: 20px;">
+                    <a href="?site=room&id=1" class="title"><?php echo $room['name'] ?></a>
+                    <br>
+                    <span>Địa chỉ: <?php echo getFullAddress($room) ?></span>
+                </div>
+            <?php
+            } ?>
             </div>
-        <?php
-        } ?>
+            <div class="col-xl-3 col-lg-3 col-md-3">
+                Tìm kiếm phòng
+                <div class="form-group">
+                    <label>Tỉnh/Thành phố</label>
+                    <input type="text" class="form-control">
+                </div>
+            </div>
         </div>
 <?php getTemplate("footer", $viewParams) ?>
