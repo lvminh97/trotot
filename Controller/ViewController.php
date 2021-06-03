@@ -33,7 +33,6 @@ class ViewController extends Controller{
         if($this->accountObj->checkLoggedIn() == "Role_None") $user = null;
         else $user = $this->accountObj->getItemByToken(getCookie("tt_tkn"));
         $roomList = $this->roomObj->getAvailableList();
-        // $roomLimst = $this->roomObj->getList();
         getView("roomlist", array('title' => "Trọ tốt - Danh sách phòng",
                                     'user' => $user,
                                     'roomList' => $roomList));
@@ -43,7 +42,18 @@ class ViewController extends Controller{
     public function getRoomPage($data){
         if($this->accountObj->checkLoggedIn() == "Role_None") $user = null;
         else $user = $this->accountObj->getItemByToken(getCookie("tt_tkn"));
-        
+        $room = $this->roomObj->getItem($data['id']);
+        $post = $this->postObj->getItemByRoom($room['room_id']);
+        getView("room", array('title' => "Trọ tốt - Xem phòng",
+                                'user' => $user,
+                                'room' => $room,
+                                'post' => $post));
+    }
+
+    public function getMyRoomManagePage($data){
+        if($this->accountObj->checkLoggedIn() != "Role_Tenant") return null;
+        else $user = $this->accountObj->getItemByToken(getCookie("tt_tkn"));
+
     }
 
     //// HOST

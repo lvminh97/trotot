@@ -10,7 +10,7 @@
             <?php 
             foreach($viewParams['roomList'] as $room){ ?>
                 <div class="room-item-row" style="margin-top: 20px; margin-bottom: 20px;">
-                    <a href="?site=room&id=1" class="title"><?php echo $room['name'] ?></a>
+                    <a href="?site=room&id=<?php echo $room['room_id'] ?>" class="title"><?php echo $room['name'] ?></a>
                     <br>
                     <span>Địa chỉ: <?php echo getFullAddress($room) ?></span>
                 </div>
