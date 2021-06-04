@@ -10337,3 +10337,10 @@ img.imgChooserBg {
     width: 90%;
     height: 90%;
 }
+
+.room-item{
+    padding-top: 20px; 
+    padding-bottom: 20px;
+    border-top: grey solid 2px;
+    /* border-bottom: grey solid 1px; */
+}

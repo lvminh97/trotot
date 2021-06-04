@@ -13,7 +13,11 @@ class Room extends DB{
 	}
 
 	public function getAvailableList(){
-		return $this->select("room", "*", "room_id NOT IN (SELECT room_id FROM rent WHERE status='renting')");
+		return $this->select("room JOIN post", 
+								"*", 
+								"room.room_id NOT IN (SELECT room_id FROM rent WHERE status='renting') AND room.room_id=post.room_id AND post.approval='yes'",
+								"post.post_id DESC",
+								"room.room_id");
 	}
 
 	public function getItem($room_id){
