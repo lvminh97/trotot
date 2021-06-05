@@ -10344,3 +10344,25 @@ img.imgChooserBg {
     border-top: grey solid 2px;
     /* border-bottom: grey solid 1px; */
 }
+.room-item .title{
+    font-size: 20px;
+    font-weight: bolder;
+    text-decoration: none;
+}
+.room-item .area{
+    margin-top: 18px;
+    margin-bottom: 18px;
+}
+.room-item .address{
+    margin-bottom: 10px;
+}
+
+.room-detail .post-title{
+    font-size: 24px;
+    font-weight: bolder;
+    color: blue;
+    margin-bottom: 20px;
+}
+.room-detail .room-info{
+    padding-right: 40px;
+}

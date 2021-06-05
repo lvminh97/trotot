@@ -315,8 +315,8 @@ function addPost() {
 
 function loadPost(obj) {
 	var fd = new FormData();
-	fd.append("id", obj.parentElement.parentElement.id);
-	postRequest("?api=get_post", fd, function (resp) {
+	var id = obj.parentElement.parentElement.id;
+	getRequest("?api=get_post&id=" + id, function (resp) {
 		// console.log(resp);
 		var data = JSON.parse(resp);
 		if (data['code'] == "OK") {

@@ -8,7 +8,7 @@ class Rent extends DB{
 		parent::__construct();
 	}
 
-	// status: pending, renting, cancel, reject, prevent
+	// status: pending, renting, cancel, reject, prevent, repair
 
 	public function addItem($data){
 		return $this->insert("rent", array('rent_id' => "null",
