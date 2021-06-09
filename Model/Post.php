@@ -18,12 +18,6 @@ class Post extends DB{
 		return $tmp[0];
 	}
 
-	public function getItemByRoom($room_id){
-		$tmp = $this->select("post", "*", "room_id='$room_id'", "post_id DESC LIMIT 1");
-		if(count($tmp) == 0) return null;
-		return $tmp[0];
-	}
-
 	public function addItem($data){
 		return $this->insert("post", array("post_id" => "null",
 											"author" => $data['user_id'],

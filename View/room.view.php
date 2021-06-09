@@ -9,10 +9,13 @@
             <div class="room-detail row" >
                 <div class="col-md-12" style="border: gray solid 1px; padding: 20px;">
                     <div class="post-title">
-                        <?php echo $viewParams['post']['title'] ?>
+                        <?php echo $viewParams['room']['title'] ?>
+                    </div>
+                    <div class="post-time">
+                        <?php echo date_format(date_create($viewParams['room']['time']), "d/m/Y H:i") ?>
                     </div>
                     <div class="post-content">
-                    <?php echo $viewParams['post']['content'] ?>
+                    <?php echo $viewParams['room']['content'] ?>
                     </div>
                 </div>
                 <div class="col-md-12" style="margin-top: 50px;">
@@ -68,10 +71,6 @@
                             <tr>
                                 <td>Liên hệ</td>
                                 <td><a href="tel:<?php echo $viewParams['host']['mobile']?>"><?php echo $viewParams['host']['mobile'] ?></td>
-                            </tr>
-                            <tr>
-                                <td>Ngày cập nhật</td>
-                                <td><?php echo date_format(date_create($viewParams['post']['time']), "d/m/Y H:i") ?></td>
                             </tr>
                         </tbody>
                     </table>

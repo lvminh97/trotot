@@ -10361,6 +10361,10 @@ img.imgChooserBg {
     font-size: 24px;
     font-weight: bolder;
     color: blue;
+    margin-bottom: 8px;
+}
+.room-detail .post-time {
+    font-size: 16px;
     margin-bottom: 20px;
 }
 .room-detail .room-info{

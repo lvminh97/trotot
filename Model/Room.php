@@ -26,6 +26,12 @@ class Room extends DB{
 		return $tmp[0];
 	}
 
+	public function getItemWithPost($room_id){
+		$tmp = $this->select("room JOIN post", "*", "room.room_id='$room_id' AND room.room_id=post.room_id AND post.approval='yes'", "post.post_id DESC LIMIT 1");
+		if(count($tmp) == 0) return null;
+		return $tmp[0];
+	}
+
 	public function addItem($data, $files){
 		$image = "";
 		if(isset($files["image"])){

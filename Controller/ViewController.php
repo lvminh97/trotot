@@ -42,14 +42,12 @@ class ViewController extends Controller{
     public function getRoomPage($data){
         if($this->accountObj->checkLoggedIn() == "Role_None") $user = null;
         else $user = $this->accountObj->getItemByToken(getCookie("tt_tkn"));
-        $room = $this->roomObj->getItem($data['id']);
-        $post = $this->postObj->getItemByRoom($room['room_id']);
+        $room = $this->roomObj->getItemWithPost($data['id']);
         $host = getController("AccountController@getUserInfor", array('token' => getCookie("tt_tkn"), 'user_id' => $room['host']))['user'];
         getView("room", array('title' => "Trọ tốt - Xem phòng",
                                 'user' => $user,
                                 'room' => $room,
-                                'host' => $host,
-                                'post' => $post));
+                                'host' => $host));
     }
 
     public function getMyRoomManagePage($data){
