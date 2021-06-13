@@ -539,7 +539,7 @@ pre code {
 
 @media (min-width: 1600px) {
     .container {
-        max-width: 1300px;
+        max-width: 1400px;
     }
 }
 
@@ -10366,6 +10366,13 @@ img.imgChooserBg {
 .room-detail .post-time {
     font-size: 16px;
     margin-bottom: 20px;
+}
+.room-detail .room-image-list{
+    height: 700px;
+}
+.room-detail .room-image-list .room-image{
+    height: 700px;
+    width: auto;
 }
 .room-detail .room-info{
     padding-right: 40px;

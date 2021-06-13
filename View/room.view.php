@@ -6,21 +6,23 @@
         <?php getTemplate("topbar", $viewParams) ?>
         <?php getTemplate("menu", $viewParams) ?>
         <div style="min-height: 1000px; margin-top: 100px; margin-bottom: 60px;">
-            <div class="room-detail row" >
-                <div class="col-md-12" style="border: gray solid 1px; padding: 20px;">
-                    <div class="post-title">
-                        <?php echo $viewParams['room']['title'] ?>
-                    </div>
-                    <div class="post-time">
-                        <?php echo date_format(date_create($viewParams['room']['time']), "d/m/Y H:i") ?>
-                    </div>
-                    <div class="post-content">
-                    <?php echo $viewParams['room']['content'] ?>
+            <div class="room-detail row">
+                <div class="col-md-12">
+                    <div style="margin: 0 50px 0 50px; border: gray solid 1px; padding: 20px;">
+                        <div class="post-title">
+                            <?php echo $viewParams['room']['title'] ?>
+                        </div>
+                        <div class="post-time">
+                            <?php echo date_format(date_create($viewParams['room']['time']), "d/m/Y H:i") ?>
+                        </div>
+                        <div class="post-content">
+                        <?php echo $viewParams['room']['content'] ?>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-12" style="margin-top: 50px;">
                 <?php $images = convertToListImage($viewParams['room']['images']); ?>
-                    <div id="carouselExampleControls" class="carousel slide top-banner" data-ride="carousel">
+                    <div id="carouselExampleControls" class="carousel slide room-image-list" data-ride="carousel">
                         <ol class="carousel-indicators">
                         <?php 
                             for($i = 0; $i < count($images); $i++){ ?>
@@ -33,7 +35,7 @@
                             $i = 0;
                             foreach($images as $image) { ?>
                             <div class="carousel-item <?php echo ($i == "0" ? "active" : "") ?>" style="text-align: center;">
-                                <img src="<?php echo $image ?>" class="top-banner-item">
+                                <img src="<?php echo $image ?>" class="room-image">
                             </div>
                         <?php
                             $i++; 
@@ -49,11 +51,11 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-md-12 room-info">
+                <div class="col-md-12 room-info" style="padding: 0 50px 0 50px;">
                     <table class="table table-striped" style="margin-top: 20px;">
                         <tbody>
                             <tr>
-                                <td width="20%">Địa chỉ</td>
+                                <td width="35%">Địa chỉ</td>
                                 <td><?php echo getFullAddress($viewParams['room']) ?></td>
                             </tr>
                             <tr>
@@ -68,12 +70,12 @@
                                 <td>Chủ trọ</td>
                                 <td><?php echo $viewParams['host']['fullname'] ?></td>
                             </tr>
-                            <tr>
-                                <td>Liên hệ</td>
-                                <td><a href="tel:<?php echo $viewParams['host']['mobile']?>"><?php echo $viewParams['host']['mobile'] ?></td>
-                            </tr>
                         </tbody>
                     </table>
+                </div>
+                <div class="col-md-12" style="padding: 30px 50px 0 50px; text-align: center;">
+                    <a href="tel:<?php echo $viewParams['host']['mobile'] ?>"><button class="btn btn-success" style="width: 200px;"><i class="fa fa-phone-alt"></i> <?php echo $viewParams['host']['mobile'] ?></button></a>
+                    <button class="btn btn-warning" style="width: 200px; margin-left: 100px;" onclick="rentRequest()">Thuê ngay</button>
                 </div>
             </div>
         </div>

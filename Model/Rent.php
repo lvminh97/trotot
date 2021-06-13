@@ -11,10 +11,11 @@ class Rent extends DB{
 	// status: pending, renting, cancel, reject, prevent, repair
 
 	public function addItem($data){
+		$time = date("Y-m-d H:i:s");
 		return $this->insert("rent", array('rent_id' => "null",
 											'user_id' => $data['user_id'],
 											'room_id' => $data['room_id'],
-											'begin_time' => "0000-00-00",
+											'begin_time' => $time,
 											'end_time' => "9999-12-31",
 											'status' => "pending"));
 	}
