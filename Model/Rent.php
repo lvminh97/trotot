@@ -8,7 +8,7 @@ class Rent extends DB{
 		parent::__construct();
 	}
 
-	// status: pending, renting, cancel, reject, prevent, repair
+	// status: pending, renting, cancel, return, reject, prevent, repair
 
 	public function addItem($data){
 		$time = date("Y-m-d H:i:s");

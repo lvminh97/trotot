@@ -11,14 +11,28 @@
             </div> -->
             <div class="form-inline">
                 <label>Chọn danh sách phòng: </label>
-                <select class="form-control" style="margin-left: 40px;" onchange="roomTypeFilter(this)">
+                <select class="form-control" style="margin-left: 40px;" onchange="roomTypeFilter(this.value)">
                     <option value="0">Đang thuê</option>
                     <option value="1">Đã từng thuê</option>
                     <option value="2">Đang gửi yêu cầu thuê</option>
                 </select>
             </div>
-            <div id="my-room-list-item">
-
+            <div style="margin-top: 60px;">
+                <div class="my-room-item-renting">
+                    <div>Phòng 1 - Số 35, ngõ 176, Lê Trọng Tấn</div>
+                </div>
+                <div class="my-room-item-renting">
+                    <div>Phòng 2 - Số 35, ngõ 176, Lê Trọng Tấn</div>
+                </div>
+                <div class="my-room-item-return">
+                    <div>Phòng 3 - Số 35, ngõ 176, Lê Trọng Tấn</div>
+                </div>
+                <div class="my-room-item-return">
+                    <div>Phòng 4 - Số 35, ngõ 176, Lê Trọng Tấn</div>
+                </div>
+                <div class="my-room-item-pending">
+                    <div>Phòng 5 - Số 35, ngõ 176, Lê Trọng Tấn</div>
+                </div>
             </div>
         <?php 
         // print_r($viewParams['roomList']);

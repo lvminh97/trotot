@@ -371,3 +371,7 @@ function rentRequest(){
 		// if OK => alert "Send request successful"
 	});
 }
+
+function roomTypeFilter(type){
+
+}
