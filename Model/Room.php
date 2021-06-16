@@ -112,7 +112,7 @@ class Room extends DB{
 	}
 
 	public function getListByTenant($user_id){
-		return $this->select("room JOIN rent", "*", "room.room_id=rent.room_id AND rent.user_id='$user_id'", "rent.begin_time DESC");
+		return $this->select("room JOIN rent", "*", "room.room_id=rent.room_id AND rent.user_id='$user_id' AND rent.status IN ('renting', 'pending', 'return')", "rent.begin_time DESC");
 	}
 }
 ?>

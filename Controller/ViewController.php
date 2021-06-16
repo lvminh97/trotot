@@ -61,6 +61,12 @@ class ViewController extends Controller{
         return null;
     }
 
+    public function getMyRoomDetailPage($data){
+        if($this->accountObj->checkLoggedIn() != "Role_Tenant") return null;
+        else $user = $this->accountObj->getItemByToken(getCookie("tt_tkn"));
+        // $room = $this->roomObj->
+    }
+
     //// HOST
     public function getHostHomePage(){
         if($this->accountObj->checkLoggedIn() != "Role_Host") return;

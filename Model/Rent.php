@@ -8,7 +8,14 @@ class Rent extends DB{
 		parent::__construct();
 	}
 
-	// status: pending, renting, cancel, return, reject, prevent, repair
+	// status: 
+	// - pending: gui request va cho phe duyet 
+	// - renting: duoc chap nhan request va dang thue phong do 
+	// - deny: tu choi yeu cau thue phong
+	// - return: tra phong
+	// - reject: duoi khoi phong
+	// - block: cam thue phong 
+	// - repair: dang sua chua phong
 
 	public function addItem($data){
 		$time = date("Y-m-d H:i:s");
