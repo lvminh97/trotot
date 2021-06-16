@@ -17,21 +17,12 @@
                     <option value="2">Đang gửi yêu cầu thuê</option>
                 </select>
             </div>
-            <div style="margin-top: 60px;">
+            <div id="my-room-list" style="margin-top: 60px;">
                 <div class="my-room-item-renting">
-                    <div>Phòng 1 - Số 35, ngõ 176, Lê Trọng Tấn</div>
-                </div>
-                <div class="my-room-item-renting">
-                    <div>Phòng 2 - Số 35, ngõ 176, Lê Trọng Tấn</div>
-                </div>
-                <div class="my-room-item-return">
-                    <div>Phòng 3 - Số 35, ngõ 176, Lê Trọng Tấn</div>
-                </div>
-                <div class="my-room-item-return">
-                    <div>Phòng 4 - Số 35, ngõ 176, Lê Trọng Tấn</div>
-                </div>
-                <div class="my-room-item-pending">
-                    <div>Phòng 5 - Số 35, ngõ 176, Lê Trọng Tấn</div>
+                    <div class="my-room-item-title"><a href="?site=my_room_detail&id=1">Phòng 1 - Số 35, ngõ 176, Lê Trọng Tấn</a></div>
+                    <div>
+                        <span>Tình trạng: </span><span>Đang thuê</span>
+                    </div>
                 </div>
             </div>
         <?php 

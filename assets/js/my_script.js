@@ -373,5 +373,13 @@ function rentRequest(){
 }
 
 function roomTypeFilter(type){
-
+	var roomList = getById('my-room-list').children;
+	for(var i = 0; i < roomList.length; i++){
+		if(type == "0" && roomList[i].className == "my-room-item-renting" ||
+		type == "1" && roomList[i].className == "my-room-item-return" ||
+		type == "2" && roomList[i].className == "my-room-item-pending"){
+			roomList[i].style.display = "block";
+		}
+		else roomList[i].style.display = "none";
+	}
 }

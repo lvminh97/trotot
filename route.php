@@ -14,6 +14,7 @@
     $route->get("site", "room", "ViewController@getRoomPage");
     $route->get("site", "post", "ViewController@getPostPage");
     $route->get("site", "my_room", "ViewController@getMyRoomManagePage");
+    $route->get("site", "my_room_detail", "ViewController@getMyRoomDetailPage");
 
     /// VIEW FOR HOST
     $route->get("link", "manage-home", "ViewController@getHostHomePage");
