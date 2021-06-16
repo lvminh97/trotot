@@ -42,18 +42,29 @@ class ViewController extends Controller{
     public function getRoomPage($data){
         if($this->accountObj->checkLoggedIn() == "Role_None") $user = null;
         else $user = $this->accountObj->getItemByToken(getCookie("tt_tkn"));
-        $room = $this->roomObj->getItem($data['id']);
-        $post = $this->postObj->getItemByRoom($room['room_id']);
+        $room = $this->roomObj->getItemWithPost($data['id']);
+        $host = getController("AccountController@getUserInfor", array('token' => getCookie("tt_tkn"), 'user_id' => $room['host']))['user'];
         getView("room", array('title' => "Trọ tốt - Xem phòng",
                                 'user' => $user,
                                 'room' => $room,
-                                'post' => $post));
+                                'host' => $host));
+        return null;
     }
 
     public function getMyRoomManagePage($data){
         if($this->accountObj->checkLoggedIn() != "Role_Tenant") return null;
         else $user = $this->accountObj->getItemByToken(getCookie("tt_tkn"));
+        $roomList = $this->roomObj->getListByTenant($user['user_id']);
+        getView("myroom", array('title' => 'Trọ tốt - Phòng của tôi',
+                                'user' => $user,
+                                'roomList' => $roomList));
+        return null;
+    }
 
+    public function getMyRoomDetailPage($data){
+        if($this->accountObj->checkLoggedIn() != "Role_Tenant") return null;
+        else $user = $this->accountObj->getItemByToken(getCookie("tt_tkn"));
+        // $room = $this->roomObj->
     }
 
     //// HOST
@@ -73,7 +84,7 @@ class ViewController extends Controller{
             $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
             getView("room.manage", array('title' => "Trọ Tốt - Manage",
                                             'user' => $user,
-                                            'roomList' => $this->roomObj->getListByUser($user['user_id'])));
+                                            'roomList' => $this->roomObj->getListByHost($user['user_id'])));
         }
         return null;
     }
@@ -86,7 +97,7 @@ class ViewController extends Controller{
             $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
             getView("post.manage", array('title' => "Trọ Tốt - Manage",
                                             'user' => $user,
-                                            'roomList' => $this->roomObj->getListByUser($user['user_id']),
+                                            'roomList' => $this->roomObj->getListByHost($user['user_id']),
                                             'postList' => $this->postObj->getListByUser($user['user_id'])));
         }
         return null;

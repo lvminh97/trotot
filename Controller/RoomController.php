@@ -24,7 +24,7 @@ class RoomController extends Controller{
 
     public function getRoomAction($data){
         $resp = array("code" => "");
-        $room = $this->roomObj->getItem($data['room_id']);
+        $room = $this->roomObj->getItem($data['id']);
         if($room !== null){
             $resp["code"] = "OK";
             $resp["room"] = $room;

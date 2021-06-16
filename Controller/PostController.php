@@ -24,7 +24,7 @@ class PostController extends Controller{
     
     public function getPostAction($data){
         $resp = array('code' => "");
-        $post = $this->postObj->getItem($data['post_id']);
+        $post = $this->postObj->getItem($data['id']);
         if($post !== null){
             $resp['code'] = "OK";
             $resp['post'] = $post;

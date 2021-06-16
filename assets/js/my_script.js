@@ -207,9 +207,8 @@ function addRoom() {
 }
 
 function loadRoom(obj) {
-	var fd = new FormData();
-	fd.append("id", obj.parentElement.parentElement.id);
-	postRequest("?api=get_room", fd, function (resp) {
+	var id = obj.parentElement.parentElement.id;
+	getRequest("?api=get_room&id=" + id, function (resp) {
 		// console.log(resp);
 		var data = JSON.parse(resp);
 		if (data['code'] == "OK") {
@@ -315,8 +314,8 @@ function addPost() {
 
 function loadPost(obj) {
 	var fd = new FormData();
-	fd.append("id", obj.parentElement.parentElement.id);
-	postRequest("?api=get_post", fd, function (resp) {
+	var id = obj.parentElement.parentElement.id;
+	getRequest("?api=get_post&id=" + id, function (resp) {
 		// console.log(resp);
 		var data = JSON.parse(resp);
 		if (data['code'] == "OK") {
@@ -357,4 +356,30 @@ function deletePost(obj) {
 			window.location.reload(true);
 		}
 	})
+}
+
+function rentRequest(){
+	var cf = confirm("Bạn muốn thuê phòng này?");
+	if(!cf) return;
+	var fd = new FormData();
+	fd.append("room_id", getUrlVars()['id']);
+	postRequest("?api=rent", fd, function(resp){
+		console.log(resp);
+		// if not log in => alert "require log in"
+		// if sent request before => alert "can not send request twice"
+		// if can not rent => alert "can not rent"
+		// if OK => alert "Send request successful"
+	});
+}
+
+function roomTypeFilter(type){
+	var roomList = getById('my-room-list').children;
+	for(var i = 0; i < roomList.length; i++){
+		if(type == "0" && roomList[i].className == "my-room-item-renting" ||
+		type == "1" && roomList[i].className == "my-room-item-return" ||
+		type == "2" && roomList[i].className == "my-room-item-pending"){
+			roomList[i].style.display = "block";
+		}
+		else roomList[i].style.display = "none";
+	}
 }

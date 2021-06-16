@@ -8,13 +8,21 @@ class Rent extends DB{
 		parent::__construct();
 	}
 
-	// status: pending, renting, cancel, reject, prevent
+	// status: 
+	// - pending: gui request va cho phe duyet 
+	// - renting: duoc chap nhan request va dang thue phong do 
+	// - deny: tu choi yeu cau thue phong
+	// - return: tra phong
+	// - reject: duoi khoi phong
+	// - block: cam thue phong 
+	// - repair: dang sua chua phong
 
 	public function addItem($data){
+		$time = date("Y-m-d H:i:s");
 		return $this->insert("rent", array('rent_id' => "null",
 											'user_id' => $data['user_id'],
 											'room_id' => $data['room_id'],
-											'begin_time' => "0000-00-00",
+											'begin_time' => $time,
 											'end_time' => "9999-12-31",
 											'status' => "pending"));
 	}

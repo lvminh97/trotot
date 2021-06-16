@@ -26,6 +26,12 @@ class Room extends DB{
 		return $tmp[0];
 	}
 
+	public function getItemWithPost($room_id){
+		$tmp = $this->select("room JOIN post", "*", "room.room_id='$room_id' AND room.room_id=post.room_id AND post.approval='yes'", "post.post_id DESC LIMIT 1");
+		if(count($tmp) == 0) return null;
+		return $tmp[0];
+	}
+
 	public function addItem($data, $files){
 		$image = "";
 		if(isset($files["image"])){
@@ -96,13 +102,17 @@ class Room extends DB{
 
 	public function checkAvailable($room_id){
 		// $currentTime = date("Y-m-d H:i:s");
-		$tmp = $this->select("tenant", "*", "room_id='$room_id' AND status='renting'");
+		$tmp = $this->select("rent", "*", "room_id='$room_id' AND status='renting'");
 		if(count($tmp) > 0) return false;
 		return true;	
 	}
 
-	public function getListByUser($user_id){
+	public function getListByHost($user_id){
 		return $this->getList("host='$user_id'", "room_id ASC");
+	}
+
+	public function getListByTenant($user_id){
+		return $this->select("room JOIN rent", "*", "room.room_id=rent.room_id AND rent.user_id='$user_id' AND rent.status IN ('renting', 'pending', 'return')", "rent.begin_time DESC");
 	}
 }
 ?>
