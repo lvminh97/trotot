@@ -18,15 +18,23 @@
                 </select>
             </div>
             <div id="my-room-list" style="margin-top: 60px;">
-                <div class="my-room-item-renting">
-                    <div class="my-room-item-title"><a href="?site=my_room_detail&id=1">Phòng 1 - Số 35, ngõ 176, Lê Trọng Tấn</a></div>
+            <?php 
+            foreach($viewParams['roomList'] as $room) { 
+            if($room['status'] == "renting") $class = "my-room-item-renting";
+            elseif($room['status'] == "return") $class = "my-room-item-return";
+            elseif($room['status'] == "pending") $class = "my-room-item-pending";
+            ?>
+                <div class="<?php echo $class ?>">
+                    <div class="my-room-item-title"><a href="?site=my_room_detail&id=<?php echo $room['room_id'] ?>">
+                        <?php echo $room['name'] ?> - <?php echo getFullAddress($room) ?></a>
+                    </div>
                     <div>
                         <span>Tình trạng: </span><span>Đang thuê</span>
                     </div>
                 </div>
+            <?php 
+            } ?>
             </div>
-        <?php 
-        // print_r($viewParams['roomList']);
-        ?>
+            <script>roomTypeFilter(0)</script>
         </div>
 <?php getTemplate("footer", $viewParams) ?>
