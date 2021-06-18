@@ -26,12 +26,27 @@
             } ?>
             </div>
             <div class="col-xl-1 col-lg-1 col-md-1"></div>
-            <div class="col-xl-3 col-lg-3 col-md-3">
-                Tìm kiếm phòng
-                <div class="form-group">
+            <div class="col-xl-3 col-lg-3 col-md-3 search-form">
+                <div style="font-size: 20px; font-weight: bolder; text-align: center;">
+                    Tìm kiếm phòng
+                </div>
+                <div class="form-group" style="margin-top: 30px;">
                     <label>Tỉnh/Thành phố</label>
                     <input type="text" class="form-control">
                 </div>
+                <div class="form-group" style="margin-top: 30px;">
+                    <label>Quận/Huyện</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="form-group" style="margin-top: 30px;">
+                    <label>Phường/Xã</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="form-group" style="margin-top: 30px;">
+                    <label>Đường/Phố</label>
+                    <input type="text" class="form-control">
+                </div>
+                <button class="btn btn-danger btn-block"><i class="fa fa-search"></i> Tìm kiếm</button>
             </div>
         </div>
 <?php getTemplate("footer", $viewParams) ?>

@@ -23,13 +23,19 @@
             if($room['status'] == "renting") $class = "my-room-item-renting";
             elseif($room['status'] == "return") $class = "my-room-item-return";
             elseif($room['status'] == "pending") $class = "my-room-item-pending";
+            else continue;
             ?>
                 <div class="<?php echo $class ?>">
                     <div class="my-room-item-title"><a href="?site=my_room_detail&id=<?php echo $room['room_id'] ?>">
                         <?php echo $room['name'] ?> - <?php echo getFullAddress($room) ?></a>
                     </div>
                     <div>
-                        <span>Tình trạng: </span><span>Đang thuê</span>
+                    <?php
+                        $status = array('renting' => "Đang thuê",
+                                        'return' => "Đã trả phòng",
+                                        'pending' => "Đang chờ phê duyệt");    
+                    ?>
+                        <span>Tình trạng: </span><span><?php echo $status[$room['status']] ?></span>
                     </div>
                 </div>
             <?php 

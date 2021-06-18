@@ -8,4 +8,7 @@
     <div class="my-menu-item">
         <a href="./?site=my_room">PHÒNG CỦA TÔI</a>
     </div>
+    <div class="my-menu-item">
+        <a href="./?link=manage-home">DÀNH CHO CHỦ TRỌ</a>
+    </div>
 </div>

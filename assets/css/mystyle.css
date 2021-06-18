@@ -10338,47 +10338,63 @@ img.imgChooserBg {
     height: 90%;
 }
 
-.room-item{
-    padding-top: 20px; 
+.search-form {
+    padding-top: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: #02503f;
+    color: #fff;
+    border-radius: 10px;
+}
+
+.room-item {
+    padding-top: 20px;
     padding-bottom: 20px;
     border-top: grey solid 2px;
     /* border-bottom: grey solid 1px; */
 }
-.room-item .title{
+
+.room-item .title {
     font-size: 20px;
     font-weight: bolder;
     text-decoration: none;
 }
-.room-item .area{
+
+.room-item .area {
     margin-top: 18px;
     margin-bottom: 18px;
 }
-.room-item .address{
+
+.room-item .address {
     margin-bottom: 10px;
 }
 
-.room-detail .post-title{
+.room-detail .post-title {
     font-size: 24px;
     font-weight: bolder;
     color: blue;
     margin-bottom: 8px;
 }
+
 .room-detail .post-time {
     font-size: 16px;
     margin-bottom: 20px;
 }
-.room-detail .room-image-list{
+
+.room-detail .room-image-list {
     height: 700px;
 }
-.room-detail .room-image-list .room-image{
+
+.room-detail .room-image-list .room-image {
     height: 700px;
     width: auto;
 }
-.room-detail .room-info{
+
+.room-detail .room-info {
     padding-right: 40px;
 }
 
-.my-room-item-title a{
+.my-room-item-title a {
     text-decoration: none;
     font-size: 22px;
     font-weight: bolder;

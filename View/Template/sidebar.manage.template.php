@@ -21,7 +21,17 @@
   <li class="nav-item active">
     <a class="nav-link" href="?link=manage-post">
       <i class="fas fa-fw fa-suitcase"></i>
-      <span>Quản trị bài đăng</span></a>
+      <span>Quản lý bài đăng</span></a>
+  </li>
+  <li class="nav-item active">
+    <a class="nav-link" href="?link=manage-rent">
+      <i class="fas fa-fw fa-suitcase"></i>
+      <span>Quản lý thuê phòng</span></a>
+  </li>
+  <li class="nav-item active">
+    <a class="nav-link" href="?link=manage-bill">
+      <i class="fas fa-fw fa-suitcase"></i>
+      <span>Quản lý hóa đơn</span></a>
   </li>
   <!-- Sidebar Toggler (Sidebar) -->
   <div class="text-center d-none d-md-inline">

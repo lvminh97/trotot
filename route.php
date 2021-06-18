@@ -20,6 +20,8 @@
     $route->get("link", "manage-home", "ViewController@getHostHomePage");
     $route->get("link", "manage-room", "ViewController@getManageRoomPage");
     $route->get("link", "manage-post", "ViewController@getManagePostPage");
+    $route->get("link", "manage-bill", "ViewController@getManageBillPage");
+    $route->get("link", "manage-rent", "ViewController@getManageRentPage");
 
     //// ACCOUNT API
     $route->post("api", "get_user_infor", "AccountController@getUserInfor");
