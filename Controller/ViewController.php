@@ -102,6 +102,22 @@ class ViewController extends Controller{
         }
         return null;
     }
+
+    public function getManageRentPage($data){
+        if($this->accountObj->checkLoggedIn() != "Role_Host"){
+            getView("login", array('title' => "Trọ Tốt - Đăng nhập",
+                                    'user' => null));
+        }
+        else{
+            $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
+            getView("rent.manage", array('title' => "Trọ Tốt - Manage",
+                                            'user' => $user,
+                                            'roomList' => $this->roomObj->getListByHost($user['user_id']),
+                                            'postList' => $this->postObj->getListByUser($user['user_id'])));
+        }
+        return null;
+    }
+
     public function testView($data){
         $resp = getController("ApiController@getPostAction", $data);
         echo json_encode($resp);
