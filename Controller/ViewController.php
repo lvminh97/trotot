@@ -112,8 +112,7 @@ class ViewController extends Controller{
             $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
             getView("rent.manage", array('title' => "Trọ Tốt - Manage",
                                             'user' => $user,
-                                            'roomList' => $this->roomObj->getListByHost($user['user_id']),
-                                            'postList' => $this->postObj->getListByUser($user['user_id'])));
+                                            'roomList' => $this->roomObj->getListByHost($user['user_id'])));
         }
         return null;
     }

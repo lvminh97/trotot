@@ -19,6 +19,7 @@
                     <div class="col-md-9">
                         <a href="?site=room&id=<?php echo $room['room_id'] ?>" class="title"><?php echo $room['title'] ?></a>
                         <div class="area"><i class="fa fa-chart-area"></i> <?php echo $room['area'] ?>m<sup>2</sup></div>
+                        <div class="price"><i class="fa fa-dollar-sign"></i> <?php echo $room['price'] ?> VND</div>
                         <div class="address"><i class="fa fas fa-map-marker"></i> <?php echo getFullAddress($room) ?></div>
                     </div>
                 </div>
