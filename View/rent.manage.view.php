@@ -28,10 +28,10 @@
                                 <thead>
                                     <tr>
                                         <th width="5%">ID</th>
-                                        <th width="20%">Phòng</th>
-                                        <th width="30%">Địa chỉ</th>
-                                        <th width="30%">Trạng thái</th>
-                                        <th width="15%"></th>
+                                        <th width="25%">Phòng</th>
+                                        <th width="35%">Địa chỉ</th>
+                                        <th width="15%">Trạng thái</th>
+                                        <th width="20%"></th>
                                     </tr>
                                 </thead>
                                 <tbody id="room_list">
@@ -39,10 +39,11 @@
                                 foreach($viewParams['roomList'] as $room) { ?>
                                     <tr id="<?php echo $room["room_id"] ?>">
                                         <td><?php echo $room['room_id'] ?></td>
-                                        <td><img src="<?php echo convertToListImage($room['images'])[0] ?>" style="width: 80%; height: auto;"></td>
                                         <td><?php echo $room['name'] ?></td>
                                         <td><?php echo getFullAddress($room) ?></td>
+                                        <td></td>
                                         <td>
+                                            <button class="btn btn-block btn-success">Danh sách người muốn thuê</button>
                                             <button class="btn btn-block btn-warning" data-toggle="modal" data-target="#updateRoomModal" onclick="loadRoom(this)">Chỉnh sửa</button>
                                             <button class="btn btn-block btn-danger" onclick="deleteRoom(this)">Xóa</button>
                                         </td>

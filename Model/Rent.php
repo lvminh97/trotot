@@ -54,5 +54,9 @@ class Rent extends DB{
 		if(count($tmp) > 0) return false;
 		return true;
 	}
+
+	public function getCurrentStatus($room_id){
+		return $this->getTenantId($room_id, date("Y-m-d")) === null ? "available" : "renting";	
+	}
 }
 ?>
