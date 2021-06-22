@@ -64,7 +64,10 @@ class ViewController extends Controller{
     public function getMyRoomDetailPage($data){
         if($this->accountObj->checkLoggedIn() != "Role_Tenant") return null;
         else $user = $this->accountObj->getItemByToken(getCookie("tt_tkn"));
-        // $room = $this->roomObj->
+        $room = $this->roomObj->getItem($data['id']);
+        getView("myroom.detail", array('title' => "Trọ tốt",
+                                        'user' => $user,
+                                        'room' => $room));
     }
 
     //// HOST
@@ -110,9 +113,31 @@ class ViewController extends Controller{
         }
         else{
             $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
+            $roomList = $this->roomObj->getListByHost($user['user_id']);
+            for($i = 0; $i < count($roomList); $i++){
+                $roomList[$i]['status'] = $this->rentObj->getCurrentStatus($roomList[$i]['room_id']);
+            }
             getView("rent.manage", array('title' => "Trọ Tốt - Manage",
                                             'user' => $user,
-                                            'roomList' => $this->roomObj->getListByHost($user['user_id'])));
+                                            'roomList' => $roomList));
+        }
+        return null;
+    }
+
+    public function getManageBillPage($data){
+        if($this->accountObj->checkLoggedIn() != "Role_Host"){
+            getView("login", array('title' => "Trọ Tốt - Đăng nhập",
+                                    'user' => null));
+        }
+        else{
+            $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
+            $roomList = $this->roomObj->getListByHost($user['user_id']);
+            for($i = 0; $i < count($roomList); $i++){
+                $roomList[$i]['status'] = $this->rentObj->getCurrentStatus($roomList[$i]['room_id']);
+            }
+            getView("bill.manage", array('title' => "Trọ Tốt - Manage",
+                                            'user' => $user,
+                                            'roomList' => $roomList));
         }
         return null;
     }
