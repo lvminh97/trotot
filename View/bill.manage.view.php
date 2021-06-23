@@ -44,7 +44,7 @@
                                         <td><?php echo ($room['status'] == "available" ? "Chưa có người thuê" : "Đang có người thuê") ?></td>
                                         <td>
                                         <?php
-                                        if($room['status'] == "available"){ ?>
+                                        if($room['status'] == "renting"){ ?>
                                             <button class="btn btn-success">Lập hóa đơn</button>
                                         <?php 
                                         }?>

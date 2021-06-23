@@ -383,3 +383,9 @@ function roomTypeFilter(type){
 		else roomList[i].style.display = "none";
 	}
 }
+
+function loadRentPendingList(id){
+	var fd = new FormData();
+	fd.append('id', id);
+	postRequest()
+}
