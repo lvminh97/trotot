@@ -28,10 +28,10 @@
                                 <thead>
                                     <tr>
                                         <th width="5%">ID</th>
-                                        <th width="25%">Phòng</th>
-                                        <th width="35%">Địa chỉ</th>
-                                        <th width="15%">Trạng thái</th>
-                                        <th width="20%"></th>
+                                        <th width="20%">Phòng</th>
+                                        <th width="30%">Địa chỉ</th>
+                                        <th width="20%">Trạng thái</th>
+                                        <th width="25%"></th>
                                     </tr>
                                 </thead>
                                 <tbody id="room_list">
@@ -45,12 +45,10 @@
                                         <td>
                                         <?php
                                         if($room['status'] == "available"){ ?>
-                                            <button class="btn btn-block btn-success">Danh sách người muốn thuê</button>
+                                            <button class="btn btn-success">Lập hóa đơn</button>
                                         <?php 
-                                        } else{ ?>
-                                            <button class="btn btn-block btn-warning" data-toggle="modal" data-target="#updateRoomModal" onclick="loadRoom(this)">Thông tin người thuê</button>
-                                        <?php 
-                                        } ?>
+                                        }?>
+                                            <button class="btn btn-primary" data-toggle="modal" data-target="#updateRoomModal" onclick="loadRoom(this)">Xem hóa đơn</button>
                                         </td>
                                     </tr>
                                 <?php 
