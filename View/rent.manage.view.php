@@ -45,10 +45,10 @@
                                         <td>
                                         <?php
                                         if($room['status'] == "available"){ ?>
-                                            <button class="btn btn-success" data-toggle="modal" data-target="#rentPendingListModal" onclick="loadRentPendingList('<?php echo $room['room_id'] ?>')">Danh sách người muốn thuê</button>
+                                            <button class="btn btn-block btn-success" data-toggle="modal" data-target="#rentPendingListModal" onclick="loadRentPendingList('<?php echo $room['room_id'] ?>')">Danh sách người muốn thuê</button>
                                         <?php 
                                         } else{ ?>
-                                            <button class="btn btn-warning" data-toggle="modal" data-target="#updateRoomModal" onclick="loadRoom(this)">Thông tin người thuê</button>
+                                            <button class="btn btn-block btn-warning" data-toggle="modal" data-target="#updateRoomModal" onclick="loadRoom(this)">Thông tin người thuê</button>
                                         <?php 
                                         } ?>
                                         </td>

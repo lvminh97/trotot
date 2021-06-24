@@ -103,5 +103,57 @@ class RentController extends Controller{
         else $resp['code'] = "Fail";
         return $resp;
     }
+
+    public function getRentPendingListAction($data){
+        $resp = array('code' => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        if($this->accountObj->checkLoggedIn($token) != "Role_Host") {
+            $resp['code'] = "NotAuthorize";
+            return $resp;
+        }
+        $user = $this->accountObj->getItemByToken($token);
+        // check if own room ????
+        $rentList = $this->rentObj->getPendingList($data['id']);
+        $resp['code'] = "OK";
+        $resp['rentList'] = $rentList;
+        return $resp;
+    }
+
+    public function approveRentAction($data){
+        $resp = array('code' => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        if($this->accountObj->checkLoggedIn($token) != "Role_Host") {
+            $resp['code'] = "NotAuthorize";
+            return $resp;
+        }
+        $user = $this->accountObj->getItemByToken($token);
+        $rent = $this->rentObj->getItem($data['rent_id']);
+        if($rent === null) { 
+            $resp['code'] = "WrongID"; 
+            return $resp; 
+        }
+        if($this->roomObj->checkHost($rent['room_id'], $user['user_id']) === false){
+            $resp['code'] = "NotAllow";
+            return $resp;
+        }
+        // if($this->rentObj->updateStatus($data['rent_id'], "reject") === true){
+        //     $resp['code'] = "OK";
+        // }
+        // else $resp['code'] = "Fail";
+        if($data['cmd'] == "approve"){
+            if($this->rentObj->approveRent($data['rent_id']) === true)
+                $resp['code'] = "OK";
+        }
+        elseif($data['cmd'] == "deny"){
+            if($this->rentObj->updateStatus($data['rent_id'], "deny") === true)
+                $resp['code'] = "OK";
+        }
+        else
+            $resp['code'] = "WrongCmd";
+            
+        return $resp;
+    }
 }
 ?>

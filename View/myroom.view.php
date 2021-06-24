@@ -25,7 +25,7 @@
             elseif($room['status'] == "pending") $class = "my-room-item-pending";
             else continue;
             ?>
-                <div class="<?php echo $class ?>">
+                <div class="<?php echo $class ?>" style="padding-top: 15px; padding-bottom: 15px; border-bottom: solid 1px grey;">
                     <div class="row">
                         <div class="col-md-7">
                             <div class="my-room-item-title"><a href="?site=my_room_detail&id=<?php echo $room['room_id'] ?>">

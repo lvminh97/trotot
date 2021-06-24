@@ -387,5 +387,38 @@ function roomTypeFilter(type){
 function loadRentPendingList(id){
 	var fd = new FormData();
 	fd.append('id', id);
-	postRequest()
+	postRequest("?api=get_rent_pending_list", fd, function(resp){
+		// console.log(resp);
+		var data = JSON.parse(resp);
+		if(data['code'] != "OK") return;
+		var list = getById('rent-pending-list');
+		list.innerHTML = "";
+		for(var i = 0; i < data['rentList'].length; i++){
+			var divE = document.createElement("div");
+			divE.className = "row";
+			divE.innerHTML = 
+				"<div class=\"col-md-9\">" +
+					"<span style=\"font-size: 20px; font-weight: bolder; color: blue; margin-left: 15px;\">" + data['rentList'][i]['fullname'] + "</span>" +
+					"<span style=\"font-size: 16px; font-style: italic; margin-left: 10px;\">(" + data['rentList'][i]['begin_time'] + ")</span>" + 
+				"</div>" + 
+				"<div class=\"col-md-3\">" + 
+					"<button class=\"btn btn-success\" onclick=\"approveRentRequest('" + data['rentList'][i]['rent_id'] + "', 'approve')\"><i class=\"fa fa-check\"></i></button>" + 
+					"<button class=\"btn btn-danger\" onclick=\"approveRentRequest('" + data['rentList'][i]['rent_id'] + "', 'deny')\"><i class=\"fa fa-times\"></i></button>" + 
+				"</div>";
+			list.appendChild(divE);
+		}
+	});
+}
+
+function approveRentRequest(id, cmd){
+	var cfMess = cmd == "approve" ? "chấp nhận" : "từ chối";
+	var cf = confirm("Bạn có chắc muốn " + cfMess + " yêu cầu này?");
+	if(!cf) return;
+	var fd = new FormData();
+	fd.append('rent_id', id);
+	fd.append('cmd', cmd);
+	postRequest("?api=approve_rent", fd, function(resp){
+		var dt = JSON.parse(resp);
+		if(dt['code'] == "OK") window.location.reload(true);
+	});
 }

@@ -27,6 +27,10 @@ class Rent extends DB{
 											'status' => "pending"));
 	}
 
+	public function getPendingList($room_id){
+		return $this->select("rent JOIN account", "*", "rent.room_id='$room_id' AND rent.status='pending' AND rent.user_id=account.user_id", "rent.begin_time ASC");
+	}
+
 	public function getItem($rent_id){
 		$tmp = $this->select("rent", "*", "rent_id='$rent_id'");
 		if(count($tmp) > 0) return $tmp[0];
@@ -57,6 +61,17 @@ class Rent extends DB{
 
 	public function getCurrentStatus($room_id){
 		return $this->getTenantId($room_id, date("Y-m-d")) === null ? "available" : "renting";	
+	}
+
+	public function approveRent($rent_id){
+		$resp = $this->update("rent", array('status' => 'renting',
+											'begin_time' => date("Y-m-d")),
+										"rent_id='$rent_id'");
+		$room_id = $this->getItem($rent_id)['room_id'];
+		$resp = $resp && 
+				$this->update("rent", array('status' => 'deny'),
+									"room_id='$room_id' AND status='pending'");
+		return $resp;
 	}
 }
 ?>

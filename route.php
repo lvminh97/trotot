@@ -43,6 +43,8 @@
     $route->post("api", "rent", "RentController@rentAction");
     $route->post("api", "cancel_rent", "RentController@cancelRentAction");
     $route->post("api", "set_rent_status", "RentController@setRentStatusAction");
+    $route->post("api", "approve_rent", "RentController@approveRentAction");
+    $route->post("api", "get_rent_pending_list", "RentController@getRentPendingListAction");
     //// BILL API
     $route->post("api", "create_bill", "BillController@createBillAction");
     $route->post("api", "get_bill", "BillController@getBillAction");
