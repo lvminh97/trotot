@@ -45,7 +45,7 @@
                                         <td>
                                         <?php
                                         if($room['status'] == "renting"){ ?>
-                                            <button class="btn btn-success">Lập hóa đơn</button>
+                                            <button class="btn btn-success" data-toggle="modal" data-target="#createBillModal" onclick="">Lập hóa đơn</button>
                                         <?php 
                                         }?>
                                             <button class="btn btn-primary" data-toggle="modal" data-target="#updateRoomModal" onclick="loadRoom(this)">Xem hóa đơn</button>
@@ -63,6 +63,5 @@
                 </div>
             </div>
             <!-- End of Main Content -->
-            <?php getModal("room.add", $viewParams) ?>
-            <?php getModal("room.update", $viewParams) ?>
+            <?php getModal("bill.create", $viewParams) ?>
 <?php getTemplate("footer", $viewParams) ?>
