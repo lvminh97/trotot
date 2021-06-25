@@ -1,0 +1,21 @@
+Task:
+Manage Rent: 
++ Get rent request list //
++ Approve/Deny rent request //
++ View current tenant
++ Kick tenant
+
+Manage bill:
++ Create bill ??
++ View bill list, bill detail
++ Set status of bill
++ Delete bill
+
+Transfer tenant:
++ 
+
+Search (Tenant):
+
+View bill (Tenant):
+
+Approve/Delete post (Admin)

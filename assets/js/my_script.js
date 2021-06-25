@@ -422,3 +422,52 @@ function approveRentRequest(id, cmd){
 		if(dt['code'] == "OK") window.location.reload(true);
 	});
 }
+
+function resetBillItem(){
+	var divE = document.createElement("div");
+	divE.className = "col-md-12 row";
+	divE.style.marginTop = "12px";
+	divE.innerHTML = 
+		"<div class=\"col-md-5\" style=\"padding-left: 25px;\">" + 
+			"<input type=\"text\" name=\"bill-title\" class=\"form-control\">" +
+		"</div>" +
+		"<div class=\"col-md-3\">" +
+			"<input type=\"number\" step=\"500\" name=\"bill-price\" class=\"form-control\">" +
+		"</div>" +
+		"<div class=\"col-md-2\">" +
+			"<input type=\"number\" name=\"bill-number\" class=\"form-control\">" +
+		"</div>" +
+		"<div class=\"col-md-2\">" +
+			"<button class=\"btn btn-outline-success\" onclick=\"addBillItem(this)\"><i class=\"fa fa-plus\"></i></button>\n" +
+			"<button class=\"btn btn-outline-success\" onclick=\"removeBillItem(this)\"><i class=\"fa fa-trash\"></i></button>" +
+		"</div>"
+	getById("bill-panel").innerHTML = "";
+	getById("bill-panel").appendChild(divE);
+}
+
+function addBillItem(obj){
+	var divE = document.createElement("div");
+	divE.className = "col-md-12 row";
+	divE.style.marginTop = "12px";
+	divE.innerHTML = 
+		"<div class=\"col-md-5\" style=\"padding-left: 25px;\">" + 
+			"<input type=\"text\" name=\"bill-title\" class=\"form-control\">" +
+		"</div>" +
+		"<div class=\"col-md-3\">" +
+			"<input type=\"number\" step=\"500\" name=\"bill-price\" class=\"form-control\">" +
+		"</div>" +
+		"<div class=\"col-md-2\">" +
+			"<input type=\"number\" name=\"bill-number\" class=\"form-control\">" +
+		"</div>" +
+		"<div class=\"col-md-2\">" +
+			"<button class=\"btn btn-outline-success\" onclick=\"addBillItem(this)\"><i class=\"fa fa-plus\"></i></button>\n" +
+			"<button class=\"btn btn-outline-success\" onclick=\"removeBillItem(this)\"><i class=\"fa fa-trash\"></i></button>" +
+		"</div>"
+	getById("bill-panel").appendChild(divE);
+}
+
+function removeBillItem(obj){
+	var count = document.getElementsByName("bill-title").length;
+	if(count == 1) return;
+	obj.parentElement.parentElement.remove();
+}
