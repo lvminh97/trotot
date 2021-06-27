@@ -423,27 +423,27 @@ function approveRentRequest(id, cmd){
 	});
 }
 
-function resetBillItem(){
-	var divE = document.createElement("div");
-	divE.className = "col-md-12 row";
-	divE.style.marginTop = "12px";
-	divE.innerHTML = 
-		"<div class=\"col-md-5\" style=\"padding-left: 25px;\">" + 
-			"<input type=\"text\" name=\"bill-title\" class=\"form-control\">" +
-		"</div>" +
-		"<div class=\"col-md-3\">" +
-			"<input type=\"number\" step=\"500\" name=\"bill-price\" class=\"form-control\">" +
-		"</div>" +
-		"<div class=\"col-md-2\">" +
-			"<input type=\"number\" name=\"bill-number\" class=\"form-control\">" +
-		"</div>" +
-		"<div class=\"col-md-2\">" +
-			"<button class=\"btn btn-outline-success\" onclick=\"addBillItem(this)\"><i class=\"fa fa-plus\"></i></button>\n" +
-			"<button class=\"btn btn-outline-success\" onclick=\"removeBillItem(this)\"><i class=\"fa fa-trash\"></i></button>" +
-		"</div>"
-	getById("bill-panel").innerHTML = "";
-	getById("bill-panel").appendChild(divE);
-}
+// function resetBillItem(){
+// 	var divE = document.createElement("div");
+// 	divE.className = "col-md-12 row";
+// 	divE.style.marginTop = "12px";
+// 	divE.innerHTML = 
+// 		"<div class=\"col-md-5\" style=\"padding-left: 25px;\">" + 
+// 			"<input type=\"text\" name=\"bill-title\" class=\"form-control\">" +
+// 		"</div>" +
+// 		"<div class=\"col-md-3\">" +
+// 			"<input type=\"number\" step=\"500\" name=\"bill-price\" class=\"form-control\">" +
+// 		"</div>" +
+// 		"<div class=\"col-md-2\">" +
+// 			"<input type=\"number\" name=\"bill-number\" class=\"form-control\">" +
+// 		"</div>" +
+// 		"<div class=\"col-md-2\">" +
+// 			"<button class=\"btn btn-outline-success\" onclick=\"addBillItem(this)\"><i class=\"fa fa-plus\"></i></button>\n" +
+// 			"<button class=\"btn btn-outline-success\" onclick=\"removeBillItem(this)\"><i class=\"fa fa-trash\"></i></button>" +
+// 		"</div>"
+// 	getById("bill-panel").innerHTML = "";
+// 	getById("bill-panel").appendChild(divE);
+// }
 
 function addBillItem(obj){
 	var divE = document.createElement("div");
@@ -489,23 +489,22 @@ function createBill(){
 	postRequest("?api=create_bill", fd, function(resp){
 		var data = JSON.parse(resp);
 		if(data['code'] == "OK"){
-			resetBillItem();
+			window.location.reload(true);
 		}
 	})
 }
 
 function searchBill(){
-	window.location.href = "./?link=manage-bill&y=" + getById("bill-year").value + "&m=" + getById("bill-month").value;
+	window.location.href = "./?link=manage-bill&y=" + getById("bill-year-search").value + "&m=" + getById("bill-month-search").value;
 }
 
-function openViewBillForm(id){
-	getById("bill-room-view").value = id;
-}
+// function openViewBillForm(id){
+// 	getById("bill-room-view").value = id;
+// }
 
-function viewBill(){
+function viewBill(id){
 	var fd = new FormData();
-	fd.append("room_id", getById("bill-room-view").value);
-	fd.append("time", getById("bill-year-view").value + "-" + getById("bill-month-view").value + "-01");
+	fd.append("bill_id", id)
 	postRequest("?api=get_bill", fd, function(resp){
 		var json = JSON.parse(resp);
 		getById("bill-panel-view").innerHTML = "";

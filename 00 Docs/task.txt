@@ -6,8 +6,8 @@ Manage Rent:
 + Kick tenant
 
 Manage bill:
-+ Create bill ??
-+ View bill list, bill detail ??
++ Create bill //
++ View bill list, bill detail //
 + Set status of bill
 + Delete bill
 

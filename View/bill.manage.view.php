@@ -18,7 +18,7 @@
                     $year = explode("-", $viewParams['time'])[0];
                     $month = explode("-", $viewParams['time'])[1]; ?>
                         <div class="col-md-2">
-                            <select id="bill-month" class="form-control">
+                            <select id="bill-month-search" class="form-control">
                                 <option value="01" <?php echo ($month == "01" ? "selected" : "") ?>>Tháng 1</option>
                                 <option value="02" <?php echo ($month == "02" ? "selected" : "") ?>>Tháng 2</option>
                                 <option value="03" <?php echo ($month == "03" ? "selected" : "") ?>>Tháng 3</option>
@@ -34,7 +34,7 @@
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <select id="bill-year" class="form-control" value="<?php echo $year ?>">
+                            <select id="bill-year-search" class="form-control" value="<?php echo $year ?>">
                                 <option value="2020" <?php echo ($year == "2020" ? "selected" : "") ?>>2020</option>
                                 <option value="2021" <?php echo ($year == "2021" ? "selected" : "") ?>>2021</option>
                                 <option value="2022" <?php echo ($year == "2022" ? "selected" : "") ?>>2022</option>
@@ -76,15 +76,21 @@
                                         <td><?php echo getFullAddress($viewParams['roomList'][$room_pos]) ?></td>
                                         <td><?php echo ($bill['status'] == "pending" ? "Chưa thanh toán" : "Đã thanh toán") ?></td>
                                         <td>
-                                            <button class="btn btn-primary" data-toggle="modal" data-target="#viewBillModal" onclick="openViewBillForm(this.parentElement.parentElement.id)">Xem chi tiết</button>
+                                            <button class="btn btn-primary" data-toggle="modal" data-target="#viewBillModal" onclick="viewBill(this.parentElement.parentElement.id)">Xem chi tiết</button>
+                                        <?php
+                                        if($bill['status'] == "pending"){ ?>
+                                            <button class="btn btn-success">Đã thanh toán</button>
+                                        <?php
+                                        } else { ?>
+                                            <button class="btn btn-warning">Chưa thanh toán</button>
+                                        <?php 
+                                        } ?>
+                                            <button class="btn btn-danger" onclick="deleteBill(this.parentElement.parentElement.id)"><i class="fa fa-trash"></i> Xóa</button>    
                                         </td>
                                     </tr>
                                 <?php 
                                 } ?>
                                 </tbody>
-                                <script>
-                                    // loadRoomList('room_list')
-                                </script>
                             </table>
                         </div>
                     </div>
