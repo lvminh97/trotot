@@ -467,7 +467,67 @@ function addBillItem(obj){
 }
 
 function removeBillItem(obj){
-	var count = document.getElementsByName("bill-title").length;
+	var count = getByName("bill-title").length;
 	if(count == 1) return;
 	obj.parentElement.parentElement.remove();
+}
+
+function createBill(){
+	var cf = confirm("Tạo hóa đơn?");
+	if(!cf) return;
+	var fd = new FormData();
+	fd.append("room_id", getById('bill-room').value);
+	fd.append("time", getById("bill-year").value + "-" + getById("bill-month").value + "-01");
+	var titleList = getByName("bill-title");
+	var priceList = getByName("bill-price");
+	var numberList = getByName("bill-number");
+	for(var i = 0; i < titleList.length; i++){
+		fd.append('titleList[]', titleList[i].value);
+		fd.append('priceList[]', priceList[i].value);
+		fd.append('numList[]', numberList[i].value);
+	}
+	postRequest("?api=create_bill", fd, function(resp){
+		var data = JSON.parse(resp);
+		if(data['code'] == "OK"){
+			resetBillItem();
+		}
+	})
+}
+
+function searchBill(){
+	window.location.href = "./?link=manage-bill&y=" + getById("bill-year").value + "&m=" + getById("bill-month").value;
+}
+
+function openViewBillForm(id){
+	getById("bill-room-view").value = id;
+}
+
+function viewBill(){
+	var fd = new FormData();
+	fd.append("room_id", getById("bill-room-view").value);
+	fd.append("time", getById("bill-year-view").value + "-" + getById("bill-month-view").value + "-01");
+	postRequest("?api=get_bill", fd, function(resp){
+		var json = JSON.parse(resp);
+		getById("bill-panel-view").innerHTML = "";
+		if(json['code'] == "OK"){
+			var data = json['bill']['bill'];
+			console.log(data);
+			for(var i = 0; i < data.length; i++){
+				var divE = document.createElement("div");
+				divE.className = "row";
+				divE.style.marginTop = "12px";
+				divE.innerHTML = 
+					"<div class=\"col-md-5\" style=\"padding-left: 25px;\">" +
+					data[i]['title'] + 				
+					"</div>" + 
+					"<div class=\"col-md-3\">" + 
+					data[i]['price'] + 
+					"</div>" + 
+					"<div class=\"col-md-2\">" +
+					data[i]['number'] + 
+					"</div>";
+				getById("bill-panel-view").appendChild(divE);
+			}
+		}
+	});
 }

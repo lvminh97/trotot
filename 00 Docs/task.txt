@@ -7,7 +7,7 @@ Manage Rent:
 
 Manage bill:
 + Create bill ??
-+ View bill list, bill detail
++ View bill list, bill detail ??
 + Set status of bill
 + Delete bill
 

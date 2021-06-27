@@ -132,12 +132,14 @@ class ViewController extends Controller{
         else{
             $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
             $roomList = $this->roomObj->getListByHost($user['user_id']);
-            for($i = 0; $i < count($roomList); $i++){
-                $roomList[$i]['status'] = $this->rentObj->getCurrentStatus($roomList[$i]['room_id']);
-            }
+            if(isset($data['y']) && isset($data['m'])) $time = $data['y']."-".$data['m'];
+            else $time = date("Y-m");
+            $billList = $this->billObj->getListByHostAndTime($user['user_id'], $time);
             getView("bill.manage", array('title' => "Trọ Tốt - Manage",
                                             'user' => $user,
-                                            'roomList' => $roomList));
+                                            'roomList' => $roomList,
+                                            'billList' => $billList,
+                                            'time' => $time));
         }
         return null;
     }

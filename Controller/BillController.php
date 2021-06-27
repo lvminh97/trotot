@@ -33,7 +33,7 @@ class BillController extends Controller{
             return $resp;
         }
         if($this->roomObj->checkHost($data['room_id'], $host['user_id']) === false){
-            $resp['code'] = "NotAuthorize";
+            $resp['code'] = "NotAllow";
             return $resp;
         }
         $tenant_id = $this->rentObj->getTenantId($data['room_id'], $data['time']);
@@ -84,6 +84,10 @@ class BillController extends Controller{
         $resp['code'] = "OK";
         $resp['bill'] = $this->billObj->getItem($bill_id);
         return $resp;
+    }
+
+    public function getBillList($data){
+        
     }
 }
 ?>
