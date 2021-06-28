@@ -2,11 +2,9 @@ Task:
 Manage Rent: 
 + Get rent request list //
 + Approve/Deny rent request //
-+ View current tenant
++ View current tenant //
 + Kick tenant
-
-Transfer tenant:
-+ 
++ Transfer tenant
 
 Search (Tenant):
 

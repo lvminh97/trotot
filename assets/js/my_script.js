@@ -410,6 +410,21 @@ function loadRentPendingList(id){
 	});
 }
 
+function loadTenantInfo(id){
+	var fd = new FormData();
+	fd.append("room_id", id);
+	getById("tenant-room").value = id;
+	postRequest("?api=get_tenant", fd, function(resp){
+		var json = JSON.parse(resp);
+		if(json['code'] == "OK"){
+			var data = json['user'];
+			getById("tenant-fullname").innerHTML = data['fullname'];
+			getById("tenant-email").innerHTML = data['email'];
+			getById("tenant-mobile").innerHTML = "<a href=\"tel:" + data['mobile'] + "\">" + data['mobile'] + "</a>";
+		}
+	});
+}
+
 function approveRentRequest(id, cmd){
 	var cfMess = cmd == "approve" ? "chấp nhận" : "từ chối";
 	var cf = confirm("Bạn có chắc muốn " + cfMess + " yêu cầu này?");
@@ -423,27 +438,15 @@ function approveRentRequest(id, cmd){
 	});
 }
 
-// function resetBillItem(){
-// 	var divE = document.createElement("div");
-// 	divE.className = "col-md-12 row";
-// 	divE.style.marginTop = "12px";
-// 	divE.innerHTML = 
-// 		"<div class=\"col-md-5\" style=\"padding-left: 25px;\">" + 
-// 			"<input type=\"text\" name=\"bill-title\" class=\"form-control\">" +
-// 		"</div>" +
-// 		"<div class=\"col-md-3\">" +
-// 			"<input type=\"number\" step=\"500\" name=\"bill-price\" class=\"form-control\">" +
-// 		"</div>" +
-// 		"<div class=\"col-md-2\">" +
-// 			"<input type=\"number\" name=\"bill-number\" class=\"form-control\">" +
-// 		"</div>" +
-// 		"<div class=\"col-md-2\">" +
-// 			"<button class=\"btn btn-outline-success\" onclick=\"addBillItem(this)\"><i class=\"fa fa-plus\"></i></button>\n" +
-// 			"<button class=\"btn btn-outline-success\" onclick=\"removeBillItem(this)\"><i class=\"fa fa-trash\"></i></button>" +
-// 		"</div>"
-// 	getById("bill-panel").innerHTML = "";
-// 	getById("bill-panel").appendChild(divE);
-// }
+function kickTenant(){
+	var cf = confirm("Bạn muốn chấm dứt cho khách thuê phòng này?");
+	if(!cf) return;
+	var fd = new FormData();
+	fd.append("room_id", getById("tenant-room").value);
+	postRequest("?api=kick_tenant", fd, function(resp){
+
+	});
+}
 
 function addBillItem(obj){
 	var divE = document.createElement("div");
@@ -497,10 +500,6 @@ function createBill(){
 function searchBill(){
 	window.location.href = "./?link=manage-bill&y=" + getById("bill-year-search").value + "&m=" + getById("bill-month-search").value;
 }
-
-// function openViewBillForm(id){
-// 	getById("bill-room-view").value = id;
-// }
 
 function viewBill(id){
 	var fd = new FormData();

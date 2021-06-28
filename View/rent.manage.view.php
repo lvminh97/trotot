@@ -45,10 +45,10 @@
                                         <td>
                                         <?php
                                         if($room['status'] == "available"){ ?>
-                                            <button class="btn btn-block btn-success" data-toggle="modal" data-target="#rentPendingListModal" onclick="loadRentPendingList('<?php echo $room['room_id'] ?>')">Danh sách người muốn thuê</button>
+                                            <button class="btn btn-block btn-success" data-toggle="modal" data-target="#rentPendingListModal" onclick="loadRentPendingList(this.parentElement.parentElement.id)">Danh sách người muốn thuê</button>
                                         <?php 
                                         } else{ ?>
-                                            <button class="btn btn-block btn-warning" data-toggle="modal" data-target="#updateRoomModal" onclick="loadRoom(this)">Thông tin người thuê</button>
+                                            <button class="btn btn-block btn-warning" data-toggle="modal" data-target="#tenantInfoModal" onclick="loadTenantInfo(this.parentElement.parentElement.id)">Thông tin người thuê</button>
                                         <?php 
                                         } ?>
                                         </td>
@@ -56,9 +56,6 @@
                                 <?php 
                                 } ?>
                                 </tbody>
-                                <script>
-                                    // loadRoomList('room_list')
-                                </script>
                             </table>
                         </div>
                     </div>
@@ -66,5 +63,5 @@
             </div>
             <!-- End of Main Content -->
             <?php getModal("rent.pendinglist", $viewParams) ?>
-            <?php //getModal("room.update", $viewParams) ?>
+            <?php getModal("tenant.info", $viewParams) ?>
 <?php getTemplate("footer", $viewParams) ?>
