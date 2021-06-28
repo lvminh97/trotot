@@ -5,12 +5,6 @@ Manage Rent:
 + View current tenant
 + Kick tenant
 
-Manage bill:
-+ Create bill //
-+ View bill list, bill detail //
-+ Set status of bill
-+ Delete bill
-
 Transfer tenant:
 + 
 

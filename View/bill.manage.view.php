@@ -79,10 +79,10 @@
                                             <button class="btn btn-primary" data-toggle="modal" data-target="#viewBillModal" onclick="viewBill(this.parentElement.parentElement.id)">Xem chi tiết</button>
                                         <?php
                                         if($bill['status'] == "pending"){ ?>
-                                            <button class="btn btn-success">Đã thanh toán</button>
+                                            <button class="btn btn-success" onclick="updateBill(this.parentElement.parentElement.id, 'paid')">Đã thanh toán</button>
                                         <?php
                                         } else { ?>
-                                            <button class="btn btn-warning">Chưa thanh toán</button>
+                                            <button class="btn btn-warning" onclick="updateBill(this.parentElement.parentElement.id, 'pending')">Chưa thanh toán</button>
                                         <?php 
                                         } ?>
                                             <button class="btn btn-danger" onclick="deleteBill(this.parentElement.parentElement.id)"><i class="fa fa-trash"></i> Xóa</button>    

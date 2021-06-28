@@ -530,3 +530,25 @@ function viewBill(id){
 		}
 	});
 }
+
+function updateBill(id, status){
+	var fd = new FormData();
+	fd.append("bill_id", id);
+	fd.append("status", status);
+	postRequest("?api=update_bill_status", fd, function(resp){
+		var json = JSON.parse(resp);
+		if(json['code'] == "OK"){
+			window.location.reload(true);
+		}
+	});
+}
+
+function deleteBill(id){
+	var cf = confirm("Bạn chắc chắn muốn xóa hóa đơn này?");
+	if(!cf) return;
+	var fd = new FormData();
+	fd.append("bill_id", id);
+	postRequest("?api=delete_bill", fd, function(resp){
+		window.location.reload(true);
+	});
+}

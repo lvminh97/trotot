@@ -48,6 +48,8 @@
     //// BILL API
     $route->post("api", "create_bill", "BillController@createBillAction");
     $route->post("api", "get_bill", "BillController@getBillAction");
+    $route->post("api", "delete_bill", "BillController@deleteBillAction");
+    $route->post("api", "update_bill_status", "BillController@updateBillStatusAction");
 
     $route->process();
 ?>

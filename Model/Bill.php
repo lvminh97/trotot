@@ -42,6 +42,14 @@ class Bill extends DB{
 		return $resp;	
 	}
 
+	public function updateItem($bill_id, $data){
+		return $this->update("bill", $data, "bill_id='$bill_id'");
+	}
+
+	public function deleteItem($bill_id){
+		return $this->delete("bill_detail", "bill_id='$bill_id'") && $this->delete("bill", "bill_id='$bill_id'");
+	}
+
 	public function getBillId($room_id, $time){
 		$tmp = $this->select("bill", "bill_id", "room_id='$room_id' AND time='$time'");
 		if(count($tmp) > 0) return $tmp[0]['bill_id'];

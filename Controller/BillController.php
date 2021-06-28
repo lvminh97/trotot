@@ -91,5 +91,49 @@ class BillController extends Controller{
     public function getBillList($data){
         
     }
+
+    public function updateBillStatusAction($data){
+        $resp = array('code' => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        $checkLog = $this->accountObj->checkLoggedIn($token);
+        if($checkLog != "Role_Host") {
+            $resp['code'] = "NotAuthorize";
+            return $resp;
+        }
+        $user = $this->accountObj->getItemByToken($token);
+        $bill = $this->billObj->getItem($data['bill_id']);
+        if($bill === null){
+            $resp['code'] = "NotExistBill";
+            return $resp;
+        }
+        if($this->billObj->updateItem($data['bill_id'], array('status' => $data['status'])) === true)
+            $resp['code'] = "OK";
+        else
+            $resp['code'] = "Fail";
+        return $resp;
+    }
+
+    public function deleteBillAction($data){
+        $resp = array('code' => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        $checkLog = $this->accountObj->checkLoggedIn($token);
+        if($checkLog != "Role_Host") {
+            $resp['code'] = "NotAuthorize";
+            return $resp;
+        }
+        $user = $this->accountObj->getItemByToken($token);
+        $bill = $this->billObj->getItem($data['bill_id']);
+        if($bill === null){
+            $resp['code'] = "NotExistBill";
+            return $resp;
+        }
+        if($this->billObj->deleteItem($data['bill_id']) === false)
+            $resp['code'] = "Fail";
+        else 
+            $resp['code'] = "OK";
+        return $resp;
+    }
 }
 ?>
