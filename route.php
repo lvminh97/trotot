@@ -47,6 +47,7 @@
     $route->post("api", "get_rent_pending_list", "RentController@getRentPendingListAction");
     $route->post("api", "get_tenant", "RentController@getTenantAction");
     $route->post("api", "kick_tenant", "RentController@kickTenantAction");
+    $route->post("api", "return_room", "RentController@returnRoomAction");
 
     $route->post("api", "transfer_tenant", "TransferController@transferAction");
     $route->post("api", "approve_transfer", "TransferController@approveAction");

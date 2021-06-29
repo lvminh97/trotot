@@ -3,11 +3,12 @@ Manage Rent:
 + Get rent request list //
 + Approve/Deny rent request //
 + View current tenant //
-+ Kick tenant
++ Kick tenant //
 + Transfer tenant
 
 Search (Tenant):
 
 View bill (Tenant):
+Return room:
 
 Approve/Delete post (Admin)

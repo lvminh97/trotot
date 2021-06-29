@@ -41,7 +41,13 @@
                             </div>
                         </div>
                         <div class="col-md-5">
+                            <!-- <button class="btn btn-primary">Xem phòng</button> -->
+                            <?php
+                            if($room['status'] == "renting"){ ?>
                             <button class="btn btn-success">Xem hóa đơn</button>
+                            <button class="btn btn-danger" onclick="returnRoom('<?php echo $room['room_id'] ?>')">Trả phòng</button>
+                            <?php
+                            } ?> 
                         </div>
                     </div>
                 </div>
