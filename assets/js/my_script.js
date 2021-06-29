@@ -444,7 +444,10 @@ function kickTenant(){
 	var fd = new FormData();
 	fd.append("room_id", getById("tenant-room").value);
 	postRequest("?api=kick_tenant", fd, function(resp){
-
+		var json = JSON.parse(resp);
+		if(json['code'] == "OK"){
+			window.location.reload(true);
+		}
 	});
 }
 

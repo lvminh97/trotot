@@ -177,5 +177,30 @@ class RentController extends Controller{
             
         return $resp;
     }
+
+    public function kickTenantAction($data){
+        $resp = array('code' => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        if($this->accountObj->checkLoggedIn($token) != "Role_Host") {
+            $resp['code'] = "NotAuthorize";
+            return $resp;
+        }
+        $host = $this->accountObj->getItemByToken($token);
+        if($this->roomObj->checkHost($data['room_id'], $host['user_id']) === false){
+            $resp['code'] = "NotAllow";
+            return $resp;
+        }
+        $tenant_id = $this->rentObj->getTenantId($data['room_id'], date("Y-m-d"));
+        if($tenant_id === null){
+            $resp['code'] = "NoRent";
+            return $resp;
+        }
+        if($this->rentObj->kickTenant($data['room_id']) === true)
+            $resp['code'] = "OK";
+        else 
+            $resp['code'] = "Fail";
+        return $resp;
+    }
 }
 ?>
