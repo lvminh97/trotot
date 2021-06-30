@@ -44,10 +44,25 @@
                             <!-- <button class="btn btn-primary">Xem phòng</button> -->
                             <?php
                             if($room['status'] == "renting"){ ?>
-                            <button class="btn btn-success">Xem hóa đơn</button>
+                            <button class="btn btn-success" onclick="viewMyBill(this)">Xem hóa đơn</button>
                             <button class="btn btn-danger" onclick="returnRoom('<?php echo $room['room_id'] ?>')">Trả phòng</button>
                             <?php
                             } ?> 
+                        </div>
+                        <div class="col-md-12" style="display: none; margin-top: 25px;">
+                            <div class="row" style="margin-bottom: 18px;">
+                                <div class="col-md-5" style="font-size: 18px; font-weight: bolder;">Hóa đơn tháng x</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2" style="font-weight: bold;">Chi phí</div>
+                                <div class="col-md-2" style="font-weight: bold;">Giá tiền (VND)</div>
+                                <div class="col-md-1" style="font-weight: bold;">Số lượng</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">Tien 1</div>
+                                <div class="col-md-2">3000</div>
+                                <div class="col-md-1">30</div>
+                            </div>
                         </div>
                     </div>
                 </div>

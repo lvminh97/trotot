@@ -6,6 +6,8 @@ Manage Rent:
 + Kick tenant //
 + Transfer tenant
 
+Statistic
+
 Search (Tenant):
 
 View bill (Tenant):

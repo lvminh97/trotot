@@ -384,6 +384,18 @@ function roomTypeFilter(type){
 	}
 }
 
+function viewMyBill(obj){
+	var bill = obj.parentElement.nextElementSibling;
+	if(bill.style.display == "none")
+		bill.style.display = "block";
+	else
+		bill.style.display = "none";
+}
+
+function returnRoom(){
+
+}
+
 function loadRentPendingList(id){
 	var fd = new FormData();
 	fd.append('id', id);
