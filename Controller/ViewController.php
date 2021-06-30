@@ -55,9 +55,20 @@ class ViewController extends Controller{
         if($this->accountObj->checkLoggedIn() != "Role_Tenant") return null;
         else $user = $this->accountObj->getItemByToken(getCookie("tt_tkn"));
         $roomList = $this->roomObj->getListByTenant($user['user_id']);
+        $billList = array();
+        foreach($roomList as $room){
+            if($room['status'] == "renting"){
+                $bill_id = $this->billObj->getBillId($room['room_id'], date("Y-m")."-01");
+                if($bill_id !== null)
+                    $billList[$room['room_id']] = $this->billObj->getItem($bill_id);
+                else 
+                    $billList[$room['room_id']] = null;
+            }
+        }
         getView("myroom", array('title' => 'Trọ tốt - Phòng của tôi',
                                 'user' => $user,
-                                'roomList' => $roomList));
+                                'roomList' => $roomList,
+                                'billList' => $billList));
         return null;
     }
 

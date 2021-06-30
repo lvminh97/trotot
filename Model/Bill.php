@@ -62,13 +62,13 @@ class Bill extends DB{
 								"bill.room_id ASC");
 		$resp = array();
 		foreach($tmp as $bill){
-			if(!isset($resp['bill_id'])){
-				$resp['bill_id'] = array('bill_id' => $bill['bill_id'],
+			if(!isset($resp[$bill['bill_id']])){
+				$resp[$bill['bill_id']] = array('bill_id' => $bill['bill_id'],
 											'room_id' => $bill['room_id'],
 											'status' => $bill['status'],
 											'bill' => array());
 			}
-			$resp['bill_id']['bill'][] = array('title' => $bill['title'],
+			$resp[$bill['bill_id']]['bill'][] = array('title' => $bill['title'],
 												'price' => $bill['price'],
 												'number' => $bill['number']);
 		}

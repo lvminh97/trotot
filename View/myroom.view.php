@@ -50,19 +50,33 @@
                             } ?> 
                         </div>
                         <div class="col-md-12" style="display: none; margin-top: 25px;">
+                            <?php
+                            if($viewParams['billList'][$room['room_id']] !== null){ ?>
                             <div class="row" style="margin-bottom: 18px;">
-                                <div class="col-md-5" style="font-size: 18px; font-weight: bolder;">Hóa đơn tháng x</div>
+                                <div class="col-md-5" style="font-size: 18px; font-weight: bolder;">Hóa đơn tháng <?php echo date("m/Y") ?></div>
                             </div>
                             <div class="row">
                                 <div class="col-md-2" style="font-weight: bold;">Chi phí</div>
                                 <div class="col-md-2" style="font-weight: bold;">Giá tiền (VND)</div>
                                 <div class="col-md-1" style="font-weight: bold;">Số lượng</div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-2">Tien 1</div>
-                                <div class="col-md-2">3000</div>
-                                <div class="col-md-1">30</div>
+                            <?php
+                                $bill = $viewParams['billList'][$room['room_id']];
+                                foreach($bill['bill'] as $bill_item){ ?>
+                                <div class="row">
+                                    <div class="col-md-2"><?php echo $bill_item['title'] ?></div>
+                                    <div class="col-md-2"><?php echo $bill_item['price'] ?></div>
+                                    <div class="col-md-1"><?php echo $bill_item['number'] ?></div>
+                                </div>
+                            <?php 
+                                } ?>
+                            <?php 
+                            } else{ ?>
+                            <div class="row" style="margin-bottom: 18px;">
+                                <div class="col-md-5" style="font-size: 18px; font-weight: bolder;">Chưa có hóa đơn tháng này</div>
                             </div>
+                            <?php
+                            } ?>
                         </div>
                     </div>
                 </div>
