@@ -10,7 +10,7 @@ Statistic
 
 Search (Tenant):
 
-View bill (Tenant):
+View bill (Tenant): //
 Return room:
 
 Approve/Delete post (Admin)
