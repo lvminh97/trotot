@@ -29,6 +29,17 @@
       <span>Quản lý thuê phòng</span></a>
   </li>
   <li class="nav-item active">
+    <a class="nav-link" href="#" data-toggle="collapse" data-target="#transfer-menu">
+      <i class="fas fa-fw fa-suitcase"></i>
+      <span>Gửi/nhận khách trọ</span></a>
+    <div id="transfer-menu" class="collapse">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a class="collapse-item" href="?link=manage-transfer">Các yêu cầu gửi</a>
+        <a class="collapse-item" href="?link=manage-receive">Các yêu cầu nhận</a>
+      </div>
+    </div>
+  </li>
+  <li class="nav-item active">
     <a class="nav-link" href="?link=manage-bill">
       <i class="fas fa-fw fa-suitcase"></i>
       <span>Quản lý hóa đơn</span></a>
