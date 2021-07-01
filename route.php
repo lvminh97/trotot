@@ -22,6 +22,8 @@
     $route->get("link", "manage-post", "ViewController@getManagePostPage");
     $route->get("link", "manage-bill", "ViewController@getManageBillPage");
     $route->get("link", "manage-rent", "ViewController@getManageRentPage");
+    $route->get("link", "manage-transfer", "ViewController@getManageTransferTenantPage");
+    $route->get("link", "manage-receive", "ViewController@getManageReceiveTenantPage");
 
     //// ACCOUNT API
     $route->post("api", "get_user_infor", "AccountController@getUserInfor");
