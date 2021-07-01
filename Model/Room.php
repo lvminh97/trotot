@@ -37,8 +37,10 @@ class Room extends DB{
 		if(isset($files["image"])){
 			for($i = 0; $i < count($files["image"]["name"]); $i++){
 				if($image != "") $image .= ";";
-				$image .= basename($files["image"]["name"][$i]);
-				move_uploaded_file($files["image"]["tmp_name"][$i], "./Resource/Images/".basename($files["image"]["name"][$i]));
+				$img_type = pathinfo(basename($files["image"]["name"][$i]), PATHINFO_EXTENSION);
+				$img_name = time().".".$img_type;
+				$image .= $img_name;
+				move_uploaded_file($files["image"]["tmp_name"][$i], "./Resource/Images/".$img_name);
 			}
 		}
 		return $this->insert("room", array("room_id" => "null",
@@ -66,8 +68,10 @@ class Room extends DB{
 		if(isset($files["image"])){
 			for($i = 0; $i < count($files["image"]["name"]); $i++){
 				if($image != "") $image .= ";";
-				$image .= basename($files["image"]["name"][$i]);
-				move_uploaded_file($files["image"]["tmp_name"][$i], "./Resource/Images/".basename($files["image"]["name"][$i]));
+				$img_type = pathinfo(basename($files["image"]["name"][$i]), PATHINFO_EXTENSION);
+				$img_name = time().".".$img_type;
+				$image .= $img_name;
+				move_uploaded_file($files["image"]["tmp_name"][$i], "./Resource/Images/".$img_name);
 			}
 		}
 		return $this->update("room", 

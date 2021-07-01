@@ -27,6 +27,7 @@
     $route->post("api", "get_user_infor", "AccountController@getUserInfor");
     $route->post("api", "update_user_infor", "AccountController@updateUserInfor");
     $route->post("api", "change_password", "AccountController@changePassword");
+    $route->post("api", "search_host", "AccountController@searchHostAction");
     //// ROOM API
     $route->post("api", "add_room", "RoomController@addRoomAction");
     $route->get("api", "get_room", "RoomController@getRoomAction");

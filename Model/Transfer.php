@@ -8,6 +8,9 @@ class Transfer extends DB{
 		parent::__construct();
 	}
 
-	
+	public function addItem($data){
+		$data['transfer_id'] = "null";
+		return $this->insert("transfer", $data);
+	}
 }
 ?>

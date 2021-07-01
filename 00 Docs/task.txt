@@ -1,16 +1,9 @@
-Task:
-Manage Rent: 
-+ Get rent request list //
-+ Approve/Deny rent request //
-+ View current tenant //
-+ Kick tenant //
 + Transfer tenant
 
 Statistic
 
 Search (Tenant):
 
-View bill (Tenant): //
 Return room:
 
 Approve/Delete post (Admin)

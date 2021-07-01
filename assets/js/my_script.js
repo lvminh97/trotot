@@ -430,6 +430,7 @@ function loadTenantInfo(id){
 		var json = JSON.parse(resp);
 		if(json['code'] == "OK"){
 			var data = json['user'];
+			getById("tenant-id").value = data['user_id'];
 			getById("tenant-fullname").innerHTML = data['fullname'];
 			getById("tenant-email").innerHTML = data['email'];
 			getById("tenant-mobile").innerHTML = "<a href=\"tel:" + data['mobile'] + "\">" + data['mobile'] + "</a>";
@@ -461,6 +462,45 @@ function kickTenant(){
 			window.location.reload(true);
 		}
 	});
+}
+
+function openTransferForm(){
+	var obj = getById("transferForm");
+	if(obj.style.display == "none")
+		obj.style.display = "block";
+	else
+		obj.style.display = "none";
+}
+
+function hostFilter(){
+	var fd = new FormData();
+	fd.append("name", getById("host-name").value);
+	fd.append("mobile", getById("host-mobile").value);
+	getById("host-name-list").innerHTML = "";
+	postRequest("?api=search_host", fd, function(resp){
+		var json = JSON.parse(resp);
+		if(json['code'] == "OK"){
+			var data = json['host'];
+			for(var i = 0; i < data.length; i++){
+				var opt = document.createElement("option");
+				opt.value = data[i]['user_id'];
+				opt.innerText = data[i]['fullname'] + " - SĐT: " + data[i]['mobile'];
+				getById("host-name-list").appendChild(opt);
+			}
+		}
+	});
+}
+
+function transferTenant(){
+	var cf = confirm("Xác nhận gửi khách đang thuê đến chủ trọ này?");
+	if(!cf) return;
+	var fd = new FormData();
+	fd.append("host", getById("host-name-list").value);
+	fd.append("tenant", getById("tenant-id").value)
+	fd.append("room", getById("tenant-room").value);
+	postRequest("?api=transfer_tenant", fd, function(resp){
+		
+	})
 }
 
 function addBillItem(obj){

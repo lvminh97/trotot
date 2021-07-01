@@ -8,8 +8,37 @@ class TransferController extends Controller{
 	}
 
 	public function transferAction($data){
-
-        
+		$resp = array('code' => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        $checkLog = $this->accountObj->checkLoggedIn($token);
+        if($checkLog != "Role_Host") {
+            $resp['code'] = "NotAuthorize";
+            return $resp;
+        }
+        $host = $this->accountObj->getItemByToken($token);
+        $roomList = $this->roomObj->getListByHost($data['host']);
+		$cnt = 0;
+		foreach($roomList as $room){
+			if($this->rentObj->getTenantId($room['room_id'], date("Y-m-d")) === null)
+				$cnt++;
+		}
+		if($cnt == 0){
+			$resp['code'] = "NoEmptyRoom";
+			return $resp;
+		}
+		$buf = array('tenant' => $data['tenant'],
+						'host_transfer' => $host['user_id'],
+						'host_receive' => $data['host'],
+						'room_transfer' => $data['room'],
+						'room_receive' => '0',
+						'status' => 'pending',
+						'feedback' => '');
+		if($this->transferObj->addItem($buf) === true)
+			$resp['code'] = "OK";
+		else
+			$resp['code'] = "Fail";
+		return $resp;
     }
 
     public function approveAction($data){

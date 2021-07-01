@@ -23,11 +23,9 @@ class AccountController extends Controller{
             if($user !== null){
                 $resp['code'] = "OK";
                 if($resp['type'] == "own"){
-                    unset($user['user_id']);
                     unset($user['password']);
                 }
                 elseif($resp['type'] == "user"){
-                    unset($user['user_id']);
                     unset($user['username']);
                     unset($user['password']);
                 }
@@ -67,6 +65,29 @@ class AccountController extends Controller{
             else if($this->accountObj->changePassword($data) === true) $resp['code'] = "OK";
             else $resp['code'] = "Fail";
         }
+        return $resp;
+    }
+
+    public function searchHostAction($data){
+        $resp = array('code' => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        $checkLog = $this->accountObj->checkLoggedIn($token);
+        if($checkLog != "Role_Host") {
+            $resp['code'] = "NotAuthorize";
+            return $resp;
+        }
+        // $host = $this->accountObj->getItemByToken($token);
+        $name = trim($data['name']);
+        $mobile = trim($data['mobile']);
+        $list = $this->accountObj->getList("(fullname LIKE '%$name%' OR mobile='$mobile') AND role='Role_Host'");
+        for($i = 0; $i < count($list); $i++){
+            unset($list[$i]['username']);
+            unset($list[$i]['password']);
+            unset($list[$i]['role']);
+        }
+        $resp['code'] = "OK";
+        $resp['host'] = $list;
         return $resp;
     }
 }
