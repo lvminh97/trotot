@@ -143,7 +143,7 @@ class ViewController extends Controller{
         else{
             $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
             $receiveList = $this->transferObj->getReceiveList($user['user_id']);
-            getView("tenant.receive", array('title' => "Trọ Tốt - Danh sách yêu cầu nhận khách trọ",
+            getView("tenant.receive.manage", array('title' => "Trọ Tốt - Danh sách yêu cầu nhận khách trọ",
                                             'user' => $user,
                                             'receiveList' => $receiveList));
         }

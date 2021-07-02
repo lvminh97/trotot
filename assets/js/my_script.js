@@ -503,6 +503,14 @@ function transferTenant(){
 	})
 }
 
+function viewTransfer(){
+
+}
+
+function approveTransfer(){
+
+}
+
 function addBillItem(obj){
 	var divE = document.createElement("div");
 	divE.className = "col-md-12 row";
