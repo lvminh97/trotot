@@ -55,16 +55,30 @@ class ViewController extends Controller{
         if($this->accountObj->checkLoggedIn() != "Role_Tenant") return null;
         else $user = $this->accountObj->getItemByToken(getCookie("tt_tkn"));
         $roomList = $this->roomObj->getListByTenant($user['user_id']);
+        $billList = array();
+        foreach($roomList as $room){
+            if($room['status'] == "renting"){
+                $bill_id = $this->billObj->getBillId($room['room_id'], date("Y-m")."-01");
+                if($bill_id !== null)
+                    $billList[$room['room_id']] = $this->billObj->getItem($bill_id);
+                else 
+                    $billList[$room['room_id']] = null;
+            }
+        }
         getView("myroom", array('title' => 'Trọ tốt - Phòng của tôi',
                                 'user' => $user,
-                                'roomList' => $roomList));
+                                'roomList' => $roomList,
+                                'billList' => $billList));
         return null;
     }
 
     public function getMyRoomDetailPage($data){
         if($this->accountObj->checkLoggedIn() != "Role_Tenant") return null;
         else $user = $this->accountObj->getItemByToken(getCookie("tt_tkn"));
-        // $room = $this->roomObj->
+        $room = $this->roomObj->getItem($data['id']);
+        getView("myroom.detail", array('title' => "Trọ tốt",
+                                        'user' => $user,
+                                        'room' => $room));
     }
 
     //// HOST
@@ -102,6 +116,60 @@ class ViewController extends Controller{
         }
         return null;
     }
+
+    public function getManageRentPage($data){
+        if($this->accountObj->checkLoggedIn() != "Role_Host"){
+            getView("login", array('title' => "Trọ Tốt - Đăng nhập",
+                                    'user' => null));
+        }
+        else{
+            $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
+            $roomList = $this->roomObj->getListByHost($user['user_id']);
+            for($i = 0; $i < count($roomList); $i++){
+                $roomList[$i]['status'] = $this->rentObj->getCurrentStatus($roomList[$i]['room_id']);
+            }
+            getView("rent.manage", array('title' => "Trọ Tốt - Manage",
+                                            'user' => $user,
+                                            'roomList' => $roomList));
+        }
+        return null;
+    }
+
+    public function getManageReceiveTenantPage($data){
+        if($this->accountObj->checkLoggedIn() != "Role_Host"){
+            getView("login", array('title' => "Trọ Tốt - Đăng nhập",
+                                    'user' => null));
+        }
+        else{
+            $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
+            $receiveList = $this->transferObj->getReceiveList($user['user_id']);
+            getView("tenant.receive.manage", array('title' => "Trọ Tốt - Danh sách yêu cầu nhận khách trọ",
+                                            'user' => $user,
+                                            'receiveList' => $receiveList));
+        }
+        return null;
+    }
+
+    public function getManageBillPage($data){
+        if($this->accountObj->checkLoggedIn() != "Role_Host"){
+            getView("login", array('title' => "Trọ Tốt - Đăng nhập",
+                                    'user' => null));
+        }
+        else{
+            $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
+            $roomList = $this->roomObj->getListByHost($user['user_id']);
+            if(isset($data['y']) && isset($data['m'])) $time = $data['y']."-".$data['m'];
+            else $time = date("Y-m");
+            $billList = $this->billObj->getListByHostAndTime($user['user_id'], $time);
+            getView("bill.manage", array('title' => "Trọ Tốt - Manage",
+                                            'user' => $user,
+                                            'roomList' => $roomList,
+                                            'billList' => $billList,
+                                            'time' => $time));
+        }
+        return null;
+    }
+
     public function testView($data){
         $resp = getController("ApiController@getPostAction", $data);
         echo json_encode($resp);

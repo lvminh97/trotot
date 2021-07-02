@@ -383,3 +383,234 @@ function roomTypeFilter(type){
 		else roomList[i].style.display = "none";
 	}
 }
+
+function viewMyBill(obj){
+	var bill = obj.parentElement.nextElementSibling;
+	if(bill.style.display == "none")
+		bill.style.display = "block";
+	else
+		bill.style.display = "none";
+}
+
+function returnRoom(){
+
+}
+
+function loadRentPendingList(id){
+	var fd = new FormData();
+	fd.append('id', id);
+	postRequest("?api=get_rent_pending_list", fd, function(resp){
+		// console.log(resp);
+		var data = JSON.parse(resp);
+		if(data['code'] != "OK") return;
+		var list = getById('rent-pending-list');
+		list.innerHTML = "";
+		for(var i = 0; i < data['rentList'].length; i++){
+			var divE = document.createElement("div");
+			divE.className = "row";
+			divE.innerHTML = 
+				"<div class=\"col-md-9\">" +
+					"<span style=\"font-size: 20px; font-weight: bolder; color: blue; margin-left: 15px;\">" + data['rentList'][i]['fullname'] + "</span>" +
+					"<span style=\"font-size: 16px; font-style: italic; margin-left: 10px;\">(" + data['rentList'][i]['begin_time'] + ")</span>" + 
+				"</div>" + 
+				"<div class=\"col-md-3\">" + 
+					"<button class=\"btn btn-success\" onclick=\"approveRentRequest('" + data['rentList'][i]['rent_id'] + "', 'approve')\"><i class=\"fa fa-check\"></i></button>" + 
+					"<button class=\"btn btn-danger\" onclick=\"approveRentRequest('" + data['rentList'][i]['rent_id'] + "', 'deny')\"><i class=\"fa fa-times\"></i></button>" + 
+				"</div>";
+			list.appendChild(divE);
+		}
+	});
+}
+
+function loadTenantInfo(id){
+	var fd = new FormData();
+	fd.append("room_id", id);
+	getById("tenant-room").value = id;
+	postRequest("?api=get_tenant", fd, function(resp){
+		var json = JSON.parse(resp);
+		if(json['code'] == "OK"){
+			var data = json['user'];
+			getById("tenant-id").value = data['user_id'];
+			getById("tenant-fullname").innerHTML = data['fullname'];
+			getById("tenant-email").innerHTML = data['email'];
+			getById("tenant-mobile").innerHTML = "<a href=\"tel:" + data['mobile'] + "\">" + data['mobile'] + "</a>";
+		}
+	});
+}
+
+function approveRentRequest(id, cmd){
+	var cfMess = cmd == "approve" ? "chấp nhận" : "từ chối";
+	var cf = confirm("Bạn có chắc muốn " + cfMess + " yêu cầu này?");
+	if(!cf) return;
+	var fd = new FormData();
+	fd.append('rent_id', id);
+	fd.append('cmd', cmd);
+	postRequest("?api=approve_rent", fd, function(resp){
+		var dt = JSON.parse(resp);
+		if(dt['code'] == "OK") window.location.reload(true);
+	});
+}
+
+function kickTenant(){
+	var cf = confirm("Bạn muốn chấm dứt cho khách thuê phòng này?");
+	if(!cf) return;
+	var fd = new FormData();
+	fd.append("room_id", getById("tenant-room").value);
+	postRequest("?api=kick_tenant", fd, function(resp){
+		var json = JSON.parse(resp);
+		if(json['code'] == "OK"){
+			window.location.reload(true);
+		}
+	});
+}
+
+function openTransferForm(){
+	var obj = getById("transferForm");
+	if(obj.style.display == "none")
+		obj.style.display = "block";
+	else
+		obj.style.display = "none";
+}
+
+function hostFilter(){
+	var fd = new FormData();
+	fd.append("name", getById("host-name").value);
+	fd.append("mobile", getById("host-mobile").value);
+	getById("host-name-list").innerHTML = "";
+	postRequest("?api=search_host", fd, function(resp){
+		var json = JSON.parse(resp);
+		if(json['code'] == "OK"){
+			var data = json['host'];
+			for(var i = 0; i < data.length; i++){
+				var opt = document.createElement("option");
+				opt.value = data[i]['user_id'];
+				opt.innerText = data[i]['fullname'] + " - SĐT: " + data[i]['mobile'];
+				getById("host-name-list").appendChild(opt);
+			}
+		}
+	});
+}
+
+function transferTenant(){
+	var cf = confirm("Xác nhận gửi khách đang thuê đến chủ trọ này?");
+	if(!cf) return;
+	var fd = new FormData();
+	fd.append("host", getById("host-name-list").value);
+	fd.append("tenant", getById("tenant-id").value)
+	fd.append("room", getById("tenant-room").value);
+	postRequest("?api=transfer_tenant", fd, function(resp){
+		
+	})
+}
+
+function viewTransfer(){
+
+}
+
+function approveTransfer(){
+
+}
+
+function addBillItem(obj){
+	var divE = document.createElement("div");
+	divE.className = "col-md-12 row";
+	divE.style.marginTop = "12px";
+	divE.innerHTML = 
+		"<div class=\"col-md-5\" style=\"padding-left: 25px;\">" + 
+			"<input type=\"text\" name=\"bill-title\" class=\"form-control\">" +
+		"</div>" +
+		"<div class=\"col-md-3\">" +
+			"<input type=\"number\" step=\"500\" name=\"bill-price\" class=\"form-control\">" +
+		"</div>" +
+		"<div class=\"col-md-2\">" +
+			"<input type=\"number\" name=\"bill-number\" class=\"form-control\">" +
+		"</div>" +
+		"<div class=\"col-md-2\">" +
+			"<button class=\"btn btn-outline-success\" onclick=\"addBillItem(this)\"><i class=\"fa fa-plus\"></i></button>\n" +
+			"<button class=\"btn btn-outline-success\" onclick=\"removeBillItem(this)\"><i class=\"fa fa-trash\"></i></button>" +
+		"</div>"
+	getById("bill-panel").appendChild(divE);
+}
+
+function removeBillItem(obj){
+	var count = getByName("bill-title").length;
+	if(count == 1) return;
+	obj.parentElement.parentElement.remove();
+}
+
+function createBill(){
+	var cf = confirm("Tạo hóa đơn?");
+	if(!cf) return;
+	var fd = new FormData();
+	fd.append("room_id", getById('bill-room').value);
+	fd.append("time", getById("bill-year").value + "-" + getById("bill-month").value + "-01");
+	var titleList = getByName("bill-title");
+	var priceList = getByName("bill-price");
+	var numberList = getByName("bill-number");
+	for(var i = 0; i < titleList.length; i++){
+		fd.append('titleList[]', titleList[i].value);
+		fd.append('priceList[]', priceList[i].value);
+		fd.append('numList[]', numberList[i].value);
+	}
+	postRequest("?api=create_bill", fd, function(resp){
+		var data = JSON.parse(resp);
+		if(data['code'] == "OK"){
+			window.location.reload(true);
+		}
+	})
+}
+
+function searchBill(){
+	window.location.href = "./?link=manage-bill&y=" + getById("bill-year-search").value + "&m=" + getById("bill-month-search").value;
+}
+
+function viewBill(id){
+	var fd = new FormData();
+	fd.append("bill_id", id)
+	postRequest("?api=get_bill", fd, function(resp){
+		var json = JSON.parse(resp);
+		getById("bill-panel-view").innerHTML = "";
+		if(json['code'] == "OK"){
+			var data = json['bill']['bill'];
+			console.log(data);
+			for(var i = 0; i < data.length; i++){
+				var divE = document.createElement("div");
+				divE.className = "row";
+				divE.style.marginTop = "12px";
+				divE.innerHTML = 
+					"<div class=\"col-md-5\" style=\"padding-left: 25px;\">" +
+					data[i]['title'] + 				
+					"</div>" + 
+					"<div class=\"col-md-3\">" + 
+					data[i]['price'] + 
+					"</div>" + 
+					"<div class=\"col-md-2\">" +
+					data[i]['number'] + 
+					"</div>";
+				getById("bill-panel-view").appendChild(divE);
+			}
+		}
+	});
+}
+
+function updateBill(id, status){
+	var fd = new FormData();
+	fd.append("bill_id", id);
+	fd.append("status", status);
+	postRequest("?api=update_bill_status", fd, function(resp){
+		var json = JSON.parse(resp);
+		if(json['code'] == "OK"){
+			window.location.reload(true);
+		}
+	});
+}
+
+function deleteBill(id){
+	var cf = confirm("Bạn chắc chắn muốn xóa hóa đơn này?");
+	if(!cf) return;
+	var fd = new FormData();
+	fd.append("bill_id", id);
+	postRequest("?api=delete_bill", fd, function(resp){
+		window.location.reload(true);
+	});
+}

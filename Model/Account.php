@@ -25,17 +25,26 @@ class Account extends DB{
 
 	public function getItem($user_id){
 		$tmp = $this->getList("user_id='$user_id'");
-		if(count($tmp) == 1) return $tmp[0];
-		else return null;
+		if(count($tmp) == 0) return null;
+		$user = $tmp[0];
+		unset($user['password']);
+		unset($user['role']);
+		return $user;
 	}
 
 	public function getItemByToken($token){
 		$tmp = $this->select("account JOIN token", "*", "token.token='$token' AND token.user_id=account.user_id", "token.valid_time DESC LIMIT 1");
 		if(count($tmp) == 0) return null;
 		$user = $tmp[0];
+		unset($user['password']);
+		unset($user['role']);
 		unset($user['token']);
 		unset($user['valid_time']);
 		return $user;
+	}
+
+	public function getBasicInfo($item){
+		
 	}
 
 	public function checkUsernameExist($username){

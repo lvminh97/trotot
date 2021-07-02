@@ -33,7 +33,7 @@ class BillController extends Controller{
             return $resp;
         }
         if($this->roomObj->checkHost($data['room_id'], $host['user_id']) === false){
-            $resp['code'] = "NotAuthorize";
+            $resp['code'] = "NotAllow";
             return $resp;
         }
         $tenant_id = $this->rentObj->getTenantId($data['room_id'], $data['time']);
@@ -65,24 +65,74 @@ class BillController extends Controller{
             return $resp;
         }
         $user = $this->accountObj->getItemByToken($token);
-        $room = $this->roomObj->getItem($data['room_id']);
-        if($room === null){
-            $resp['code'] = "NotExistRoom";
-            return $resp;
-        }
-        $checkHost = $this->roomObj->checkHost($data['room_id'], $user['user_id']);
-        $tenant_id = $this->rentObj->getTenantId($data['room_id'], $data['time']);
-        if($checkHost === false && $tenant_id != $user['user_id']){
-            $resp['code'] = "NotAuthorize";
-            return $resp;
-        }
-        $bill_id = $this->billObj->getBillId($data['room_id'], $data['time']);
-        if($bill_id === null){
+        // $room = $this->roomObj->getItem($data['room_id']);
+        // if($room === null){
+        //     $resp['code'] = "NotExistRoom";
+        //     return $resp;
+        // }
+        // $checkHost = $this->roomObj->checkHost($data['room_id'], $user['user_id']);
+        // $tenant_id = $this->rentObj->getTenantId($data['room_id'], $data['time']);
+        // if($checkHost === false && $tenant_id != $user['user_id']){
+        //     $resp['code'] = "NotAuthorize";
+        //     return $resp;
+        // }
+        // $bill_id = $this->billObj->getBillId($data['room_id'], $data['time']);
+        // if($bill_id === null){
+        $bill = $this->billObj->getItem($data['bill_id']);
+        if($bill === null){
             $resp['code'] = "NotExistBill";
             return $resp;
         }
         $resp['code'] = "OK";
-        $resp['bill'] = $this->billObj->getItem($bill_id);
+        $resp['bill'] = $bill;
+        return $resp;
+    }
+
+    public function getBillList($data){
+        
+    }
+
+    public function updateBillStatusAction($data){
+        $resp = array('code' => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        $checkLog = $this->accountObj->checkLoggedIn($token);
+        if($checkLog != "Role_Host") {
+            $resp['code'] = "NotAuthorize";
+            return $resp;
+        }
+        $user = $this->accountObj->getItemByToken($token);
+        $bill = $this->billObj->getItem($data['bill_id']);
+        if($bill === null){
+            $resp['code'] = "NotExistBill";
+            return $resp;
+        }
+        if($this->billObj->updateItem($data['bill_id'], array('status' => $data['status'])) === true)
+            $resp['code'] = "OK";
+        else
+            $resp['code'] = "Fail";
+        return $resp;
+    }
+
+    public function deleteBillAction($data){
+        $resp = array('code' => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        $checkLog = $this->accountObj->checkLoggedIn($token);
+        if($checkLog != "Role_Host") {
+            $resp['code'] = "NotAuthorize";
+            return $resp;
+        }
+        $user = $this->accountObj->getItemByToken($token);
+        $bill = $this->billObj->getItem($data['bill_id']);
+        if($bill === null){
+            $resp['code'] = "NotExistBill";
+            return $resp;
+        }
+        if($this->billObj->deleteItem($data['bill_id']) === false)
+            $resp['code'] = "Fail";
+        else 
+            $resp['code'] = "OK";
         return $resp;
     }
 }

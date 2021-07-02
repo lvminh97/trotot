@@ -27,6 +27,10 @@ class Rent extends DB{
 											'status' => "pending"));
 	}
 
+	public function getPendingList($room_id){
+		return $this->select("rent JOIN account", "*", "rent.room_id='$room_id' AND rent.status='pending' AND rent.user_id=account.user_id", "rent.begin_time ASC");
+	}
+
 	public function getItem($rent_id){
 		$tmp = $this->select("rent", "*", "rent_id='$rent_id'");
 		if(count($tmp) > 0) return $tmp[0];
@@ -40,7 +44,8 @@ class Rent extends DB{
 	}
 
 	public function getTenantId($room_id, $time){
-		$tmp = $this->select("rent", "*", "room_id='$room_id' AND (status='renting' OR status IN ('cancel', 'reject', 'prevent') AND end_time>'$time'");
+		// $tmp = $this->select("rent", "*", "room_id='$room_id' AND (status='renting' OR status IN ('cancel', 'reject', 'prevent')) AND end_time>'$time'");
+		$tmp = $this->select("rent", "*", "room_id='$room_id' AND status='renting' AND end_time>'$time'");
 		if(count($tmp) == 0) return null;
 		return $tmp[0]['user_id'];
 	}
@@ -53,6 +58,28 @@ class Rent extends DB{
 		$tmp = $this->select("rent", "*", "user_id='$user_id' AND room_id='$room_id' AND (status='pending' OR status='prevent')");
 		if(count($tmp) > 0) return false;
 		return true;
+	}
+
+	public function getCurrentStatus($room_id){
+		return $this->getTenantId($room_id, date("Y-m-d")) === null ? "available" : "renting";	
+	}
+
+	public function approveRent($rent_id){
+		$resp = $this->update("rent", array('status' => 'renting',
+											'begin_time' => date("Y-m-d")),
+										"rent_id='$rent_id'");
+		$room_id = $this->getItem($rent_id)['room_id'];
+		$resp = $resp && 
+				$this->update("rent", array('status' => 'deny'),
+									"room_id='$room_id' AND status='pending'");
+		return $resp;
+	}
+
+	public function kickTenant($room_id){
+		$rent = $this->select("rent", "rent_id", "room_id='$room_id' AND status='renting'", "begin_time DESC")[0];
+		if($rent === null) return false;
+		$rent_id = $rent['rent_id'];
+		return $this->update("rent", array('status' => 'reject'), "rent_id='$rent_id'");
 	}
 }
 ?>
