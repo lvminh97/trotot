@@ -143,9 +143,17 @@ class ViewController extends Controller{
         else{
             $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
             $receiveList = $this->transferObj->getReceiveList($user['user_id']);
+            $roomList = $this->roomObj->getListByHost($user['user_id']);
+            for($i = 0; $i < count($roomList); $i++){
+                if($this->rentObj->getTenantId($roomList[$i]['room_id'], date("Y-m-d")) === null)
+                    $roomList[$i]['status'] = "available";
+                else
+                    $roomList[$i]['status'] = "notavailable";
+            }
             getView("tenant.receive.manage", array('title' => "Trọ Tốt - Danh sách yêu cầu nhận khách trọ",
                                             'user' => $user,
-                                            'receiveList' => $receiveList));
+                                            'receiveList' => $receiveList,
+                                            'roomList' => $roomList));
         }
         return null;
     }
@@ -170,9 +178,9 @@ class ViewController extends Controller{
         return null;
     }
 
-    public function testView($data){
-        $resp = getController("ApiController@getPostAction", $data);
-        echo json_encode($resp);
-    }
+    // public function testView($data){
+    //     $resp = getController("ApiController@getPostAction", $data);
+    //     echo json_encode($resp);
+    // }
 }
 ?>

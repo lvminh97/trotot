@@ -499,7 +499,10 @@ function transferTenant(){
 	fd.append("tenant", getById("tenant-id").value)
 	fd.append("room", getById("tenant-room").value);
 	postRequest("?api=transfer_tenant", fd, function(resp){
-		
+		var json = JSON.parse(resp);
+		if(json['code'] == "OK"){
+			window.location.reload(true);
+		}
 	})
 }
 
@@ -507,8 +510,35 @@ function viewTransfer(){
 
 }
 
-function approveTransfer(){
+function approveTransfer(id){
+	var cf = confirm("Bạn đồng ý yêu cầu này?");
+	if(!cf) return;
+	var fd = new FormData();
+	fd.append("id", getById("transfer-id").value);
+	fd.append("status", "approve");
+	fd.append("feedback", getById('approve-feedback').value);
+	fd.append("room_id", getById('receive-room').value);
+	postRequest("?api=approve_transfer", fd, function(resp){
+		var json = JSON.parse(resp);
+		if(json['code'] == "OK"){
+			window.location.reload(true);
+		}
+	});
+}
 
+function rejectTransfer(){
+	var cf = confirm("Bạn từ chối yêu cầu này?");
+	if(!cf) return;
+	var fd = new FormData();
+	fd.append("id", getById("transfer-id").value);
+	fd.append("status", "reject");
+	fd.append("feedback", getById('reject-feedback').value);
+	postRequest("?api=approve_transfer", fd, function(resp){
+		var json = JSON.parse(resp);
+		if(json['code'] == "OK"){
+			window.location.reload(true);
+		}
+	});
 }
 
 function addBillItem(obj){

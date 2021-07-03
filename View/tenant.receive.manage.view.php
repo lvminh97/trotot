@@ -21,6 +21,7 @@
                             <!-- <button class="btn btn-success" style="width: 200px;" data-toggle="modal" data-target="#createBillModal"><i class="fa fa-plus"></i> Tạo hóa đơn</button> -->
                         </div>
                         <div class="col-md-12" style="margin-top: 40px;">
+                            <input type="hidden" id="transfer-id">
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
@@ -39,9 +40,9 @@
                                         <td><?php echo $item['tenant'] ?></td>
                                         <td><?php echo ($item['status'] == "pending" ? "Chờ phản hồi" : "Chấp nhận") ?></td>
                                         <td>
-                                            <button class="btn btn-primary" data-toggle="modal" data-target="#viewTransferModal" onclick="viewTransfer(this.parentElement.parentElement.id)">Xem chi tiết</button>
-                                            <button class="btn btn-success" onclick="approveTransfer()"><i class="fa fa-check"></i> Chấp nhận</button>
-                                            <button class="btn btn-danger" onclick="rejectTransfer()"><i class="fa fa-times"></i> Từ chối</button>
+                                            <button class="btn btn-primary" data-toggle="modal" data-target="#viewTransferModal">Xem chi tiết</button>
+                                            <button class="btn btn-success" data-toggle="modal" data-target="#approveTransferModal" onclick="document.getElementById('transfer-id').value=this.parentElement.parentElement.id"><i class="fa fa-check"></i> Chấp nhận</button>
+                                            <button class="btn btn-danger" data-toggle="modal" data-target="#rejectTransferModal" onclick="document.getElementById('transfer-id').value=this.parentElement.parentElement.id"><i class="fa fa-times"></i> Từ chối</button>
                                         </td>                                        
                                     </tr>
                                 <?php 
@@ -53,6 +54,7 @@
                 </div>
             </div>
             <!-- End of Main Content -->
-            <?php getModal("bill.create", $viewParams) ?>
-            <?php getModal("bill.view", $viewParams) ?>
+            <?php //getModal("transfer.view", $viewParams) ?>
+            <?php getModal("transfer.approve", $viewParams) ?>
+            <?php getModal("transfer.reject", $viewParams) ?>
 <?php getTemplate("footer", $viewParams) ?>

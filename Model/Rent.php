@@ -17,14 +17,14 @@ class Rent extends DB{
 	// - block: cam thue phong 
 	// - repair: dang sua chua phong
 
-	public function addItem($data){
-		$time = date("Y-m-d H:i:s");
+	public function addItem($data, $status = 'pending'){
+		$time = date("Y-m-d");
 		return $this->insert("rent", array('rent_id' => "null",
 											'user_id' => $data['user_id'],
 											'room_id' => $data['room_id'],
 											'begin_time' => $time,
 											'end_time' => "9999-12-31",
-											'status' => "pending"));
+											'status' => $status));
 	}
 
 	public function getPendingList($room_id){
@@ -81,5 +81,12 @@ class Rent extends DB{
 		$rent_id = $rent['rent_id'];
 		return $this->update("rent", array('status' => 'reject'), "rent_id='$rent_id'");
 	}
+
+	public function transferRoom($user_id, $room_id1, $room_id2){
+		$tmp = $this->select("rent", "*", "user_id='$user_id' AND room_id='$room_id1' AND status='renting'", "begin_time DESC LIMIT 1");
+		if(count($tmp) == 0) return false;
+		$rent_id = $tmp[0]['rent_id'];
+		$resp = $this->update("rent", array('status' => 'repair', 'end_time' => date("Y-m-d")), "rent_id='$rent_id'");
+		return $resp && $this->addItem(array('user_id' => $user_id, 'room_id' => $room_id2), "renting");
+	}
 }
-?>
