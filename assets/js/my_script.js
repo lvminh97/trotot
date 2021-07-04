@@ -594,6 +594,10 @@ function searchBill(){
 	window.location.href = "./?link=manage-bill&y=" + getById("bill-year-search").value + "&m=" + getById("bill-month-search").value;
 }
 
+function getStatistic(){
+	window.location.href = "./?link=statistic&y=" + getById("statistic-year").value + "&m=" + getById("statistic-month").value;
+}
+
 function viewBill(id){
 	var fd = new FormData();
 	fd.append("bill_id", id)
@@ -643,4 +647,63 @@ function deleteBill(id){
 	postRequest("?api=delete_bill", fd, function(resp){
 		window.location.reload(true);
 	});
+}
+
+function searchRoom(){
+	var queryString = "";
+	if(getById("search-key-province").value.trim() != "")
+		queryString += "&province=" + getById("search-key-province").value.trim();
+	if(getById("search-key-district").value.trim() != "")
+		queryString += "&district=" + getById("search-key-district").value.trim();
+	if(getById("search-key-subdistrict").value.trim() != "")
+		queryString += "&subdistrict=" + getById("search-key-subdistrict").value.trim();
+	if(getById("search-key-street").value.trim() != "")
+		queryString += "&street=" + getById("search-key-street").value.trim();
+	if(getById("search-key-area1").value != "0")
+		queryString += "&area1=" + getById("search-key-area1").value;
+	if(getById("search-key-area2").value != "0")
+		queryString += "&area2=" + getById("search-key-area2").value;
+	if(getById("search-key-price1").value != "0")
+		queryString += "&price1=" + getById("search-key-price1").value;
+	if(getById("search-key-price2").value != "0")
+		queryString += "&price2=" + getById("search-key-price2").value;
+	window.location.href = "?site=room_list" + queryString;
+}
+
+function viewPost(id){
+	var aElem = document.createElement("a");
+	aElem.href = "?site=room_demo&id=" + id;
+	aElem.target = "_blank";
+	aElem.click();
+}
+
+function approvePost(id, cmd){
+	var str;
+	if(cmd == "approve") str = "phê duyệt";
+	else str = "từ chối";
+	var cf = confirm("Bạn muốn " + str + " bài đăng này?");
+	if(!cf) return;
+	var fd = new FormData();
+	fd.append("id", id);
+	fd.append("cmd", cmd);
+	postRequest("?api=approve_post", fd, function(resp){
+		console.log(resp);
+		var json = JSON.parse(resp);
+		if(json['code'] == "OK"){
+			window.location.reload(true);
+		}
+	});
+}
+
+function removeHost(id){
+	var cf = confirm("Bạn muốn xóa tài khoản này?");
+	if(!cf) return;
+	var fd = new FormData();
+	fd.append("id", id);
+	postRequest("?api=delete_host", fd, function(resp){
+		console.log(resp);
+		var json = JSON.parse(resp);
+		if(json['code'] == "OK")
+			window.location.reload(true);
+	})
 }

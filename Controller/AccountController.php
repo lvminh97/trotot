@@ -90,5 +90,21 @@ class AccountController extends Controller{
         $resp['host'] = $list;
         return $resp;
     }
+
+    public function deleteHostAction($data){
+        $resp = array('code' => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        $checkLog = $this->accountObj->checkLoggedIn($token);
+        if($checkLog != "Role_Admin") {
+            $resp['code'] = "NotAuthorize";
+            return $resp;
+        }
+        if($this->accountObj->deleteItem($data['id']) === true)
+            $resp['code'] = "OK";
+        else    
+            $resp['code'] = "Fail";
+        return $resp;
+    }
 }
 ?>

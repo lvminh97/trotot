@@ -116,8 +116,8 @@ class Account extends DB{
 		return $this->update("account", array('password' => _hash($data['newpass'])), "user_id='{$data['user_id']}'");
 	}
 
-	public function removeItem($user_id){
-		$this->delete("account", "user_id='$user_id'");
+	public function deleteItem($user_id){
+		return $this->delete("account", "user_id='$user_id'");
 	}
 }
 ?>
