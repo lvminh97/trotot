@@ -7,11 +7,12 @@ class ViewController extends Controller{
     }
     //// COMMON
     public function getIndex(){
-        if($this->accountObj->checkLoggedIn() == "Role_None") $user = null;
-        else $user = $this->accountObj->getItemByToken(getCookie("tt_tkn"));
-        getView("homepage", array('title' => 'Trọ Tốt',
-                                    'user' => $user));
-        return null;                                    
+        // if($this->accountObj->checkLoggedIn() == "Role_None") $user = null;
+        // else $user = $this->accountObj->getItemByToken(getCookie("tt_tkn"));
+        // getView("homepage", array('title' => 'Trọ Tốt',
+        //                             'user' => $user));
+        // return null;                                  
+        $this->getRoomListForCustomerPage(null);  
     }
     public function getSignupPage(){
         if($this->accountObj->checkLoggedIn() == "Role_None")
@@ -95,14 +96,10 @@ class ViewController extends Controller{
     }
 
     //// HOST
-    public function getHostHomePage(){
-        if($this->accountObj->checkLoggedIn() != "Role_Host") return;
-        $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
-        getView("home.manage", array('title' => "Trọ Tốt - Manage",
-                                        'user' => $user));
-        return null;                                        
+    public function getHostHomePage($data){
+        $this->getManageRoomPage($data);                                      
     }
-    public function getManageRoomPage(){
+    public function getManageRoomPage($data){
         if($this->accountObj->checkLoggedIn() != "Role_Host"){
             getView("login", array('title' => "Trọ Tốt - Đăng nhập",
                                     'user' => null));
@@ -148,6 +145,25 @@ class ViewController extends Controller{
         return null;
     }
 
+    public function getManageTransferTenantPage($data){
+        if($this->accountObj->checkLoggedIn() != "Role_Host"){
+            getView("login", array('title' => "Trọ Tốt - Đăng nhập",
+                                    'user' => null));
+        }
+        else{
+            $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
+            $transferList = $this->transferObj->getTransferList($user['user_id']);
+            for($i = 0; $i < count($transferList); $i++){
+                $transferList[$i]['tenant'] = $this->accountObj->getItem($transferList[$i]['tenant']);
+                $transferList[$i]['host_receive'] = $this->accountObj->getItem($transferList[$i]['host_receive']);
+            }
+            getView("tenant.transfer.manage", array('title' => "Trọ Tốt - Danh sách yêu cầu gửi khách trọ",
+                                            'user' => $user,
+                                            'transferList' => $transferList));
+        }
+        return null;
+    }
+
     public function getManageReceiveTenantPage($data){
         if($this->accountObj->checkLoggedIn() != "Role_Host"){
             getView("login", array('title' => "Trọ Tốt - Đăng nhập",
@@ -156,12 +172,17 @@ class ViewController extends Controller{
         else{
             $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
             $receiveList = $this->transferObj->getReceiveList($user['user_id']);
+            for($i = 0; $i < count($receiveList); $i++){
+                $receiveList[$i]['tenant'] = $this->accountObj->getItem($receiveList[$i]['tenant']);
+                $receiveList[$i]['host_transfer'] = $this->accountObj->getItem($receiveList[$i]['host_transfer']);
+            }
             $roomList = $this->roomObj->getListByHost($user['user_id']);
             for($i = 0; $i < count($roomList); $i++){
                 if($this->rentObj->getTenantId($roomList[$i]['room_id'], date("Y-m-d")) === null)
                     $roomList[$i]['status'] = "available";
                 else
                     $roomList[$i]['status'] = "notavailable";
+                
             }
             getView("tenant.receive.manage", array('title' => "Trọ Tốt - Danh sách yêu cầu nhận khách trọ",
                                             'user' => $user,

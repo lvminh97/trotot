@@ -36,11 +36,11 @@
                                 $room_pos = 0;
                                 foreach($viewParams['receiveList'] as $item) { ?>
                                     <tr id="<?php echo $item["transfer_id"] ?>">
-                                        <td><?php echo $item['host_transfer'] ?></td>
-                                        <td><?php echo $item['tenant'] ?></td>
+                                        <td><?php echo $item['host_transfer']['fullname'] ?></td>
+                                        <td><?php echo $item['tenant']['fullname'] ?></td>
                                         <td><?php echo ($item['status'] == "pending" ? "Chờ phản hồi" : "Chấp nhận") ?></td>
                                         <td>
-                                            <button class="btn btn-primary" data-toggle="modal" data-target="#viewTransferModal">Xem chi tiết</button>
+                                            <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#viewTransferModal">Xem chi tiết</button> -->
                                             <button class="btn btn-success" data-toggle="modal" data-target="#approveTransferModal" onclick="document.getElementById('transfer-id').value=this.parentElement.parentElement.id"><i class="fa fa-check"></i> Chấp nhận</button>
                                             <button class="btn btn-danger" data-toggle="modal" data-target="#rejectTransferModal" onclick="document.getElementById('transfer-id').value=this.parentElement.parentElement.id"><i class="fa fa-times"></i> Từ chối</button>
                                         </td>                                        

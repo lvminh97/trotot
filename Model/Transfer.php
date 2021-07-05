@@ -21,6 +21,10 @@ class Transfer extends DB{
 		return $tmp[0];
 	}
 
+	public function getTransferList($host_id){
+		return $this->select("transfer", "*", "host_transfer='$host_id'", "transfer_id ASC");
+	}
+
 	public function getReceiveList($host_id){
 		return $this->select("transfer", "*", "host_receive='$host_id' AND status='pending'", "transfer_id ASC");
 	}

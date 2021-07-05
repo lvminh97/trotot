@@ -607,6 +607,7 @@ function viewBill(id){
 		if(json['code'] == "OK"){
 			var data = json['bill']['bill'];
 			console.log(data);
+			var total = 0;
 			for(var i = 0; i < data.length; i++){
 				var divE = document.createElement("div");
 				divE.className = "row";
@@ -622,7 +623,21 @@ function viewBill(id){
 					data[i]['number'] + 
 					"</div>";
 				getById("bill-panel-view").appendChild(divE);
+				total += parseInt(data[i]['price']) * parseInt(data[i]['number']);
 			}
+			var hr = document.createElement("hr");
+			getById("bill-panel-view").appendChild(hr);
+			var divE = document.createElement("div");
+			divE.className = "row";
+			divE.style.marginTop = "12px";
+			divE.innerHTML = 
+				"<div class=\"col-md-5\" style=\"padding-left: 25px;\">" +
+				"Tổng tiền" + 				
+				"</div>" + 
+				"<div class=\"col-md-3\">" + 
+				total + "VND" + 
+				"</div>";
+				getById("bill-panel-view").appendChild(divE);
 		}
 	});
 }

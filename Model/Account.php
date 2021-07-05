@@ -28,7 +28,6 @@ class Account extends DB{
 		if(count($tmp) == 0) return null;
 		$user = $tmp[0];
 		unset($user['password']);
-		unset($user['role']);
 		return $user;
 	}
 
@@ -37,7 +36,6 @@ class Account extends DB{
 		if(count($tmp) == 0) return null;
 		$user = $tmp[0];
 		unset($user['password']);
-		unset($user['role']);
 		unset($user['token']);
 		unset($user['valid_time']);
 		return $user;
