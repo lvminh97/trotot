@@ -3,12 +3,12 @@
     $route = new Route("ViewController@getIndex");
     // Dang ky tai khoan
     $route->get("site", "signup", "ViewController@getSignupPage");
-    $route->post("action", "signup", "ActionController@signupAction");
+    $route->post("action", "signup", "AccountController@signupAction");
     // Dang nhap
     $route->get("site", "login", "ViewController@getLoginPage");
-    $route->post("action", "login", "ActionController@loginAction");
+    $route->post("action", "login", "AccountController@loginAction");
     $route->get("action", "login", "ViewController@getIndex");
-    $route->get("action", "logout", "ActionController@logoutAction");
+    $route->get("action", "logout", "AccountController@logoutAction");
     /// VIEW FOR CUSTOMER
     $route->get("site", "room_list", "ViewController@getRoomListForCustomerPage");
     $route->get("site", "room", "ViewController@getRoomPage");

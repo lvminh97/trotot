@@ -503,6 +503,9 @@ function transferTenant(){
 		if(json['code'] == "OK"){
 			window.location.reload(true);
 		}
+		else if(json['code'] == "NoEmptyRoom"){
+			alert("Chủ trọ này hiện không còn phòng trống!");
+		}
 	})
 }
 
@@ -522,6 +525,9 @@ function approveTransfer(id){
 		var json = JSON.parse(resp);
 		if(json['code'] == "OK"){
 			window.location.reload(true);
+		}
+		else if(json['code'] == "NoEmptyRoom"){
+			alert("Hiện tại bạn đang không còn phòng trống nên không thể nhận khách!");
 		}
 	});
 }
@@ -586,6 +592,9 @@ function createBill(){
 		var data = JSON.parse(resp);
 		if(data['code'] == "OK"){
 			window.location.reload(true);
+		}
+		else if(data['code'] = "NoTenant"){
+			alert("Không thể lập hóa đơn do phòng này hiện không có người thuê");
 		}
 	})
 }
