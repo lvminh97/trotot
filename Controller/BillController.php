@@ -65,19 +65,6 @@ class BillController extends Controller{
             return $resp;
         }
         $user = $this->accountObj->getItemByToken($token);
-        // $room = $this->roomObj->getItem($data['room_id']);
-        // if($room === null){
-        //     $resp['code'] = "NotExistRoom";
-        //     return $resp;
-        // }
-        // $checkHost = $this->roomObj->checkHost($data['room_id'], $user['user_id']);
-        // $tenant_id = $this->rentObj->getTenantId($data['room_id'], $data['time']);
-        // if($checkHost === false && $tenant_id != $user['user_id']){
-        //     $resp['code'] = "NotAuthorize";
-        //     return $resp;
-        // }
-        // $bill_id = $this->billObj->getBillId($data['room_id'], $data['time']);
-        // if($bill_id === null){
         $bill = $this->billObj->getItem($data['bill_id']);
         if($bill === null){
             $resp['code'] = "NotExistBill";

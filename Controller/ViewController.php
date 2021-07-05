@@ -7,11 +7,12 @@ class ViewController extends Controller{
     }
     //// COMMON
     public function getIndex(){
-        if($this->accountObj->checkLoggedIn() == "Role_None") $user = null;
-        else $user = $this->accountObj->getItemByToken(getCookie("tt_tkn"));
-        getView("homepage", array('title' => 'Trọ Tốt',
-                                    'user' => $user));
-        return null;                                    
+        // if($this->accountObj->checkLoggedIn() == "Role_None") $user = null;
+        // else $user = $this->accountObj->getItemByToken(getCookie("tt_tkn"));
+        // getView("homepage", array('title' => 'Trọ Tốt',
+        //                             'user' => $user));
+        // return null;                                  
+        $this->getRoomListForCustomerPage(null);  
     }
     public function getSignupPage(){
         if($this->accountObj->checkLoggedIn() == "Role_None")
@@ -29,13 +30,14 @@ class ViewController extends Controller{
     }
 
     //// CUSTOMER
-    public function getRoomListForCustomerPage(){
+    public function getRoomListForCustomerPage($data){
         if($this->accountObj->checkLoggedIn() == "Role_None") $user = null;
         else $user = $this->accountObj->getItemByToken(getCookie("tt_tkn"));
-        $roomList = $this->roomObj->getAvailableList();
+        $roomList = $this->roomObj->getAvailableList($data);
         getView("roomlist", array('title' => "Trọ tốt - Danh sách phòng",
                                     'user' => $user,
-                                    'roomList' => $roomList));
+                                    'roomList' => $roomList,
+                                    'url_param' => $data));
         return null;                                
     }
 
@@ -48,6 +50,18 @@ class ViewController extends Controller{
                                 'user' => $user,
                                 'room' => $room,
                                 'host' => $host));
+        return null;
+    }
+
+    public function getRoomDemoPage($data){
+        if($this->accountObj->checkLoggedIn() == "Role_None") $user = null;
+        else $user = $this->accountObj->getItemByToken(getCookie("tt_tkn"));
+        $room = $this->roomObj->getItemWithPost($data['id'], "no");
+        $host = getController("AccountController@getUserInfor", array('token' => getCookie("tt_tkn"), 'user_id' => $room['host']))['user'];
+        getView("room.demo", array('title' => "Trọ tốt - Xem phòng",
+                                    'user' => $user,
+                                    'room' => $room,
+                                    'host' => $host));
         return null;
     }
 
@@ -82,14 +96,10 @@ class ViewController extends Controller{
     }
 
     //// HOST
-    public function getHostHomePage(){
-        if($this->accountObj->checkLoggedIn() != "Role_Host") return;
-        $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
-        getView("home.manage", array('title' => "Trọ Tốt - Manage",
-                                        'user' => $user));
-        return null;                                        
+    public function getHostHomePage($data){
+        $this->getManageRoomPage($data);                                      
     }
-    public function getManageRoomPage(){
+    public function getManageRoomPage($data){
         if($this->accountObj->checkLoggedIn() != "Role_Host"){
             getView("login", array('title' => "Trọ Tốt - Đăng nhập",
                                     'user' => null));
@@ -135,6 +145,25 @@ class ViewController extends Controller{
         return null;
     }
 
+    public function getManageTransferTenantPage($data){
+        if($this->accountObj->checkLoggedIn() != "Role_Host"){
+            getView("login", array('title' => "Trọ Tốt - Đăng nhập",
+                                    'user' => null));
+        }
+        else{
+            $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
+            $transferList = $this->transferObj->getTransferList($user['user_id']);
+            for($i = 0; $i < count($transferList); $i++){
+                $transferList[$i]['tenant'] = $this->accountObj->getItem($transferList[$i]['tenant']);
+                $transferList[$i]['host_receive'] = $this->accountObj->getItem($transferList[$i]['host_receive']);
+            }
+            getView("tenant.transfer.manage", array('title' => "Trọ Tốt - Danh sách yêu cầu gửi khách trọ",
+                                            'user' => $user,
+                                            'transferList' => $transferList));
+        }
+        return null;
+    }
+
     public function getManageReceiveTenantPage($data){
         if($this->accountObj->checkLoggedIn() != "Role_Host"){
             getView("login", array('title' => "Trọ Tốt - Đăng nhập",
@@ -143,9 +172,22 @@ class ViewController extends Controller{
         else{
             $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
             $receiveList = $this->transferObj->getReceiveList($user['user_id']);
+            for($i = 0; $i < count($receiveList); $i++){
+                $receiveList[$i]['tenant'] = $this->accountObj->getItem($receiveList[$i]['tenant']);
+                $receiveList[$i]['host_transfer'] = $this->accountObj->getItem($receiveList[$i]['host_transfer']);
+            }
+            $roomList = $this->roomObj->getListByHost($user['user_id']);
+            for($i = 0; $i < count($roomList); $i++){
+                if($this->rentObj->getTenantId($roomList[$i]['room_id'], date("Y-m-d")) === null)
+                    $roomList[$i]['status'] = "available";
+                else
+                    $roomList[$i]['status'] = "notavailable";
+                
+            }
             getView("tenant.receive.manage", array('title' => "Trọ Tốt - Danh sách yêu cầu nhận khách trọ",
                                             'user' => $user,
-                                            'receiveList' => $receiveList));
+                                            'receiveList' => $receiveList,
+                                            'roomList' => $roomList));
         }
         return null;
     }
@@ -170,9 +212,61 @@ class ViewController extends Controller{
         return null;
     }
 
-    public function testView($data){
-        $resp = getController("ApiController@getPostAction", $data);
-        echo json_encode($resp);
+    public function getManageStatisticPage($data){
+        if($this->accountObj->checkLoggedIn() != "Role_Host"){
+            getView("login", array('title' => "Trọ Tốt - Đăng nhập",
+                                    'user' => null));
+        }
+        else{
+            $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
+            if(isset($data['y']) && isset($data['m'])) $time = $data['y']."-".$data['m'];
+            else $time = date("Y-m");
+            $roomList = $this->roomObj->getListByHost($user['user_id']);
+            $moneyList = array();
+            foreach($roomList as $room){
+                $billList = $this->billObj->getListByRoomAndTime($room['room_id'], explode("-", $time)[0], explode("-", $time)[1]);
+                $total = 0;
+                foreach($billList as $bill) $total += $bill['price'] * $bill['number'];
+                $moneyList[$room['room_id']] = $total;
+            }
+            getView("statistic.manage", array('title' => "Trọ Tốt - Manage",
+                                            'user' => $user,
+                                            'roomList' => $roomList,
+                                            'moneyList' => $moneyList,
+                                            'time' => $time));
+        }
+        return null;
+    }
+
+    //// ADMIN
+    public function getApprovePostPage($data){
+        if($this->accountObj->checkLoggedIn() != "Role_Admin"){
+            getView("login", array('title' => "Trọ Tốt - Đăng nhập",
+                                    'user' => null));
+        }
+        else{
+            $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
+            $postList = $this->postObj->getList("post.approval='no'", "post.time");
+            getView("post.approve.admin", array('title' => "Trọ Tốt - Manage",
+                                            'user' => $user,
+                                            'postList' => $postList));
+        }
+        return null;
+    }
+
+    public function getManageHostPage($data){
+        if($this->accountObj->checkLoggedIn() != "Role_Admin"){
+            getView("login", array('title' => "Trọ Tốt - Đăng nhập",
+                                    'user' => null));
+        }
+        else{
+            $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
+            $hostList = $this->accountObj->getList("role='Role_Host'");
+            getView("host.manage.admin", array('title' => "Trọ Tốt - Manage",
+                                            'user' => $user,
+                                            'hostList' => $hostList));
+        }
+        return null;
     }
 }
 ?>

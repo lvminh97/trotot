@@ -3,15 +3,16 @@
     $route = new Route("ViewController@getIndex");
     // Dang ky tai khoan
     $route->get("site", "signup", "ViewController@getSignupPage");
-    $route->post("action", "signup", "ActionController@signupAction");
+    $route->post("action", "signup", "AccountController@signupAction");
     // Dang nhap
     $route->get("site", "login", "ViewController@getLoginPage");
-    $route->post("action", "login", "ActionController@loginAction");
+    $route->post("action", "login", "AccountController@loginAction");
     $route->get("action", "login", "ViewController@getIndex");
-    $route->get("action", "logout", "ActionController@logoutAction");
+    $route->get("action", "logout", "AccountController@logoutAction");
     /// VIEW FOR CUSTOMER
     $route->get("site", "room_list", "ViewController@getRoomListForCustomerPage");
     $route->get("site", "room", "ViewController@getRoomPage");
+    $route->get("site", "room_demo", "ViewController@getRoomDemoPage");
     $route->get("site", "post", "ViewController@getPostPage");
     $route->get("site", "my_room", "ViewController@getMyRoomManagePage");
     $route->get("site", "my_room_detail", "ViewController@getMyRoomDetailPage");
@@ -24,12 +25,18 @@
     $route->get("link", "manage-rent", "ViewController@getManageRentPage");
     $route->get("link", "manage-transfer", "ViewController@getManageTransferTenantPage");
     $route->get("link", "manage-receive", "ViewController@getManageReceiveTenantPage");
+    $route->get("link", "statistic", "ViewController@getManageStatisticPage");
+
+    // VIEW FOR ADMIN
+    $route->get("link", "approve-post", "ViewController@getApprovePostPage");
+    $route->get("link", "manage-host", "ViewController@getManageHostPage");
 
     //// ACCOUNT API
     $route->post("api", "get_user_infor", "AccountController@getUserInfor");
     $route->post("api", "update_user_infor", "AccountController@updateUserInfor");
     $route->post("api", "change_password", "AccountController@changePassword");
     $route->post("api", "search_host", "AccountController@searchHostAction");
+    $route->post("api", "delete_host", "AccountController@deleteHostAction");
     //// ROOM API
     $route->post("api", "add_room", "RoomController@addRoomAction");
     $route->get("api", "get_room", "RoomController@getRoomAction");
@@ -42,6 +49,7 @@
     $route->post("api", "get_post_list", "PostController@getPostListAction");
     $route->post("api", "update_post", "PostController@updatePostAction");
     $route->post("api", "delete_post", "PostController@deletePostAction");
+    $route->post("api", "approve_post", "PostController@approvePostAction");
     //// RENT API
     $route->post("api", "rent", "RentController@rentAction");
     $route->post("api", "cancel_rent", "RentController@cancelRentAction");

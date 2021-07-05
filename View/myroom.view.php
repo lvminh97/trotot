@@ -61,8 +61,11 @@
                                 <div class="col-md-1" style="font-weight: bold;">Số lượng</div>
                             </div>
                             <?php
+                                $total = 0;
                                 $bill = $viewParams['billList'][$room['room_id']];
-                                foreach($bill['bill'] as $bill_item){ ?>
+                                foreach($bill['bill'] as $bill_item){ 
+                                    $total += $bill_item['price'] * $bill_item['number'];
+                                    ?>
                                 <div class="row">
                                     <div class="col-md-2"><?php echo $bill_item['title'] ?></div>
                                     <div class="col-md-2"><?php echo $bill_item['price'] ?></div>
@@ -70,6 +73,10 @@
                                 </div>
                             <?php 
                                 } ?>
+                                <div class="row" style="margin-top: 20px; font-weight: bold; color: red;">
+                                    <div class="col-md-2">Tổng tiền</div>
+                                    <div class="col-md-2"><?php echo $total." VND" ?></div>
+                                </div>
                             <?php 
                             } else{ ?>
                             <div class="row" style="margin-bottom: 18px;">

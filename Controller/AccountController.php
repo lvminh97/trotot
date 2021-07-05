@@ -6,6 +6,47 @@ class AccountController extends Controller{
         parent::__construct();
     }
     
+    public function signupAction($data){
+        $resp = array();
+        // cac lenh kiem tra data
+        if($this->accountObj->checkUsernameExist($data['username'])) $resp['code'] = "UsernameExist"; 
+        // cac lenh thuc hien insert vao db
+        else{
+            $this->accountObj->signup($data['username'], 
+                                    _hash($data['password']), 
+                                    $data['fullname'],
+                                    $data['mobile'],
+                                    $data['email'],
+                                    $data['role']);
+            $resp['code'] = "OK";
+        }
+        return $resp;
+    }
+
+    public function loginAction($data){
+        $resp = array('code' => '');
+        $loginData = $this->accountObj->login($data['username'], _hash($data['password']));
+        if($loginData !== null){
+            //
+            $token = $this->tokenObj->check($loginData['user_id']);
+            if($token === null){
+                $token = $this->tokenObj->addItem($loginData['user_id']);
+            }
+            setcookie("tt_tkn", $token, time() + 864000);
+            $resp['code'] = "OK";
+            $resp['token'] = $token;
+        }
+        else{
+            $resp['code'] = "Fail";
+        }
+        return $resp;
+    }
+
+    public function logoutAction(){
+        removeCookie("tt_tkn");
+        nextpage("./?site=login");
+    }
+
     public function getUserInfor($data){
         $resp = array('code' => "");
         if(isset($data['token'])) $token = $data['token'];
@@ -88,6 +129,22 @@ class AccountController extends Controller{
         }
         $resp['code'] = "OK";
         $resp['host'] = $list;
+        return $resp;
+    }
+
+    public function deleteHostAction($data){
+        $resp = array('code' => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        $checkLog = $this->accountObj->checkLoggedIn($token);
+        if($checkLog != "Role_Admin") {
+            $resp['code'] = "NotAuthorize";
+            return $resp;
+        }
+        if($this->accountObj->deleteItem($data['id']) === true)
+            $resp['code'] = "OK";
+        else    
+            $resp['code'] = "Fail";
         return $resp;
     }
 }

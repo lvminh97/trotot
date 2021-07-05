@@ -12,10 +12,19 @@ class Room extends DB{
 		return $this->select("room", "*", $cond, $order_by);
 	}
 
-	public function getAvailableList(){
+	public function getAvailableList($searchKey){
+		$query = "";
+		if(isset($searchKey['province'])) $query .= " AND room.loc_province LIKE '%{$searchKey['province']}%'";
+        if(isset($searchKey['district'])) $query .= " AND room.loc_district LIKE '%{$searchKey['district']}%'";
+        if(isset($searchKey['subdistrict'])) $query .= " AND room.loc_subdistrict LIKE '%{$searchKey['subdistrict']}%'";
+        if(isset($searchKey['street'])) $query .= " AND room.loc_street LIKE '%{$searchKey['street']}%'"; 
+        if(isset($searchKey['area1']) && isset($searchKey['area2']))
+            $query .= " AND room.area >= '{$searchKey['area1']}' AND room.area <= '{$searchKey['area2']}'";
+        if(isset($searchKey['price1']) && isset($searchKey['price2']))
+            $query .= " AND room.price >= '{$searchKey['price1']}' AND room.price <= '{$searchKey['price2']}'";
 		return $this->select("room JOIN post", 
 								"*", 
-								"room.room_id NOT IN (SELECT room_id FROM rent WHERE status='renting') AND room.room_id=post.room_id AND post.approval='yes'",
+								"room.room_id NOT IN (SELECT room_id FROM rent WHERE status='renting') AND room.room_id=post.room_id AND post.approval='yes' $query",
 								"post.post_id DESC",
 								"room.room_id");
 	}
@@ -26,8 +35,8 @@ class Room extends DB{
 		return $tmp[0];
 	}
 
-	public function getItemWithPost($room_id){
-		$tmp = $this->select("room JOIN post", "*", "room.room_id='$room_id' AND room.room_id=post.room_id AND post.approval='yes'", "post.post_id DESC LIMIT 1");
+	public function getItemWithPost($room_id, $approval = "yes"){
+		$tmp = $this->select("room JOIN post", "*", "room.room_id='$room_id' AND room.room_id=post.room_id AND post.approval='$approval'", "post.post_id DESC LIMIT 1");
 		if(count($tmp) == 0) return null;
 		return $tmp[0];
 	}

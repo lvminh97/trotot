@@ -499,7 +499,13 @@ function transferTenant(){
 	fd.append("tenant", getById("tenant-id").value)
 	fd.append("room", getById("tenant-room").value);
 	postRequest("?api=transfer_tenant", fd, function(resp){
-		
+		var json = JSON.parse(resp);
+		if(json['code'] == "OK"){
+			window.location.reload(true);
+		}
+		else if(json['code'] == "NoEmptyRoom"){
+			alert("Chủ trọ này hiện không còn phòng trống!");
+		}
 	})
 }
 
@@ -507,8 +513,38 @@ function viewTransfer(){
 
 }
 
-function approveTransfer(){
+function approveTransfer(id){
+	var cf = confirm("Bạn đồng ý yêu cầu này?");
+	if(!cf) return;
+	var fd = new FormData();
+	fd.append("id", getById("transfer-id").value);
+	fd.append("status", "approve");
+	fd.append("feedback", getById('approve-feedback').value);
+	fd.append("room_id", getById('receive-room').value);
+	postRequest("?api=approve_transfer", fd, function(resp){
+		var json = JSON.parse(resp);
+		if(json['code'] == "OK"){
+			window.location.reload(true);
+		}
+		else if(json['code'] == "NoEmptyRoom"){
+			alert("Hiện tại bạn đang không còn phòng trống nên không thể nhận khách!");
+		}
+	});
+}
 
+function rejectTransfer(){
+	var cf = confirm("Bạn từ chối yêu cầu này?");
+	if(!cf) return;
+	var fd = new FormData();
+	fd.append("id", getById("transfer-id").value);
+	fd.append("status", "reject");
+	fd.append("feedback", getById('reject-feedback').value);
+	postRequest("?api=approve_transfer", fd, function(resp){
+		var json = JSON.parse(resp);
+		if(json['code'] == "OK"){
+			window.location.reload(true);
+		}
+	});
 }
 
 function addBillItem(obj){
@@ -557,11 +593,18 @@ function createBill(){
 		if(data['code'] == "OK"){
 			window.location.reload(true);
 		}
+		else if(data['code'] = "NoTenant"){
+			alert("Không thể lập hóa đơn do phòng này hiện không có người thuê");
+		}
 	})
 }
 
 function searchBill(){
 	window.location.href = "./?link=manage-bill&y=" + getById("bill-year-search").value + "&m=" + getById("bill-month-search").value;
+}
+
+function getStatistic(){
+	window.location.href = "./?link=statistic&y=" + getById("statistic-year").value + "&m=" + getById("statistic-month").value;
 }
 
 function viewBill(id){
@@ -573,6 +616,7 @@ function viewBill(id){
 		if(json['code'] == "OK"){
 			var data = json['bill']['bill'];
 			console.log(data);
+			var total = 0;
 			for(var i = 0; i < data.length; i++){
 				var divE = document.createElement("div");
 				divE.className = "row";
@@ -588,7 +632,21 @@ function viewBill(id){
 					data[i]['number'] + 
 					"</div>";
 				getById("bill-panel-view").appendChild(divE);
+				total += parseInt(data[i]['price']) * parseInt(data[i]['number']);
 			}
+			var hr = document.createElement("hr");
+			getById("bill-panel-view").appendChild(hr);
+			var divE = document.createElement("div");
+			divE.className = "row";
+			divE.style.marginTop = "12px";
+			divE.innerHTML = 
+				"<div class=\"col-md-5\" style=\"padding-left: 25px;\">" +
+				"Tổng tiền" + 				
+				"</div>" + 
+				"<div class=\"col-md-3\">" + 
+				total + "VND" + 
+				"</div>";
+				getById("bill-panel-view").appendChild(divE);
 		}
 	});
 }
@@ -613,4 +671,63 @@ function deleteBill(id){
 	postRequest("?api=delete_bill", fd, function(resp){
 		window.location.reload(true);
 	});
+}
+
+function searchRoom(){
+	var queryString = "";
+	if(getById("search-key-province").value.trim() != "")
+		queryString += "&province=" + getById("search-key-province").value.trim();
+	if(getById("search-key-district").value.trim() != "")
+		queryString += "&district=" + getById("search-key-district").value.trim();
+	if(getById("search-key-subdistrict").value.trim() != "")
+		queryString += "&subdistrict=" + getById("search-key-subdistrict").value.trim();
+	if(getById("search-key-street").value.trim() != "")
+		queryString += "&street=" + getById("search-key-street").value.trim();
+	if(getById("search-key-area1").value != "0")
+		queryString += "&area1=" + getById("search-key-area1").value;
+	if(getById("search-key-area2").value != "0")
+		queryString += "&area2=" + getById("search-key-area2").value;
+	if(getById("search-key-price1").value != "0")
+		queryString += "&price1=" + getById("search-key-price1").value;
+	if(getById("search-key-price2").value != "0")
+		queryString += "&price2=" + getById("search-key-price2").value;
+	window.location.href = "?site=room_list" + queryString;
+}
+
+function viewPost(id){
+	var aElem = document.createElement("a");
+	aElem.href = "?site=room_demo&id=" + id;
+	aElem.target = "_blank";
+	aElem.click();
+}
+
+function approvePost(id, cmd){
+	var str;
+	if(cmd == "approve") str = "phê duyệt";
+	else str = "từ chối";
+	var cf = confirm("Bạn muốn " + str + " bài đăng này?");
+	if(!cf) return;
+	var fd = new FormData();
+	fd.append("id", id);
+	fd.append("cmd", cmd);
+	postRequest("?api=approve_post", fd, function(resp){
+		console.log(resp);
+		var json = JSON.parse(resp);
+		if(json['code'] == "OK"){
+			window.location.reload(true);
+		}
+	});
+}
+
+function removeHost(id){
+	var cf = confirm("Bạn muốn xóa tài khoản này?");
+	if(!cf) return;
+	var fd = new FormData();
+	fd.append("id", id);
+	postRequest("?api=delete_host", fd, function(resp){
+		console.log(resp);
+		var json = JSON.parse(resp);
+		if(json['code'] == "OK")
+			window.location.reload(true);
+	})
 }
