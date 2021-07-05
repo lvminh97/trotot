@@ -15,10 +15,10 @@
                     <!-- Content Row -->
                     <div class="row">
                         <div class="col-md-5">
-                            <input type="text" id="machine-search-text" class="form-control" style="width: 100%">
+                            <!-- <input type="text" id="machine-search-text" class="form-control" style="width: 100%"> -->
                         </div>
                         <div class="col-md-1">
-                            <button class="btn btn-primary"><i class="fa fa-search"></i></button>
+                            <!-- <button class="btn btn-primary"><i class="fa fa-search"></i></button> -->
                         </div>
                         <div class="col-md-6">
                             <button class="btn btn-success" style="width: 200px;" data-toggle="modal" data-target="#addRoomModal"><i class="fa fa-plus"></i> Thêm phòng</button>
@@ -43,6 +43,7 @@
                                         <td><?php echo $room['name'] ?></td>
                                         <td><?php echo getFullAddress($room) ?></td>
                                         <td>
+                                            <button class="btn btn-block btn-primary"><a href="?link=view-room-detail">Xem thông tin</a></button>
                                             <button class="btn btn-block btn-warning" data-toggle="modal" data-target="#updateRoomModal" onclick="loadRoom(this)">Chỉnh sửa</button>
                                             <button class="btn btn-block btn-danger" onclick="deleteRoom(this)">Xóa</button>
                                         </td>

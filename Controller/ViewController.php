@@ -137,6 +137,7 @@ class ViewController extends Controller{
             $roomList = $this->roomObj->getListByHost($user['user_id']);
             for($i = 0; $i < count($roomList); $i++){
                 $roomList[$i]['status'] = $this->rentObj->getCurrentStatus($roomList[$i]['room_id']);
+                $roomList[$i]['request'] = $this->rentObj->getPendingList($roomList[$i]['room_id']);
             }
             getView("rent.manage", array('title' => "Trọ Tốt - Manage",
                                             'user' => $user,
@@ -225,6 +226,7 @@ class ViewController extends Controller{
             $moneyList = array();
             foreach($roomList as $room){
                 $billList = $this->billObj->getListByRoomAndTime($room['room_id'], explode("-", $time)[0], explode("-", $time)[1]);
+                // print_r($billList);
                 $total = 0;
                 foreach($billList as $bill) $total += $bill['price'] * $bill['number'];
                 $moneyList[$room['room_id']] = $total;

@@ -17,6 +17,7 @@ class TransferController extends Controller{
             return $resp;
         }
         $host = $this->accountObj->getItemByToken($token);
+		// Kiem tra nguoi nhan con phong trong khong
         $roomList = $this->roomObj->getListByHost($data['host']);
 		$cnt = 0;
 		foreach($roomList as $room){

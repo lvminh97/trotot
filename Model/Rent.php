@@ -55,7 +55,7 @@ class Rent extends DB{
 	}
 
 	public function checkRentRequest($user_id, $room_id){
-		$tmp = $this->select("rent", "*", "user_id='$user_id' AND room_id='$room_id' AND (status='pending' OR status='prevent')");
+		$tmp = $this->select("rent", "*", "user_id='$user_id' AND room_id='$room_id' AND status='pending'");
 		if(count($tmp) > 0) return false;
 		return true;
 	}

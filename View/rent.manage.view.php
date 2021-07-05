@@ -44,9 +44,11 @@
                                         <td><?php echo ($room['status'] == "available" ? "Chưa có người thuê" : "Đang có người thuê") ?></td>
                                         <td>
                                         <?php
-                                        if($room['status'] == "available"){ ?>
+                                        if($room['status'] == "available"){ 
+                                            if(count($room['request']) > 0){?>
                                             <button class="btn btn-block btn-success" data-toggle="modal" data-target="#rentPendingListModal" onclick="loadRentPendingList(this.parentElement.parentElement.id)">Danh sách người muốn thuê</button>
-                                        <?php 
+                                        <?php
+                                            } 
                                         } else{ ?>
                                             <button class="btn btn-block btn-warning" data-toggle="modal" data-target="#tenantInfoModal" onclick="loadTenantInfo(this.parentElement.parentElement.id)">Thông tin người thuê</button>
                                         <?php 

@@ -45,7 +45,7 @@
                             <?php
                             if($room['status'] == "renting"){ ?>
                             <button class="btn btn-success" onclick="viewMyBill(this)">Xem hóa đơn</button>
-                            <button class="btn btn-danger" onclick="returnRoom('<?php echo $room['room_id'] ?>')">Trả phòng</button>
+                            <!-- <button class="btn btn-danger" onclick="returnRoom('<?php echo $room['room_id'] ?>')">Trả phòng</button> -->
                             <?php
                             } ?> 
                         </div>

@@ -78,12 +78,12 @@ class Bill extends DB{
 	public function getListByRoomAndTime($room_id, $year, $month = "all"){
 		if($month == "all"){
 			return $this->select("bill JOIN bill_detail", "*",
-								"bill.room_id='$room_id' AND bill.time LIKE '$year-%'",
+								"bill.bill_id=bill_detail.bill_id AND bill.room_id='$room_id' AND bill.time LIKE '{$year}-%'",
 								"bill.room_id ASC");
 		}
 		else{
 			return $this->select("bill JOIN bill_detail", "*",
-								"bill.room_id='$room_id' AND bill.time LIKE '$year-$month-%'",
+								"bill.bill_id=bill_detail.bill_id AND bill.room_id='$room_id' AND bill.time LIKE '{$year}-{$month}-%'",
 								"bill.room_id ASC");
 		}
 	}
