@@ -112,6 +112,19 @@ class ViewController extends Controller{
         }
         return null;
     }
+    public function getManageRoomDetailPage($data){
+        if($this->accountObj->checkLoggedIn() != "Role_Host"){
+            getView("login", array('title' => "Trọ Tốt - Đăng nhập",
+                                    'user' => null));
+        }
+        else{
+            $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
+            getView("room.detail.manage", array('title' => "Trọ Tốt - Manage",
+                                            'user' => $user,
+                                            'roomList' => $this->roomObj->getListByHost($user['user_id'])));
+        }
+        return null;
+    }
     public function getManagePostPage(){
         if($this->accountObj->checkLoggedIn() != "Role_Host"){
             getView("login", array('title' => "Trọ Tốt - Đăng nhập",

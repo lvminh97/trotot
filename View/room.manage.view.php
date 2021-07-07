@@ -43,7 +43,7 @@
                                         <td><?php echo $room['name'] ?></td>
                                         <td><?php echo getFullAddress($room) ?></td>
                                         <td>
-                                            <button class="btn btn-block btn-primary"><a href="?link=view-room-detail">Xem thông tin</a></button>
+                                            <button class="btn btn-block btn-primary" onclick="window.location.href='?link=manage-room-detail&id='+this.parentElement.parentElement.id">Xem thông tin</button>
                                             <button class="btn btn-block btn-warning" data-toggle="modal" data-target="#updateRoomModal" onclick="loadRoom(this)">Chỉnh sửa</button>
                                             <button class="btn btn-block btn-danger" onclick="deleteRoom(this)">Xóa</button>
                                         </td>
