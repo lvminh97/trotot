@@ -62,22 +62,22 @@
                     <div class="row" style="margin-top: 20px;">
                         <div class="col-md-12">
                             <ul class="nav nav-tabs">
-                                <li class="active"><a data-toggle="tab" href="#home">Lịch sử thuê phòng</a></li>
-                                <li><a data-toggle="tab" href="#menu1">Lịch sử hóa đơn</a></li>
+                                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#rent_history">Lịch sử thuê phòng</a></li>
+                                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#bill_history">Lịch sử hóa đơn</a></li>
                             </ul>
-
-                            <div class="tab-content">
-                                <div id="home" class="tab-pane fade in active">
-                                    <h3>HOME</h3>
-                                    <p>Some content.</p>
+                            <div class="tab-content" style="margin-top: 20px;">
+                                <div id="rent_history" class="tab-pane fade in active show">
+                                    <table class="table table-stripe">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                        </tr>
+                                    </thead>
+                                    </table>
                                 </div>
-                                <div id="menu1" class="tab-pane fade">
+                                <div id="bill_history" class="tab-pane fade">
                                     <h3>Menu 1</h3>
                                     <p>Some content in menu 1.</p>
-                                </div>
-                                <div id="menu2" class="tab-pane fade">
-                                    <h3>Menu 2</h3>
-                                    <p>Some content in menu 2.</p>
                                 </div>
                             </div>
                         </div>
