@@ -14,13 +14,7 @@
                 <div class="container-fluid">
                     <!-- Content Row -->
                     <div class="row">
-                        <div class="col-md-5">
-                            <!-- <input type="text" id="machine-search-text" class="form-control" style="width: 100%"> -->
-                        </div>
-                        <div class="col-md-1">
-                            <!-- <button class="btn btn-primary"><i class="fa fa-search"></i></button> -->
-                        </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <button class="btn btn-success" style="width: 200px;" data-toggle="modal" data-target="#addRoomModal"><i class="fa fa-plus"></i> Thêm phòng</button>
                         </div>
                         <div class="col-md-12" style="margin-top: 40px;">

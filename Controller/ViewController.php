@@ -119,9 +119,12 @@ class ViewController extends Controller{
         }
         else{
             $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
+            $room = $this->roomObj->getItem($data['id']);
+            $tenant = $this->accountObj->getItem($this->rentObj->getTenantId($data['id'], date("Y-m-d")));
             getView("room.detail.manage", array('title' => "Trọ Tốt - Manage",
                                             'user' => $user,
-                                            'roomList' => $this->roomObj->getListByHost($user['user_id'])));
+                                            'room' => $room,
+                                            'tenant' => $tenant));
         }
         return null;
     }

@@ -10404,3 +10404,11 @@ img.imgChooserBg {
     font-size: 22px;
     font-weight: bolder;
 }
+
+.nav-tabs li{
+    width: 150px;
+}
+
+.nav-tabs li a{
+    font-size: 16px;
+}
