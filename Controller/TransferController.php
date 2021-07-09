@@ -33,8 +33,10 @@ class TransferController extends Controller{
 						'host_receive' => $data['host'],
 						'room_transfer' => $data['room'],
 						'room_receive' => '0',
-						'status' => 'pending',
-						'feedback' => '');
+						'tenant_status' => 'pending',
+						'receive_status' => 'pending',
+						'tenant_feedback' => '',
+						'receive_feedback' => '');
 		if($this->transferObj->addItem($buf) === true)
 			$resp['code'] = "OK";
 		else

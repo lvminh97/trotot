@@ -42,6 +42,10 @@ class Post extends DB{
 		return $this->delete("post", "post_id='$post_id'");
 	}
 
+	public function rejectItem($post_id, $feedback){
+		return $this->update("post", array('approval' => "reject", 'feedback' => $feedback), "post_id='$post_id'");
+	}
+
 	public function checkAuthor($post_id, $user_id){
 		$tmp = $this->select("post", "*", "author='$user_id' AND post_id='$post_id'");
 		return count($tmp) == 1;

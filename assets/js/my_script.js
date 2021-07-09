@@ -720,6 +720,8 @@ function approvePost(id, cmd){
 	var fd = new FormData();
 	fd.append("id", id);
 	fd.append("cmd", cmd);
+	if(cmd == "delete")
+		fd.append("feedback", getById('reject-feedback').value);
 	postRequest("?api=approve_post", fd, function(resp){
 		console.log(resp);
 		var json = JSON.parse(resp);

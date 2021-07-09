@@ -91,7 +91,7 @@ class PostController extends Controller{
         $user = $this->accountObj->getItemByToken($token);
         if($data['cmd'] == "approve" && $this->postObj->setApproval($data['id'], "yes") === true)
             $resp['code'] = "OK";
-        elseif($data['cmd'] == "delete" && $this->postObj->deleteItem($data['id']) === true)
+        elseif($data['cmd'] == "delete" && $this->postObj->rejectItem($data['id'], $data['feedback']) === true)
             $resp['code'] = "OK";
         else 
             $resp['code'] = "Fail";
