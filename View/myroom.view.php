@@ -45,9 +45,13 @@
                             <?php
                             if($room['status'] == "renting"){ ?>
                             <button class="btn btn-success" onclick="viewMyBill(this)">Xem hóa đơn</button>
-                            <!-- <button class="btn btn-danger" onclick="returnRoom('<?php echo $room['room_id'] ?>')">Trả phòng</button> -->
+                            <button class="btn btn-danger" onclick="returnRoom('<?php echo $room['room_id'] ?>')">Trả phòng</button>
                             <?php
-                            } ?> 
+                            } 
+                            if(isset($room['transfer_id'])){?> 
+                            <button class="btn btn-warning" onclick="">Có yêu cầu chuyển phòng</button>
+                            <?php
+                            } ?>
                         </div>
                         <div class="col-md-12" style="display: none; margin-top: 25px;">
                             <?php
@@ -84,6 +88,9 @@
                             </div>
                             <?php
                             } ?>
+                        </div>
+                        <div class="col-md-12" style="display: none; margin-top: 25px;">
+                            
                         </div>
                     </div>
                 </div>

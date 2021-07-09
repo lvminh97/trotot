@@ -392,8 +392,18 @@ function viewMyBill(obj){
 		bill.style.display = "none";
 }
 
-function returnRoom(){
-
+function returnRoom(id){
+	var cf = confirm("Bạn muốn trả phòng?");
+	if(!cf) return;
+	var fd = new FormData();
+	fd.append("id", id);
+	postRequest("?api=return_room", fd, function(resp){
+		var json = JSON.parse(resp);
+		if(json['code'] == "OK"){
+			alert("Đã trả phòng!");
+			window.location.reload(true);
+		}
+	});
 }
 
 function loadRentPendingList(id){

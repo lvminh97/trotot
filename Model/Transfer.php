@@ -26,11 +26,17 @@ class Transfer extends DB{
 	}
 
 	public function getReceiveList($host_id){
-		return $this->select("transfer", "*", "host_receive='$host_id' AND status='pending'", "transfer_id ASC");
+		return $this->select("transfer", "*", "host_receive='$host_id' AND tenant_status='approve' AND receive_status='pending'", "transfer_id ASC");
 	}
 
 	public function updateStatus($transfer_id, $data){
 		return $this->update("transfer", $data, "transfer_id='$transfer_id'");
+	}
+
+	public function checkTransferByTenantAndRoom($tenant_id, $room_id){
+		$tmp = $this->select("transfer JOIN room", "*", "transfer.tenant='$tenant_id' AND transfer.tenant_status='pending' AND transfer.host_transfer=room.host AND room.room_id='$room_id'");
+		if(count($tmp) == 0) return false;
+		return $tmp[0]['transfer_id'];
 	}
 }
 ?>

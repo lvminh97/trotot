@@ -69,6 +69,11 @@ class ViewController extends Controller{
         if($this->accountObj->checkLoggedIn() != "Role_Tenant") return null;
         else $user = $this->accountObj->getItemByToken(getCookie("tt_tkn"));
         $roomList = $this->roomObj->getListByTenant($user['user_id']);
+        for($i = 0; $i < count($roomList); $i++){
+            $checkTransfer = $this->transferObj->checkTransferByTenantAndRoom($user['user_id'], $roomList[$i]['room_id']);
+            if($checkTransfer !== false)
+                $roomList[$i]['transfer_id'] = $checkTransfer;
+        }
         $billList = array();
         foreach($roomList as $room){
             if($room['status'] == "renting"){
@@ -121,10 +126,14 @@ class ViewController extends Controller{
             $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
             $room = $this->roomObj->getItem($data['id']);
             $tenant = $this->accountObj->getItem($this->rentObj->getTenantId($data['id'], date("Y-m-d")));
+            $rentList = $this->rentObj->getRentList($data['id']);
+            $billList = $this->billObj->getListByRoom($data['id']);
             getView("room.detail.manage", array('title' => "Trọ Tốt - Manage",
                                             'user' => $user,
                                             'room' => $room,
-                                            'tenant' => $tenant));
+                                            'tenant' => $tenant,
+                                            'rentList' => $rentList,
+                                            'billList' => $billList));
         }
         return null;
     }

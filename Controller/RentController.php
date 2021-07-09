@@ -61,7 +61,7 @@ class RentController extends Controller{
             return $resp;
         }
         $checkTenant = $this->rentObj->getRecentItem($user['user_id'], $data['room_id']);
-        if($checkTenant !== null && ($checkTenant['status'] == "renting" || $checkTenant['status'] == "pending")){
+        if($checkTenant !== null && (/*$checkTenant['status'] == "renting" || */$checkTenant['status'] == "pending")){
             if($this->rentObj->updateStatus($data['rent_id'], "cancel") === true)
                 $resp['code'] = "OK";
             else 
@@ -200,6 +200,30 @@ class RentController extends Controller{
             $resp['code'] = "OK";
         else 
             $resp['code'] = "Fail";
+        return $resp;
+    }
+
+    public function returnRoomAction($data){
+        $resp = array('code' => "");
+        if(isset($data['token'])) $token = $data['token'];
+        else $token = getCookie("tt_tkn");
+        if($this->accountObj->checkLoggedIn($token) != "Role_Tenant") {
+            $resp['code'] = "NotAuthorize";
+            return $resp;
+        }
+        $user = $this->accountObj->getItemByToken($token);
+        if($this->roomObj->getItem($data['id']) === null) {
+            $resp['code'] = "NotExistRoom";
+            return $resp;
+        }
+        $checkTenant = $this->rentObj->getRecentItem($user['user_id'], $data['id']);
+        if($checkTenant !== null && ($checkTenant['status'] == "renting")){
+            if($this->rentObj->updateStatus($checkTenant['rent_id'], "return") === true)
+                $resp['code'] = "OK";
+            else 
+                $resp['code'] = "Fail";
+        }
+        else $resp['code'] = "NoRent";
         return $resp;
     }
 }

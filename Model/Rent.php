@@ -27,6 +27,10 @@ class Rent extends DB{
 											'status' => $status));
 	}
 
+	public function getRentList($room_id){
+		return $this->select("rent JOIN account", "*", "rent.room_id='$room_id' AND rent.user_id=account.user_id AND (rent.status='renting' OR rent.end_time!='9999-12-31')", "rent.begin_time DESC");
+	}
+
 	public function getPendingList($room_id){
 		return $this->select("rent JOIN account", "*", "rent.room_id='$room_id' AND rent.status='pending' AND rent.user_id=account.user_id", "rent.begin_time ASC");
 	}
@@ -51,7 +55,10 @@ class Rent extends DB{
 	}
 
 	public function updateStatus($rent_id, $status){
-		return $this->update("rent", array('status' => "$status"), "rent_id='$rent_id'");
+		$res = $this->update("rent", array('status' => "$status"), "rent_id='$rent_id'");
+		if($status == "return")
+			$res = $res && $this->update("rent", array('end_time' => date("Y-m-d")), "rent_id='$rent_id'");
+		return $res;
 	}
 
 	public function checkRentRequest($user_id, $room_id){

@@ -60,24 +60,67 @@
                     </div>
                     <hr>
                     <div class="row" style="margin-top: 20px;">
-                        <div class="col-md-12">
+                        <div class="col-md-8">
                             <ul class="nav nav-tabs">
                                 <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#rent_history">Lịch sử thuê phòng</a></li>
                                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#bill_history">Lịch sử hóa đơn</a></li>
                             </ul>
-                            <div class="tab-content" style="margin-top: 20px;">
+                            <div class="tab-content" style="margin-top: 20px; padding-left: 20px; padding-right: 20px;">
                                 <div id="rent_history" class="tab-pane fade in active show">
                                     <table class="table table-stripe">
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
+                                            <th width="30%">Thời gian</th>
+                                            <th width="40%">Người thuê</th>
+                                            <th width="40%">SĐT</th>
                                         </tr>
                                     </thead>
+                                    <tbody>
+                                    <?php
+                                    foreach($viewParams['rentList'] as $rent){ ?>
+                                        <tr>
+                                        <?php
+                                        $begin = date_format(date_create($rent['begin_time']), "d/m/Y");
+                                        if($rent['end_time'] != "9999-12-31")
+                                            $end = date_format(date_create($rent['end_time']), "d/m/Y");
+                                        else
+                                            $end = "hiện tại";
+                                        ?>
+                                            <td><?php echo $begin." - ".$end ?></td>
+                                            <td><?php echo $rent['fullname'] ?></td>
+                                            <td><?php echo $rent['mobile'] ?></td>
+                                        </tr>
+                                    <?php
+                                    } ?>
+                                    </tbody>
                                     </table>
                                 </div>
                                 <div id="bill_history" class="tab-pane fade">
-                                    <h3>Menu 1</h3>
-                                    <p>Some content in menu 1.</p>
+                                    <table class="table table-stripe">
+                                    <thead>
+                                        <tr>
+                                            <th width="30%">Thời gian</th>
+                                            <th width="40%">Số tiền</th>
+                                            <th width="40%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php 
+                                    foreach($viewParams['billList'] as $bill) {?>
+                                        <tr>
+                                            <td><?php echo "Tháng ".date_format(date_create($bill['time']), "m/Y") ?></td>
+                                            <?php
+                                            $total = 0;
+                                            foreach($bill['bill'] as $item){
+                                                $total += $item['price'] * $item['number'];
+                                            }
+                                            ?>
+                                            <td><?php echo number_format($total, 0, ".", ",")." VND" ?></td>
+                                        </tr>
+                                    <?php
+                                    } ?>
+                                    </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
