@@ -49,7 +49,7 @@
                             <?php
                             } 
                             if(isset($room['transfer_id'])){?> 
-                            <button class="btn btn-warning" onclick="">Có yêu cầu chuyển phòng</button>
+                            <button class="btn btn-warning" onclick="" data-toggle="modal" data-target="#approveTransferModal">Có yêu cầu chuyển phòng</button>
                             <?php
                             } ?>
                         </div>
@@ -89,9 +89,6 @@
                             <?php
                             } ?>
                         </div>
-                        <div class="col-md-12" style="display: none; margin-top: 25px;">
-                            
-                        </div>
                     </div>
                 </div>
             <?php 
@@ -99,4 +96,5 @@
             </div>
             <script>roomTypeFilter(0)</script>
         </div>
+    <?php getModal("transfer.tenant.approve", $viewParams) ?>
 <?php getTemplate("footer", $viewParams) ?>
