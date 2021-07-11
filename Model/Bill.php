@@ -78,14 +78,34 @@ class Bill extends DB{
 	public function getListByRoomAndTime($room_id, $year, $month = "all"){
 		if($month == "all"){
 			return $this->select("bill JOIN bill_detail", "*",
-								"bill.room_id='$room_id' AND bill.time LIKE '$year-%'",
+								"bill.bill_id=bill_detail.bill_id AND bill.room_id='$room_id' AND bill.time LIKE '{$year}-%'",
 								"bill.room_id ASC");
 		}
 		else{
 			return $this->select("bill JOIN bill_detail", "*",
-								"bill.room_id='$room_id' AND bill.time LIKE '$year-$month-%'",
+								"bill.bill_id=bill_detail.bill_id AND bill.room_id='$room_id' AND bill.time LIKE '{$year}-{$month}-%'",
 								"bill.room_id ASC");
 		}
+	}
+
+	public function getListByRoom($room_id){
+		$tmp = $this->select("bill JOIN bill_detail", "*",
+							"bill.bill_id=bill_detail.bill_id AND bill.room_id='$room_id'",
+							"bill.time DESC");
+		$resp = array();
+		foreach($tmp as $bill){
+			if(!isset($resp[$bill['bill_id']])){
+				$resp[$bill['bill_id']] = array('bill_id' => $bill['bill_id'],
+											'room_id' => $bill['room_id'],
+											'status' => $bill['status'],
+											'time' => $bill['time'],
+											'bill' => array());
+			}
+			$resp[$bill['bill_id']]['bill'][] = array('title' => $bill['title'],
+												'price' => $bill['price'],
+												'number' => $bill['number']);
+		}
+		return $resp;
 	}
 }
 ?>

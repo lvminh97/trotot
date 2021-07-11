@@ -9,8 +9,8 @@
 			</div>
 			<div class="modal-body">
                 <div class="form-group">
-                    <label for="">Chọn phòng nhận khách</label>
-                    <select class="form-control" id="receive-room">
+                    <label for="">Phòng nhận khách</label>
+                    <select class="form-control" id="receive-room" disabled>
                     <?php
                     foreach($viewParams['roomList'] as $room){ 
                         if($room['status'] == "available") {?>

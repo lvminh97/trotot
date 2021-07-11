@@ -15,10 +15,10 @@
                     <!-- Content Row -->
                     <div class="row">
                         <div class="col-md-5">
-                            <input type="text" id="machine-search-text" class="form-control" style="width: 100%">
+                            <!-- <input type="text" id="machine-search-text" class="form-control" style="width: 100%"> -->
                         </div>
                         <div class="col-md-1">
-                            <button class="btn btn-primary"><i class="fa fa-search"></i></button>
+                            <!-- <button class="btn btn-primary"><i class="fa fa-search"></i></button> -->
                         </div>
                         <div class="col-md-6">
                             <!-- <button class="btn btn-success" style="width: 200px;" data-toggle="modal" data-target="#addPostModal"><i class="fa fa-plus"></i> Thêm bài đăng mới</button> -->
@@ -35,7 +35,8 @@
                                         <th width="25%"></th>
                                     </tr>
                                 </thead>
-                                <tbody id="room_list">
+                                <tbody>
+                                <input type="hidden" id="approve-post-id">
                                 <?php
                                 foreach($viewParams['postList'] as $post) { ?>
                                     <tr id="<?php echo $post["post_id"] ?>">
@@ -49,7 +50,7 @@
                                         <td>
                                             <button class="btn btn-primary" onclick="viewPost('<?php echo $post['room_id'] ?>')"><i class="fa fa-eye"></i> Xem</button>
                                             <button class="btn btn-success" onclick="approvePost(this.parentElement.parentElement.id, 'approve')"><i class="fa fa-check"></i> Phê duyệt</button>
-                                            <button class="btn btn-danger" onclick="approvePost(this.parentElement.parentElement.id, 'delete')"><i class="fa fa-times"></i> Từ chối</button>
+                                            <button class="btn btn-danger" onclick="document.getElementById('approve-post-id').value=this.parentElement.parentElement.id" data-toggle="modal" data-target="#rejectPostModal"><i class="fa fa-times"></i> Từ chối</button>
                                         </td>
                                     </tr>
                                 <?php 
@@ -60,5 +61,6 @@
                     </div>
                 </div>
             </div>
+            <?php getModal("post.reject", $viewParams) ?>
             <!-- End of Main Content -->
 <?php getTemplate("footer", $viewParams) ?>

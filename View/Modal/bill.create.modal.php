@@ -10,9 +10,11 @@
 			<div class="modal-body" style="height: 580px;">
 				<div class="row" style="margin-bottom: 12px;">
 					<label class="col-md-3 col-form-label" style="padding-left: 25px;">Phòng</label>
-					<select id="bill-room" class="form-control col-md-8">
+					<select id="bill-room" class="form-control col-md-8" onchange="getRoomPrice(this.value)">
 					<?php
-					foreach($viewParams['roomList'] as $room){ ?>
+					$firstID = "";
+					foreach($viewParams['roomList'] as $room){ 
+						if($firstID == "") $firstID = $room['room_id']; ?>
 						<option value="<?php echo $room['room_id'] ?>">
 						<?php echo $room['name']." - ".getFullAddress($room) ?>
 						</option>
@@ -59,6 +61,21 @@
 						<div class="col-md-2">Số lượng</div>
 					</div>
 					<div id="bill-panel">
+						<div class="col-md-12 row" style="margin-top: 12px;">
+							<div class="col-md-5" style="padding-left: 25px;">
+								<input type="text" name="bill-title" class="form-control" value="Tiền phòng">
+							</div>
+							<div class="col-md-3">
+								<input type="number" step="500" name="bill-price" class="form-control" value="<?php echo $viewParams['roomList'][$firstID]['price'] ?>">
+							</div>
+							<div class="col-md-2">
+								<input type="number" name="bill-number" class="form-control" value="1">
+							</div>
+							<div class="col-md-2">
+								<button class="btn btn-outline-success" onclick="addBillItem(this)"><i class="fa fa-plus"></i></button>
+								<button class="btn btn-outline-success" onclick="removeBillItem(this)"><i class="fa fa-trash"></i></button>
+							</div>
+						</div>
 						<div class="col-md-12 row" style="margin-top: 12px;">
 							<div class="col-md-5" style="padding-left: 25px;">
 								<input type="text" name="bill-title" class="form-control">

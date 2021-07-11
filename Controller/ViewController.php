@@ -69,6 +69,12 @@ class ViewController extends Controller{
         if($this->accountObj->checkLoggedIn() != "Role_Tenant") return null;
         else $user = $this->accountObj->getItemByToken(getCookie("tt_tkn"));
         $roomList = $this->roomObj->getListByTenant($user['user_id']);
+        for($i = 0; $i < count($roomList); $i++){
+            $checkTransfer = $this->transferObj->checkTransferByTenantAndRoom($user['user_id'], $roomList[$i]['room_id']);
+            if($checkTransfer !== null){
+                $roomList[$i]['transfer_id'] = $checkTransfer['transfer_id'];
+            }
+        }
         $billList = array();
         foreach($roomList as $room){
             if($room['status'] == "renting"){
@@ -112,6 +118,26 @@ class ViewController extends Controller{
         }
         return null;
     }
+    public function getManageRoomDetailPage($data){
+        if($this->accountObj->checkLoggedIn() != "Role_Host"){
+            getView("login", array('title' => "Trọ Tốt - Đăng nhập",
+                                    'user' => null));
+        }
+        else{
+            $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
+            $room = $this->roomObj->getItem($data['id']);
+            $tenant = $this->accountObj->getItem($this->rentObj->getTenantId($data['id'], date("Y-m-d")));
+            $rentList = $this->rentObj->getRentList($data['id']);
+            $billList = $this->billObj->getListByRoom($data['id']);
+            getView("room.detail.manage", array('title' => "Trọ Tốt - Manage",
+                                            'user' => $user,
+                                            'room' => $room,
+                                            'tenant' => $tenant,
+                                            'rentList' => $rentList,
+                                            'billList' => $billList));
+        }
+        return null;
+    }
     public function getManagePostPage(){
         if($this->accountObj->checkLoggedIn() != "Role_Host"){
             getView("login", array('title' => "Trọ Tốt - Đăng nhập",
@@ -137,6 +163,7 @@ class ViewController extends Controller{
             $roomList = $this->roomObj->getListByHost($user['user_id']);
             for($i = 0; $i < count($roomList); $i++){
                 $roomList[$i]['status'] = $this->rentObj->getCurrentStatus($roomList[$i]['room_id']);
+                $roomList[$i]['request'] = $this->rentObj->getPendingList($roomList[$i]['room_id']);
             }
             getView("rent.manage", array('title' => "Trọ Tốt - Manage",
                                             'user' => $user,
@@ -199,7 +226,10 @@ class ViewController extends Controller{
         }
         else{
             $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
-            $roomList = $this->roomObj->getListByHost($user['user_id']);
+            $roomList = array();
+            foreach($this->roomObj->getListByHost($user['user_id']) as $room){
+                $roomList[$room['room_id']] = $room;
+            }
             if(isset($data['y']) && isset($data['m'])) $time = $data['y']."-".$data['m'];
             else $time = date("Y-m");
             $billList = $this->billObj->getListByHostAndTime($user['user_id'], $time);
@@ -225,6 +255,7 @@ class ViewController extends Controller{
             $moneyList = array();
             foreach($roomList as $room){
                 $billList = $this->billObj->getListByRoomAndTime($room['room_id'], explode("-", $time)[0], explode("-", $time)[1]);
+                // print_r($billList);
                 $total = 0;
                 foreach($billList as $bill) $total += $bill['price'] * $bill['number'];
                 $moneyList[$room['room_id']] = $total;

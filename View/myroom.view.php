@@ -47,7 +47,11 @@
                             <button class="btn btn-success" onclick="viewMyBill(this)">Xem hóa đơn</button>
                             <button class="btn btn-danger" onclick="returnRoom('<?php echo $room['room_id'] ?>')">Trả phòng</button>
                             <?php
-                            } ?> 
+                            } 
+                            if(isset($room['transfer_id'])){?> 
+                            <button class="btn btn-warning" onclick="openApproveTransferForm('<?php echo $room['transfer_id'] ?>')" data-toggle="modal" data-target="#approveTransferModal">Có yêu cầu chuyển phòng</button>
+                            <?php
+                            } ?>
                         </div>
                         <div class="col-md-12" style="display: none; margin-top: 25px;">
                             <?php
@@ -92,4 +96,5 @@
             </div>
             <script>roomTypeFilter(0)</script>
         </div>
+    <?php getModal("transfer.tenant.approve", $viewParams) ?>
 <?php getTemplate("footer", $viewParams) ?>

@@ -14,13 +14,7 @@
                 <div class="container-fluid">
                     <!-- Content Row -->
                     <div class="row">
-                        <div class="col-md-5">
-                            <input type="text" id="machine-search-text" class="form-control" style="width: 100%">
-                        </div>
-                        <div class="col-md-1">
-                            <button class="btn btn-primary"><i class="fa fa-search"></i></button>
-                        </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <button class="btn btn-success" style="width: 200px;" data-toggle="modal" data-target="#addPostModal"><i class="fa fa-plus"></i> Thêm bài đăng mới</button>
                         </div>
                         <div class="col-md-12" style="margin-top: 40px;">
@@ -31,9 +25,8 @@
                                         <th width="15%">Tiêu đề</th>
                                         <th width="15%">Thời gian</th>
                                         <th width="15%">Phòng</th>
-                                        <th width="25%">Nội dung</th>
                                         <th width="10%"></th>
-                                        <th width="10%">Trạng thái</th>
+                                        <th width="30%">Trạng thái</th>
                                     </tr>
                                 </thead>
                                 <tbody id="room_list">
@@ -44,13 +37,18 @@
                                         <td><?php echo $post['title'] ?></td>
                                         <td><?php echo getStdFormatTime($post['time']) ?></td>
                                         <td><?php echo $post['name']." - ".getFullAddress($post) ?></td>
-                                        <td><?php echo $post['content'] ?></td>
                                         <td>
                                             <button class="btn btn-block btn-warning" data-toggle="modal" data-target="#updatePostModal" onclick="loadPost(this)">Chỉnh sửa</button>
                                             <button class="btn btn-block btn-danger" onclick="deletePost(this)">Xóa</button>
                                         </td>
                                         <td>
-                                            <?php echo ($post['approval'] == "yes") ? "Phê duyệt" : "Chưa phê duyệt" ?>
+                                            <?php 
+                                            if($post['approval'] == "yes") echo "Phê duyệt";
+                                            elseif($post['approval'] == "reject") echo "Từ chối"; 
+                                            else echo "Chưa phê duyệt"; ?>
+                                            <?php 
+                                            if(trim($post['feedback']) != "")
+                                                echo "<br><br>Lý do: ".$post['feedback']; ?>
                                         </td>
                                     </tr>
                                 <?php 
