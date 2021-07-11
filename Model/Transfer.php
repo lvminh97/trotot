@@ -35,8 +35,12 @@ class Transfer extends DB{
 
 	public function checkTransferByTenantAndRoom($tenant_id, $room_id){
 		$tmp = $this->select("transfer JOIN room", "*", "transfer.tenant='$tenant_id' AND transfer.tenant_status='pending' AND transfer.host_transfer=room.host AND room.room_id='$room_id'");
-		if(count($tmp) == 0) return false;
-		return $tmp[0]['transfer_id'];
+		if(count($tmp) == 0) return null;
+		return $tmp[0];
+	}
+
+	public function deleteItem($id){
+		return $this->delete("transfer", "transfer_id='$id'");
 	}
 }
 ?>

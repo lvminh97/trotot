@@ -71,8 +71,9 @@ class ViewController extends Controller{
         $roomList = $this->roomObj->getListByTenant($user['user_id']);
         for($i = 0; $i < count($roomList); $i++){
             $checkTransfer = $this->transferObj->checkTransferByTenantAndRoom($user['user_id'], $roomList[$i]['room_id']);
-            if($checkTransfer !== false)
-                $roomList[$i]['transfer_id'] = $checkTransfer;
+            if($checkTransfer !== null){
+                $roomList[$i]['transfer_id'] = $checkTransfer['transfer_id'];
+            }
         }
         $billList = array();
         foreach($roomList as $room){
@@ -225,7 +226,10 @@ class ViewController extends Controller{
         }
         else{
             $user = $this->accountObj->getItemByToken(getCookie('tt_tkn'));
-            $roomList = $this->roomObj->getListByHost($user['user_id']);
+            $roomList = array();
+            foreach($this->roomObj->getListByHost($user['user_id']) as $room){
+                $roomList[$room['room_id']] = $room;
+            }
             if(isset($data['y']) && isset($data['m'])) $time = $data['y']."-".$data['m'];
             else $time = date("Y-m");
             $billList = $this->billObj->getListByHostAndTime($user['user_id'], $time);

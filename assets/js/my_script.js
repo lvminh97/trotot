@@ -519,10 +519,6 @@ function transferTenant(){
 	})
 }
 
-function viewTransfer(){
-
-}
-
 function approveTransfer(id){
 	var cf = confirm("Bạn đồng ý yêu cầu này?");
 	if(!cf) return;
@@ -530,14 +526,34 @@ function approveTransfer(id){
 	fd.append("id", getById("transfer-id").value);
 	fd.append("status", "approve");
 	fd.append("feedback", getById('approve-feedback').value);
-	fd.append("room_id", getById('receive-room').value);
 	postRequest("?api=approve_transfer", fd, function(resp){
+		console.log(resp);
 		var json = JSON.parse(resp);
 		if(json['code'] == "OK"){
 			window.location.reload(true);
 		}
 		else if(json['code'] == "NoEmptyRoom"){
 			alert("Hiện tại bạn đang không còn phòng trống nên không thể nhận khách!");
+		}
+	});
+}
+
+function openApproveTransferForm(id){
+	getById("transfer_id").value = id;
+	var fd = new FormData();
+	fd.append("transfer_id", id);
+	postRequest("?api=get_transfer_room_list", fd, function(resp){
+		console.log(resp);
+		getById("receive-room").innerHTML = "";
+		var json = JSON.parse(resp);
+		if(json['code'] == "OK"){
+			var data = json['roomList'];
+			for(var i = 0; i < data.length; i++){
+				var option = document.createElement("option");
+				option.value = data[i]['room_id'];
+				option.innerHTML = data[i]['name'] + " (" + data[i]['price'] + " VND - " + data[i]['area'] + " m2) - " + data[i]['full_address'];
+				getById("receive-room").appendChild(option); 
+			}
 		}
 	});
 }
@@ -555,6 +571,38 @@ function rejectTransfer(){
 			window.location.reload(true);
 		}
 	});
+}
+
+function tenantApproveTransfer(){
+	var cf = confirm("Gửi yêu cầu?");
+	if(!cf) return;
+	var fd = new FormData();
+	fd.append("transfer_id", getById("transfer_id").value);
+	fd.append("approve", getById("approval").value);
+	fd.append("room_id", getById("receive-room").value);
+	fd.append("feedback", getById("approve-feedback").value);
+	postRequest("?api=tenant_approve_transfer", fd, function(resp){
+		var json = JSON.parse(resp);
+		if(json['code'] == "OK"){
+			window.location.reload(true);
+		}
+	});
+}
+
+function removeTransfer(id){
+	var cf = confirm("Bạn muốn xóa yêu cầu này?");
+	if(!cf) return;
+	var fd = new FormData();
+	fd.append("transfer_id", id);
+	postRequest("?api=delete_transfer", fd, function(resp){
+		var json = JSON.parse(resp);
+		if(json['code'] == "OK"){
+			window.location.reload(true);
+		}
+		else if(json['code'] == "CannotDeleteByApproval"){
+			alert("Không thể xóa yêu cầu do cả người thuê và chủ trọ bên nhận đều đã đồng ý!")
+		}
+	})
 }
 
 function addBillItem(obj){
@@ -605,6 +653,16 @@ function createBill(){
 		}
 		else if(data['code'] = "NoTenant"){
 			alert("Không thể lập hóa đơn do phòng này hiện không có người thuê");
+		}
+	})
+}
+
+function getRoomPrice(id){
+	getRequest("?api=get_room&id=" + id, function(resp){
+		var json = JSON.parse(resp);
+		if(json['code'] == "OK"){
+			var data = json['room'];
+			getByName("bill-price")[0].value = data['price'];
 		}
 	})
 }

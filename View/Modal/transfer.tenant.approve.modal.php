@@ -9,23 +9,21 @@
 			</div>
 			<div class="modal-body">
 				<input type="hidden" id="transfer_id">
-				<div class="form-inline">
-					
+				<div class="form-group">
+					<label>Phê duyệt</label>
+					<select id="approval" class="form-control" onchange="if(this.value=='reject') document.getElementById('room_sel').style.display='none'; else document.getElementById('room_sel').style.display='block';">
+						<option value="approve">Đồng ý</option>
+						<option value="reject">Từ chối</option>
+					</select>
 				</div>
-                <div class="form-group">
+                <div class="form-group" id="room_sel">
                     <label for="">Chọn phòng muốn tới</label>
                     <select class="form-control" id="receive-room">
-                    <?php
-                    foreach($viewParams['roomList'] as $room){ 
-                        if($room['status'] == "available") {?>
-                        <option value="<?php echo $room['room_id'] ?>"><?php echo $room['name']." - ".getFullAddress($room) ?></option>
-                    <?php
-                        }  
-                    } ?>
+                    
                     </select>
                 </div>
                 <div class="form-group">
-					<label for="reject-feedback">Phản hồi</label>
+					<label for="approve-feedback">Phản hồi</label>
 					<textarea class="form-control" id="approve-feedback" style="height: 180px;"></textarea>
 				</div>
 			</div>

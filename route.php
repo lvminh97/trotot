@@ -63,6 +63,9 @@
     //// TRANSFER API
     $route->post("api", "transfer_tenant", "TransferController@transferAction");
     $route->post("api", "approve_transfer", "TransferController@approveAction");
+    $route->post("api", "get_transfer_room_list", "TransferController@getTransferRoomListAction");
+    $route->post("api", "tenant_approve_transfer", "TransferController@tenantApproveTransferAction");
+    $route->post("api", "delete_transfer", "TransferController@deleteTransferAction");
     //// BILL API
     $route->post("api", "create_bill", "BillController@createBillAction");
     $route->post("api", "get_bill", "BillController@getBillAction");

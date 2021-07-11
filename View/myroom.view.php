@@ -49,7 +49,7 @@
                             <?php
                             } 
                             if(isset($room['transfer_id'])){?> 
-                            <button class="btn btn-warning" onclick="" data-toggle="modal" data-target="#approveTransferModal">Có yêu cầu chuyển phòng</button>
+                            <button class="btn btn-warning" onclick="openApproveTransferForm('<?php echo $room['transfer_id'] ?>')" data-toggle="modal" data-target="#approveTransferModal">Có yêu cầu chuyển phòng</button>
                             <?php
                             } ?>
                         </div>

@@ -62,18 +62,11 @@
                                 </thead>
                                 <tbody id="bill_list">
                                 <?php
-                                $room_pos = 0;
                                 foreach($viewParams['billList'] as $bill) { ?>
                                     <tr id="<?php echo $bill["bill_id"] ?>">
                                         <td><?php echo $bill['room_id'] ?></td>
-                                        <?php 
-                                        while(true){
-                                            if($viewParams['roomList'][$room_pos]['room_id'] == $bill['room_id']) break;
-                                            if($room_pos + 1 < count($viewParams['roomList'])) $room_pos++;
-                                            else break;
-                                        }?>
-                                        <td><?php echo $viewParams['roomList'][$room_pos]['name'] ?></td>
-                                        <td><?php echo getFullAddress($viewParams['roomList'][$room_pos]) ?></td>
+                                        <td><?php echo $viewParams['roomList'][$bill['room_id']]['name'] ?></td>
+                                        <td><?php echo getFullAddress($viewParams['roomList'][$bill['room_id']]) ?></td>
                                         <td><?php echo ($bill['status'] == "pending" ? "Chưa thanh toán" : "Đã thanh toán") ?></td>
                                         <td>
                                             <button class="btn btn-primary" data-toggle="modal" data-target="#viewBillModal" onclick="viewBill(this.parentElement.parentElement.id)">Xem chi tiết</button>

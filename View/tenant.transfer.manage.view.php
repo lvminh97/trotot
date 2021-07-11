@@ -38,11 +38,14 @@
                                     <tr id="<?php echo $item["transfer_id"] ?>">
                                         <td><?php echo $item['host_receive']['fullname'] ?></td>
                                         <td><?php echo $item['tenant']['fullname'] ?></td>
-                                        <td><?php echo ($item['status'] == "pending" ? "Chờ phản hồi" : "Chấp nhận") ?></td>
                                         <td>
-                                            <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#viewTransferModal">Xem chi tiết</button> -->
-                                            <!-- <button class="btn btn-success" data-toggle="modal" data-target="#approveTransferModal" onclick="document.getElementById('transfer-id').value=this.parentElement.parentElement.id"><i class="fa fa-check"></i> Chấp nhận</button>
-                                            <button class="btn btn-danger" data-toggle="modal" data-target="#rejectTransferModal" onclick="document.getElementById('transfer-id').value=this.parentElement.parentElement.id"><i class="fa fa-times"></i> Từ chối</button> -->
+                                            Nguời thuê: <?php echo ($item['tenant_status'] == "pending" ? "Chờ phản hồi" : "Chấp nhận") ?>
+                                            <br>
+                                            Chủ trọ nhận: <?php echo ($item['receive_status'] == "pending" ? "Chờ phản hồi" : "Chấp nhận") ?>
+                                        </td>
+                                        <td>
+                                            <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#viewTransferModal"><i class="fa fa-eye"></i>Xem chi tiết</button> -->
+                                            <button class="btn btn-danger" onclick="removeTransfer('<?php echo $item['transfer_id'] ?>')" style="width: 150px;"><i class="fa fa-trash"></i> Xóa</button>
                                         </td>                                        
                                     </tr>
                                 <?php 
